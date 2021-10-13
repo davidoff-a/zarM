@@ -1,24 +1,25 @@
-const player1 = {
-  name: "Scorpion",
-  hp: 100,
-  img: "",
-  weapon: ["knife", "gun", "suriken"],
-  attack: function () {
-    console.log(`${this.name} Fight`);
+const players = {
+  player1: {
+    name: "scorpion",
+    hp: 100,
+    img: "",
+    weapon: ["knife", "gun", "suriken"],
+    attack: function () {
+      console.log(`${this.name} Fight`);
+    },
+  },
+  player2: {
+    name: "sonya",
+    hp: 100,
+    img: "",
+    weapon: ["knife", "gun", "suriken"],
+    attack: function () {
+      console.log(`${this.name} Fight`);
+    },
   },
 };
 
-const player2 = {
-  name: "Sonya",
-  hp: 100,
-  img: "",
-  weapon: ["knife", "gun", "suriken"],
-  attack: function () {
-    console.log(`${this.name} Fight`);
-  },
-};
-
-function createPlayer(player, heroName, hitPoints) {
+function createPlayer(player) {
   const $arenas = document.querySelector(".arenas");
   const $player = document.createElement("div");
   $player.classList.add(`${player}`);
@@ -26,14 +27,14 @@ function createPlayer(player, heroName, hitPoints) {
   $progressbar.classList.add("progressbar");
   const $life = document.createElement("div");
   $life.classList.add("life");
-  $life.style.width = `${hitPoints}%`;
+  $life.style.width = `${players[player].hp}%`;
   const $name = document.createElement("div");
   $name.classList.add("name");
-  $name.innerText = `${heroName}`;
+  $name.innerText = `${players[player].name}`;
   const $character = document.createElement("div");
   $character.classList.add("character");
   const $charImg = document.createElement("img");
-  $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${heroName}.gif`;
+  $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${players[player].name}.gif`;
   $character.appendChild($charImg);
   $progressbar.appendChild($life);
   $progressbar.appendChild($name);
@@ -42,5 +43,5 @@ function createPlayer(player, heroName, hitPoints) {
   $arenas.appendChild($player);
 }
 
-createPlayer("player1", "scorpion", 50);
-createPlayer("player2", "kitana", 75);
+createPlayer("player1");
+createPlayer("player2");
