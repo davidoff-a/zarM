@@ -19,7 +19,8 @@ const player2 = {
 };
 
 function createPlayer() {
-  const $player = document.createElement("div");
+  const $arenas = document.querySelector(".arenas");
+  const $player = document.createElement("div.player1");
   $player.classList.add("Player1");
   const $progressbar = document.createElement("div");
   $progressbar.classList.add("progressbar");
@@ -33,6 +34,12 @@ function createPlayer() {
   $character.classList.add("character");
   const $charImg = document.createElement("img");
   $charImg.src = "http://reactmarathon-api.herokuapp.com/assets/scorpion.gif";
-  $progressbar.appendChild($life, $name);
-  $player.appendChild($progressbar, $character);
+  $character.appendChild($charImg);
+  $progressbar.appendChild($life);
+  $progressbar.appendChild($name);
+  $player.appendChild($progressbar);
+  $player.appendChild($character);
+  $arenas.appendChild($player);
 }
+
+createPlayer();
