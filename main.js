@@ -13,7 +13,7 @@ const player1 = {
 const player2 = {
   player: 2,
   name: "sonya",
-  hp: 80,
+  hp: 100,
   img: "",
   weapon: ["knife", "gun", "suriken"],
   attack: function () {
@@ -47,18 +47,18 @@ function changeHP(player) {
   }
   $playerLife.style.width = player.hp + "%";
   if (player.hp <= 0) {
-    $arenas.appendChild(playerLose(player.name));
+    $arenas.appendChild(playerLose(determineWinner()));
+    $randomButton.disabled = true;
   }
 }
 
 function playerLose(name) {
   const $loseTitle = createElement("div", "loseTitle");
-  $loseTitle.innerText = `${name} lose`;
+  $loseTitle.innerText = `${name} WIN!`;
   return $loseTitle;
 }
 
 $randomButton.addEventListener("click", () => {
-  console.log("Hello world!");
   changeHP(player1);
   changeHP(player2);
 });
@@ -69,6 +69,16 @@ function createElement(tag, className) {
     $element.classList.add(className);
   }
   return $element;
+}
+
+function determineWinner() {
+  if (player1.hp && !player2.hp) {
+    return player1.name;
+  } else if (!player1.hp && player2.hp) {
+    return player2.name;
+  } else {
+    return "Double Kill!";
+  }
 }
 
 $arenas.appendChild(createPlayer(player1));
