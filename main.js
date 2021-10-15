@@ -41,9 +41,12 @@ function createPlayer(player) {
 
 function changeHP(player) {
   const $playerLife = document.querySelector(`.player${player.player} .life`);
-  player.hp -= 20;
-  $playerLife.style.width = player.hp + "%";
+  player.hp -= Math.ceil(Math.random() * 20);
   if (player.hp < 0) {
+    player.hp = 0;
+  }
+  $playerLife.style.width = player.hp + "%";
+  if (player.hp <= 0) {
     $arenas.appendChild(playerLose(player.name));
   }
 }
@@ -53,6 +56,7 @@ function playerLose(name) {
   $loseTitle.innerText = `${name} lose`;
   return $loseTitle;
 }
+
 $randomButton.addEventListener("click", () => {
   console.log("Hello world!");
   changeHP(player1);
