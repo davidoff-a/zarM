@@ -41,7 +41,7 @@ function createPlayer(player) {
 
 function changeHP(player) {
   const $playerLife = document.querySelector(`.player${player.player} .life`);
-  player.hp -= Math.ceil(Math.random() * 20);
+  player.hp -= randomizer();
   if (player.hp < 0) {
     player.hp = 0;
   }
@@ -79,6 +79,10 @@ function determineWinner() {
   } else {
     return "Double Kill!";
   }
+}
+
+function randomizer() {
+  return Math.ceil(Math.random() * 20);
 }
 
 $arenas.appendChild(createPlayer(player1));
