@@ -1,5 +1,6 @@
 const $arenas = document.querySelector(".arenas");
 const player1 = {
+  player: 1,
   name: "scorpion",
   hp: 100,
   img: "",
@@ -9,6 +10,7 @@ const player1 = {
   },
 };
 const player2 = {
+  player: 2,
   name: "sonya",
   hp: 100,
   img: "",
