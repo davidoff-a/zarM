@@ -21,8 +21,8 @@ const player2 = {
   },
 };
 
-function createPlayer(playerClass, player) {
-  const $player = createElement("div", playerClass);
+function createPlayer(player) {
+  const $player = createElement("div", `player${player.player}`);
   const $progressbar = createElement("div", "progressbar");
   const $life = createElement("div", "life");
   $life.style.width = `${player.hp}%`;
@@ -36,11 +36,8 @@ function createPlayer(playerClass, player) {
   $progressbar.appendChild($name);
   $player.appendChild($progressbar);
   $player.appendChild($character);
-  $arenas.appendChild($player);
+  return $player;
 }
-
-createPlayer("player1", player1);
-createPlayer("player2", player2);
 
 function changeHP(player) {
   const $playerLife = document.querySelector(`.player${player.player} .life`);
@@ -69,3 +66,6 @@ function createElement(tag, className) {
   }
   return $element;
 }
+
+$arenas.appendChild(createPlayer(player1));
+$arenas.appendChild(createPlayer(player2));
