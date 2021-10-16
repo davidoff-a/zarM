@@ -46,21 +46,25 @@ function changeHP(player) {
     player.hp = 0;
   }
   $playerLife.style.width = player.hp + "%";
-  if (player.hp <= 0) {
-    $arenas.appendChild(playerLose(determineWinner()));
-    $randomButton.disabled = true;
-  }
 }
 
 function playerLose(name) {
   const $loseTitle = createElement("div", "loseTitle");
-  $loseTitle.innerText = `${name} WIN!`;
+  if (name === "Double Kill!") {
+    $loseTitle.innerText = name;
+  } else {
+    $loseTitle.innerText = `${name} WINS!`;
+  }
   return $loseTitle;
 }
 
 $randomButton.addEventListener("click", () => {
   changeHP(player1);
   changeHP(player2);
+  let winner = determineWinner();
+  if (winner) {
+    declareWinner(winner);
+  }
 });
 
 function createElement(tag, className) {
@@ -74,9 +78,11 @@ function createElement(tag, className) {
 function determineWinner() {
   if (player1.hp && !player2.hp) {
     return player1.name;
-  } else if (!player1.hp && player2.hp) {
+  }
+  if (!player1.hp && player2.hp) {
     return player2.name;
-  } else {
+  }
+  if (!player1.hp && !player2.hp) {
     return "Double Kill!";
   }
 }
@@ -87,3 +93,16 @@ function randomizer() {
 
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
+
+// function checkRestOfLife(player) {
+//   if (player.hp <= 0) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+
+function declareWinner(winnerName) {
+  $arenas.appendChild(playerLose(winnerName));
+  $randomButton.disabled = true;
+}
