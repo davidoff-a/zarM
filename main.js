@@ -87,11 +87,12 @@ function playerWins(name) {
 
 $randomButton.addEventListener("click", () => {
   player1.changeHP(randomizer(RANDOMIZE_MAX));
+  console.log(randomizer(RANDOMIZE_MAX));
   player1.renderHP(player1.elHP());
   player2.changeHP(randomizer(RANDOMIZE_MAX));
   player2.renderHP(player2.elHP());
-  $arenas.appendChild(playerWins(winnerName));
-  $randomButton.disabled = true;
+  // $arenas.appendChild(playerWins(winnerName));
+  // $randomButton.disabled = true;
   let winner = determineWinner();
   if (winner) {
     declareWinner(winner);
@@ -126,6 +127,6 @@ $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 
 function declareWinner(winnerName) {
-  $arenas.appendChild(playerLose(winnerName));
+  $arenas.appendChild(playerWins(winnerName));
   $randomButton.disabled = true;
 }
