@@ -127,14 +127,22 @@ $arenas.appendChild(createPlayer(player2));
 function declareWinner(winnerName) {
   $arenas.appendChild(playerWins(winnerName));
   $randomButton.disabled = true;
+  
 }
 
 function createReloadButton() {
   const $wrap = createElement("div", "reloadWrap");
   const $wrapBtn = createElement("button", "button");
+  $wrapBtn.style.display = "none";
   $wrapBtn.innerText = "RESTART";
+
   $wrap.appendChild($wrapBtn);
+  $wrapBtn.addEventListener("click", () => {
+    window.location.reload();
+  });
   return $wrap;
 }
+
+
 
 $arenas.appendChild(createReloadButton());
