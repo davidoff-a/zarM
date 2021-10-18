@@ -91,8 +91,6 @@ $randomButton.addEventListener("click", () => {
   player1.renderHP(player1.elHP());
   player2.changeHP(randomizer(RANDOMIZE_MAX));
   player2.renderHP(player2.elHP());
-  // $arenas.appendChild(playerWins(winnerName));
-  // $randomButton.disabled = true;
   let winner = determineWinner();
   if (winner) {
     declareWinner(winner);
@@ -130,3 +128,13 @@ function declareWinner(winnerName) {
   $arenas.appendChild(playerWins(winnerName));
   $randomButton.disabled = true;
 }
+
+function createReloadButton() {
+  const $wrap = createElement("div", "reloadWrap");
+  const $wrapBtn = createElement("button", "button");
+  $wrapBtn.innerText = "RESTART";
+  $wrap.appendChild($wrapBtn);
+  return $wrap;
+}
+
+$arenas.appendChild(createReloadButton());
