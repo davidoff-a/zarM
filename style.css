@@ -193,7 +193,7 @@ body {
   right: 60px;
 }
 
-.player2 .character img {
+.player2 .character img:not([class]) {
   transform: scaleX(-1);
 }
 
