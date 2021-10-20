@@ -2,6 +2,7 @@ const $arenas = document.querySelector(".arenas");
 const $btnFight = document.querySelector("#Fight");
 const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
+const RANDOMIZE_MIN = 0;
 const HIT = {
   head: 30,
   body: 25,
@@ -89,7 +90,7 @@ $frmControl.addEventListener("submit", (event) => {
   const MY_ATTACK = {};
   for (let item of $frmControl) {
     if (item.checked && item.name === "hit") {
-      MY_ATTACK.hitPoints = randomizer(HIT[item.value]);
+      MY_ATTACK.hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[item.value]);
       MY_ATTACK.hit = item.value;
     }
 
@@ -126,8 +127,8 @@ function determineWinner() {
   }
 }
 
-function randomizer(limit) {
-  return Math.ceil(Math.random() * limit);
+function getRandomNumber(min, max) {
+  return Math.ceil(Math.random() * (max - min) + min);
 }
 
 function declareWinner(winnerName) {
@@ -150,9 +151,9 @@ function createReloadButton() {
 }
 
 function enemyAttack() {
-  const hit = ATTACK[randomizer(3) - 1];
-  const defense = ATTACK[randomizer(3) - 1];
-  const hitPoints = randomizer(HIT[hit]);
+  const hit = ATTACK[getRandomNumber(RANDOMIZE_MIN, 3) - 1];
+  const defense = ATTACK[getRandomNumber(RANDOMIZE_MIN, 3) - 1];
+  const hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[hit]);
   return {
     hit,
     defense,
@@ -169,9 +170,13 @@ function checkBlocked(objAttacks, objDefense) {
 }
 
 function getBangImg(numPlayer) {
-  const IMG_PATH = `./assets/mk/${randomizer(BANGS.length - 1)}.png`;
+  const IMG_PATH = `./assets/mk/${getRandomNumber(
+    RANDOMIZE_MIN,
+    BANGS.length - 1
+  )}.png`;
   const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
   $punchImg.src = IMG_PATH;
+
   setTimeout(() => {
     $punchImg.src = "";
   }, 1500);
