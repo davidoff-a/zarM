@@ -8,6 +8,7 @@ const HIT = {
   foot: 20,
 };
 const ATTACK = ["head", "body", "foot"];
+const BANGS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const player1 = {
   player: 1,
   name: "scorpion",
@@ -40,8 +41,11 @@ function createPlayer(player) {
   $name.innerText = `${player.name}`;
   const $character = createElement("div", "character");
   const $charImg = createElement("img");
+  const $bangImg = createElement("img");
+  $bangImg.classList.add(`bang`, `fighter${player.player}`);
   $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${player.name}.gif`;
   $character.appendChild($charImg);
+  $character.appendChild($bangImg);
   $progressbar.appendChild($life);
   $progressbar.appendChild($name);
   $player.appendChild($progressbar);
@@ -94,16 +98,8 @@ $frmControl.addEventListener("submit", (event) => {
     }
     item.checked = false;
   }
-  if (ENEMY.hit === MY_ATTACK.defense) {
-    ENEMY.hitPoints = 0;
-  }
-  if (MY_ATTACK.hit === ENEMY.defense) {
-    MY_ATTACK.hitPoints = 0;
-  }
-  player1.changeHP(MY_ATTACK.hitPoints);
-  player1.renderHP(player1.elHP());
-  player2.changeHP(ENEMY.hitPoints);
-  player2.renderHP(player2.elHP());
+  renderFight.apply(player1, [MY_ATTACK, ENEMY]);
+  renderFight.apply(player2, [ENEMY, MY_ATTACK]);
   let winner = determineWinner();
   if (winner) {
     declareWinner(winner);
@@ -162,6 +158,31 @@ function enemyAttack() {
     defense,
     hitPoints,
   };
+}
+
+function checkBlocked(objAttacks, objDefense) {
+  if (objAttacks.hit === objDefense.defense) {
+    return 0;
+  } else {
+    return objAttacks.hitPoints;
+  }
+}
+
+function getBangImg(numPlayer) {
+  const IMG_PATH = `./assets/mk/${randomizer(BANGS.length - 1)}.png`;
+  const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
+  $punchImg.src = IMG_PATH;
+  setTimeout(() => {
+    $punchImg.src = "";
+  }, 1500);
+}
+
+function renderFight(attackerParams, defenderParams) {
+  if (checkBlocked(attackerParams, defenderParams)) {
+    this.changeHP(attackerParams.hitPoints);
+    getBangImg(this.player);
+    this.renderHP(this.elHP());
+  }
 }
 
 $arenas.appendChild(createPlayer(player1));

@@ -402,3 +402,14 @@ input[type="radio"]:checked + label > span::before {
 input[type="radio"]:checked + label > span:hover {
   background: none;
 }
+
+.bang{
+  max-width: 50px;
+  max-height: 50px;
+  /* object-fit: cover; */
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  /* border: none; */
+
+}
