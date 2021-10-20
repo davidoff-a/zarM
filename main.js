@@ -1,14 +1,16 @@
 const $arenas = document.querySelector(".arenas");
 const $randomButton = document.querySelector(".button");
+const RANDOMIZE_MAX = 20;
 const player1 = {
   player: 1,
   name: "scorpion",
   hp: 100,
   img: "",
   weapon: ["knife", "gun", "suriken"],
-  attack: function () {
-    console.log(`${this.name} Fight`);
-  },
+  attack,
+  changeHP,
+  elHP,
+  renderHP,
 };
 const player2 = {
   player: 2,
@@ -16,9 +18,10 @@ const player2 = {
   hp: 100,
   img: "",
   weapon: ["knife", "gun", "suriken"],
-  attack: function () {
-    console.log(`${this.name} Fight`);
-  },
+  attack,
+  changeHP,
+  elHP,
+  renderHP,
 };
 
 function createPlayer(player) {
@@ -39,28 +42,41 @@ function createPlayer(player) {
   return $player;
 }
 
-function changeHP(player) {
-  const $playerLife = document.querySelector(`.player${player.player} .life`);
-  player.hp -= randomizer();
-  if (player.hp < 0) {
-    player.hp = 0;
+function changeHP(HP) {
+  this.hp -= HP;
+  if (this.hp < 0) {
+    this.hp = 0;
   }
-  $playerLife.style.width = player.hp + "%";
 }
 
-function playerLose(name) {
-  const $loseTitle = createElement("div", "loseTitle");
+function elHP() {
+  const $playerLife = document.querySelector(`.player${this.player} .life`);
+  return $playerLife;
+}
+
+function renderHP($element) {
+  $element.style.width = this.hp + "%";
+}
+
+function attack() {
+  console.log(`${this.name} Fight`);
+}
+
+function playerWins(name) {
+  const $winsTitle = createElement("div", "winsTitle");
   if (name === "Double Kill!") {
-    $loseTitle.innerText = name;
+    $winsTitle.innerText = name;
   } else {
-    $loseTitle.innerText = `${name} WINS!`;
+    $winsTitle.innerText = `${name} WINS!`;
   }
-  return $loseTitle;
+  return $winsTitle;
 }
 
 $randomButton.addEventListener("click", () => {
-  changeHP(player1);
-  changeHP(player2);
+  player1.changeHP(randomizer(RANDOMIZE_MAX));
+  player1.renderHP(player1.elHP());
+  player2.changeHP(randomizer(RANDOMIZE_MAX));
+  player2.renderHP(player2.elHP());
   let winner = determineWinner();
   if (winner) {
     declareWinner(winner);
@@ -87,22 +103,31 @@ function determineWinner() {
   }
 }
 
-function randomizer() {
-  return Math.ceil(Math.random() * 20);
+function randomizer(limit) {
+  return Math.ceil(Math.random() * limit);
 }
 
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 
-// function checkRestOfLife(player) {
-//   if (player.hp <= 0) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
-
 function declareWinner(winnerName) {
-  $arenas.appendChild(playerLose(winnerName));
+  $arenas.appendChild(playerWins(winnerName));
   $randomButton.disabled = true;
+  const $restartBtn = document.querySelector(".reloadWrap .button");
+  $restartBtn.style.display = "block";
 }
+
+function createReloadButton() {
+  const $wrap = createElement("div", "reloadWrap");
+  const $wrapBtn = createElement("button", "button");
+  $wrapBtn.style.display = "none";
+  $wrapBtn.innerText = "RESTART";
+
+  $wrap.appendChild($wrapBtn);
+  $wrapBtn.addEventListener("click", () => {
+    window.location.reload();
+  });
+  return $wrap;
+}
+
+$arenas.appendChild(createReloadButton());
