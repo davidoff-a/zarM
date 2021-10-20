@@ -1,5 +1,6 @@
 const $arenas = document.querySelector(".arenas");
 const $randomButton = document.querySelector(".button");
+const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
 const player1 = {
   player: 1,
@@ -81,6 +82,10 @@ $randomButton.addEventListener("click", () => {
   if (winner) {
     declareWinner(winner);
   }
+});
+
+$frmControl.addEventListener("submit", (event) => {
+  event.preventDefault();
 });
 
 function createElement(tag, className) {
