@@ -2,6 +2,12 @@ const $arenas = document.querySelector(".arenas");
 const $randomButton = document.querySelector(".button");
 const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
+const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+};
+const ATTACK = ["head", "body", "foot"];
 const player1 = {
   player: 1,
   name: "scorpion",
