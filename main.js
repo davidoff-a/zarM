@@ -1,5 +1,5 @@
 const $arenas = document.querySelector(".arenas");
-// const $randomButton = document.querySelector(".button");
+const $btnFight = document.querySelector("#Fight");
 const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
 const HIT = {
@@ -79,17 +79,6 @@ function playerWins(name) {
   return $winsTitle;
 }
 
-// $randomButton.addEventListener("click", () => {
-//   player1.changeHP(randomizer(RANDOMIZE_MAX));
-//   player1.renderHP(player1.elHP());
-//   player2.changeHP(randomizer(RANDOMIZE_MAX));
-//   player2.renderHP(player2.elHP());
-//   let winner = determineWinner();
-//   if (winner) {
-//     declareWinner(winner);
-//   }
-// });
-
 $frmControl.addEventListener("submit", (event) => {
   event.preventDefault();
   const ENEMY = enemyAttack();
@@ -100,10 +89,24 @@ $frmControl.addEventListener("submit", (event) => {
       MY_ATTACK.hit = item.value;
     }
 
-    if (item.checked && item.name === "defence") {
+    if (item.checked && item.name === "defense") {
       MY_ATTACK.defense = item.value;
     }
     item.checked = false;
+  }
+  if (ENEMY.hit === MY_ATTACK.defense) {
+    ENEMY.hitPoints = 0;
+  }
+  if (MY_ATTACK.hit === ENEMY.defense) {
+    MY_ATTACK.hitPoints = 0;
+  }
+  player1.changeHP(MY_ATTACK.hitPoints);
+  player1.renderHP(player1.elHP());
+  player2.changeHP(ENEMY.hitPoints);
+  player2.renderHP(player2.elHP());
+  let winner = determineWinner();
+  if (winner) {
+    declareWinner(winner);
   }
 });
 
@@ -133,9 +136,9 @@ function randomizer(limit) {
 
 function declareWinner(winnerName) {
   $arenas.appendChild(playerWins(winnerName));
-  $randomButton.disabled = true;
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
+  $btnFight.disabled = true;
 }
 
 function createReloadButton() {
@@ -143,7 +146,6 @@ function createReloadButton() {
   const $wrapBtn = createElement("button", "button");
   $wrapBtn.style.display = "none";
   $wrapBtn.innerText = "RESTART";
-
   $wrap.appendChild($wrapBtn);
   $wrapBtn.addEventListener("click", () => {
     window.location.reload();
@@ -162,7 +164,6 @@ function enemyAttack() {
   };
 }
 
-// console.log(enemyAttack());
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 $arenas.appendChild(createReloadButton());
