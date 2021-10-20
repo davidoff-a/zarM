@@ -1,5 +1,5 @@
 const $arenas = document.querySelector(".arenas");
-const $randomButton = document.querySelector(".button");
+// const $randomButton = document.querySelector(".button");
 const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
 const HIT = {
@@ -79,19 +79,32 @@ function playerWins(name) {
   return $winsTitle;
 }
 
-$randomButton.addEventListener("click", () => {
-  player1.changeHP(randomizer(RANDOMIZE_MAX));
-  player1.renderHP(player1.elHP());
-  player2.changeHP(randomizer(RANDOMIZE_MAX));
-  player2.renderHP(player2.elHP());
-  let winner = determineWinner();
-  if (winner) {
-    declareWinner(winner);
-  }
-});
+// $randomButton.addEventListener("click", () => {
+//   player1.changeHP(randomizer(RANDOMIZE_MAX));
+//   player1.renderHP(player1.elHP());
+//   player2.changeHP(randomizer(RANDOMIZE_MAX));
+//   player2.renderHP(player2.elHP());
+//   let winner = determineWinner();
+//   if (winner) {
+//     declareWinner(winner);
+//   }
+// });
 
 $frmControl.addEventListener("submit", (event) => {
   event.preventDefault();
+  const ENEMY = enemyAttack();
+  const MY_ATTACK = {};
+  for (let item of $frmControl) {
+    if (item.checked && item.name === "hit") {
+      MY_ATTACK.hitPoints = randomizer(HIT[item.value]);
+      MY_ATTACK.hit = item.value;
+    }
+
+    if (item.checked && item.name === "defence") {
+      MY_ATTACK.defense = item.value;
+    }
+    item.checked = false;
+  }
 });
 
 function createElement(tag, className) {
@@ -118,9 +131,6 @@ function randomizer(limit) {
   return Math.ceil(Math.random() * limit);
 }
 
-$arenas.appendChild(createPlayer(player1));
-$arenas.appendChild(createPlayer(player2));
-
 function declareWinner(winnerName) {
   $arenas.appendChild(playerWins(winnerName));
   $randomButton.disabled = true;
@@ -141,4 +151,18 @@ function createReloadButton() {
   return $wrap;
 }
 
+function enemyAttack() {
+  const hit = ATTACK[randomizer(3) - 1];
+  const defense = ATTACK[randomizer(3) - 1];
+  const hitPoints = randomizer(HIT[hit]);
+  return {
+    hit,
+    defense,
+    hitPoints,
+  };
+}
+
+// console.log(enemyAttack());
+$arenas.appendChild(createPlayer(player1));
+$arenas.appendChild(createPlayer(player2));
 $arenas.appendChild(createReloadButton());
