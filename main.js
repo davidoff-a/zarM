@@ -1,6 +1,15 @@
 const $arenas = document.querySelector(".arenas");
-const $randomButton = document.querySelector(".button");
+const $btnFight = document.querySelector("#Fight");
+const $frmControl = document.querySelector(".control");
 const RANDOMIZE_MAX = 20;
+const RANDOMIZE_MIN = 0;
+const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+};
+const ATTACK = ["head", "body", "foot"];
+const BANGS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const player1 = {
   player: 1,
   name: "scorpion",
@@ -33,8 +42,11 @@ function createPlayer(player) {
   $name.innerText = `${player.name}`;
   const $character = createElement("div", "character");
   const $charImg = createElement("img");
+  const $bangImg = createElement("img");
+  $bangImg.classList.add(`bang`, `fighter${player.player}`);
   $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${player.name}.gif`;
   $character.appendChild($charImg);
+  $character.appendChild($bangImg);
   $progressbar.appendChild($life);
   $progressbar.appendChild($name);
   $player.appendChild($progressbar);
@@ -72,11 +84,23 @@ function playerWins(name) {
   return $winsTitle;
 }
 
-$randomButton.addEventListener("click", () => {
-  player1.changeHP(randomizer(RANDOMIZE_MAX));
-  player1.renderHP(player1.elHP());
-  player2.changeHP(randomizer(RANDOMIZE_MAX));
-  player2.renderHP(player2.elHP());
+$frmControl.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const ENEMY = enemyAttack();
+  const MY_ATTACK = {};
+  for (let item of $frmControl) {
+    if (item.checked && item.name === "hit") {
+      MY_ATTACK.hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[item.value]);
+      MY_ATTACK.hit = item.value;
+    }
+
+    if (item.checked && item.name === "defense") {
+      MY_ATTACK.defense = item.value;
+    }
+    item.checked = false;
+  }
+  renderFight.apply(player1, [MY_ATTACK, ENEMY]);
+  renderFight.apply(player2, [ENEMY, MY_ATTACK]);
   let winner = determineWinner();
   if (winner) {
     declareWinner(winner);
@@ -103,18 +127,15 @@ function determineWinner() {
   }
 }
 
-function randomizer(limit) {
-  return Math.ceil(Math.random() * limit);
+function getRandomNumber(min, max) {
+  return Math.ceil(Math.random() * (max - min) + min);
 }
-
-$arenas.appendChild(createPlayer(player1));
-$arenas.appendChild(createPlayer(player2));
 
 function declareWinner(winnerName) {
   $arenas.appendChild(playerWins(winnerName));
-  $randomButton.disabled = true;
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
+  $btnFight.disabled = true;
 }
 
 function createReloadButton() {
@@ -122,7 +143,6 @@ function createReloadButton() {
   const $wrapBtn = createElement("button", "button");
   $wrapBtn.style.display = "none";
   $wrapBtn.innerText = "RESTART";
-
   $wrap.appendChild($wrapBtn);
   $wrapBtn.addEventListener("click", () => {
     window.location.reload();
@@ -130,4 +150,46 @@ function createReloadButton() {
   return $wrap;
 }
 
+function enemyAttack() {
+  const hit = ATTACK[getRandomNumber(RANDOMIZE_MIN, 3) - 1];
+  const defense = ATTACK[getRandomNumber(RANDOMIZE_MIN, 3) - 1];
+  const hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[hit]);
+  return {
+    hit,
+    defense,
+    hitPoints,
+  };
+}
+
+function checkBlocked(objAttacks, objDefense) {
+  if (objAttacks.hit === objDefense.defense) {
+    return 0;
+  } else {
+    return objAttacks.hitPoints;
+  }
+}
+
+function getBangImg(numPlayer) {
+  const IMG_PATH = `./assets/mk/${getRandomNumber(
+    RANDOMIZE_MIN,
+    BANGS.length - 1
+  )}.png`;
+  const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
+  $punchImg.src = IMG_PATH;
+
+  setTimeout(() => {
+    $punchImg.src = "";
+  }, 1500);
+}
+
+function renderFight(attackerParams, defenderParams) {
+  if (checkBlocked(attackerParams, defenderParams)) {
+    this.changeHP(attackerParams.hitPoints);
+    getBangImg(this.player);
+    this.renderHP(this.elHP());
+  }
+}
+
+$arenas.appendChild(createPlayer(player1));
+$arenas.appendChild(createPlayer(player2));
 $arenas.appendChild(createReloadButton());
