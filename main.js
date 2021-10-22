@@ -72,6 +72,7 @@ const logs = {
   ],
   draw: "Ничья - это тоже победа!",
 };
+const $CHAT = document.querySelector(".chat");
 function createPlayer(player) {
   const $player = createElement("div", `player${player.player}`);
   const $progressbar = createElement("div", "progressbar");
@@ -215,6 +216,7 @@ function renderFight(attackerParams, defenderParams) {
     this.changeHP(attackerParams.hitPoints);
     getBangImg(this.player);
     this.renderHP(this.elHP());
+    generateLog("hit", player2, player1);
   }
 }
 
@@ -233,6 +235,14 @@ function playerAttack() {
   }
   return MY_ATTACK;
 }
+
+function generateLog(type, attackPlayer, defensePlayer) {
+  const LOG_RECORD = logs[type][0]
+    .replace("[playerKick]", player1.name)
+    .replace("[playerDefence]", player2.name);
+  $CHAT.insertAdjacentHTML("afterbegin", `<p>${LOG_RECORD}</p>`);
+}
+
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 $arenas.appendChild(createReloadButton());
