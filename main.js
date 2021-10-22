@@ -237,10 +237,14 @@ function playerAttack() {
 }
 
 function generateLog(type, attackPlayer, defensePlayer) {
+  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
   const LOG_RECORD = logs[type][0]
     .replace("[playerKick]", player1.name)
     .replace("[playerDefence]", player2.name);
-  $CHAT.insertAdjacentHTML("afterbegin", `<p>${LOG_RECORD}</p>`);
+  $CHAT.insertAdjacentHTML(
+    "afterbegin",
+    `<p>[${LOG_RECORD_TIME}] - ${LOG_RECORD}</p>`
+  );
 }
 
 $arenas.appendChild(createPlayer(player1));
