@@ -33,8 +33,9 @@ const player2 = {
   renderHP,
 };
 const logs = {
-  start:
+  start: [
     "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
+  ],
   end: [
     "Результат удара [playerWins]: [playerLose] - труп",
     "[playerLose] погиб от удара бойца [playerWins]",
@@ -223,10 +224,13 @@ function generateLogs(type, attackPlayer, hitPoints = 0) {
   let logRecord = "";
   switch (type) {
     case "start":
-      logRecord = logs[type]
+      logRecord = logs[type][
+        getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
+      ]
         .replace("[player1]", attackPlayer.name.toUpperCase())
         .replace("[player2]", DEFENDER.name.toUpperCase())
         .replace("[time]", LOG_RECORD_TIME);
+      break;
     case "hit":
       logRecord = `${LOG_RECORD_TIME} - ${type} - ${logs[type][
         getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
@@ -275,17 +279,14 @@ $frmControl.addEventListener("submit", (event) => {
 });
 
 function renderFight(attackerParams, defenderParams) {
+  const FIGTHER = this.player === 1 ? player2 : player1;
   if (checkBlocked(attackerParams, defenderParams)) {
     this.changeHP(attackerParams.hitPoints);
     getBangImg(this.player);
     this.renderHP(this.elHP());
-    generateLogs(
-      "hit",
-      this.player === 1 ? player2 : player1,
-      attackerParams.hitPoints
-    );
+    generateLogs("hit", FIGTHER, attackerParams.hitPoints);
   } else {
-    generateLogs("defense", this.player === 1 ? player2 : player1);
+    generateLogs("defense", FIGTHER);
   }
 }
 
