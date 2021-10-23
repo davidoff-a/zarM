@@ -147,7 +147,9 @@ function determineWinner() {
     return player2;
   }
   if (!player1.hp && !player2.hp) {
+    generateLogs("draw", player1);
     return "Double Kill!";
+    
   }
 }
 
