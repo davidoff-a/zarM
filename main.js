@@ -269,6 +269,10 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  $arenas.classList.add(`arena${getRandomNumber(1, 5)}`);
+});
+
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 $arenas.appendChild(createReloadButton());
