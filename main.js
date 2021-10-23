@@ -37,39 +37,39 @@ const logs = {
     "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
   ],
   end: [
-    "Результат удара [playerWins]: [playerLose] - труп",
-    "[playerLose] погиб от удара бойца [playerWins]",
-    "Результат боя: [playerLose] - жертва, [playerWins] - убийца",
+    "[time] - Результат удара [playerWins]: [playerLose] - труп",
+    "[time] - [playerLose] погиб от удара бойца [playerWins]",
+    "[time] - Результат боя: [playerLose] - жертва, [playerWins] - убийца",
   ],
   hit: [
-    "[playerDefense] пытался сконцентрироваться, но [playerKick] разбежавшись раздробил копчиком левое ухо врага.",
-    "[playerDefense] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил грудью грудину противника.",
-    "[playerDefense] зажмурился, а в это время [playerKick], прослезившись, раздробил кулаком пах оппонента.",
-    "[playerDefense] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил грудью левый бицепс оппонента.",
-    "[playerDefense] задумался, но внезапно [playerKick] случайно влепил грубый удар копчиком в пояс оппонента.",
-    "[playerDefense] ковырялся в зубах, но [playerKick] проснувшись влепил тяжелый удар пальцем в кадык врага.",
-    "[playerDefense] вспомнил что-то важное, но внезапно [playerKick] зевнув, размозжил открытой ладонью челюсть противника.",
-    "[playerDefense] осмотрелся, и в это время [playerKick] мимоходом раздробил стопой аппендикс соперника.",
-    "[playerDefense] кашлянул, но внезапно [playerKick] показав палец, размозжил пальцем грудь соперника.",
-    "[playerDefense] пытался что-то сказать, а жестокий [playerKick] проснувшись размозжил копчиком левую ногу противника.",
-    "[playerDefense] забылся, как внезапно безумный [playerKick] со скуки, влепил удар коленом в левый бок соперника.",
-    "[playerDefense] поперхнулся, а за это [playerKick] мимоходом раздробил коленом висок врага.",
-    "[playerDefense] расстроился, а в это время наглый [playerKick] пошатнувшись размозжил копчиком губы оппонента.",
-    "[playerDefense] осмотрелся, но внезапно [playerKick] робко размозжил коленом левый глаз противника.",
-    "[playerDefense] осмотрелся, а [playerKick] вломил дробящий удар плечом, пробив блок, куда обычно не бьют оппонента.",
-    "[playerDefense] ковырялся в зубах, как вдруг, неожиданно [playerKick] отчаянно размозжил плечом мышцы пресса оппонента.",
-    "[playerDefense] пришел в себя, и в это время [playerKick] провел разбивающий удар кистью руки, пробив блок, в голень противника.",
-    "[playerDefense] пошатнулся, а в это время [playerKick] хихикая влепил грубый удар открытой ладонью по бедрам врага.",
+    "[time] - [playerDefense] пытался сконцентрироваться, но [playerKick] разбежавшись раздробил копчиком левое ухо врага.",
+    "[time] - [playerDefense] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил грудью грудину противника.",
+    "[time] - [playerDefense] зажмурился, а в это время [playerKick], прослезившись, раздробил кулаком пах оппонента.",
+    "[time] - [playerDefense] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил грудью левый бицепс оппонента.",
+    "[time] - [playerDefense] задумался, но внезапно [playerKick] случайно влепил грубый удар копчиком в пояс оппонента.",
+    "[time] - [playerDefense] ковырялся в зубах, но [playerKick] проснувшись влепил тяжелый удар пальцем в кадык врага.",
+    "[time] - [playerDefense] вспомнил что-то важное, но внезапно [playerKick] зевнув, размозжил открытой ладонью челюсть противника.",
+    "[time] - [playerDefense] осмотрелся, и в это время [playerKick] мимоходом раздробил стопой аппендикс соперника.",
+    "[time] - [playerDefense] кашлянул, но внезапно [playerKick] показав палец, размозжил пальцем грудь соперника.",
+    "[time] - [playerDefense] пытался что-то сказать, а жестокий [playerKick] проснувшись размозжил копчиком левую ногу противника.",
+    "[time] - [playerDefense] забылся, как внезапно безумный [playerKick] со скуки, влепил удар коленом в левый бок соперника.",
+    "[time] - [playerDefense] поперхнулся, а за это [playerKick] мимоходом раздробил коленом висок врага.",
+    "[time] - [playerDefense] расстроился, а в это время наглый [playerKick] пошатнувшись размозжил копчиком губы оппонента.",
+    "[time] - [playerDefense] осмотрелся, но внезапно [playerKick] робко размозжил коленом левый глаз противника.",
+    "[time] - [playerDefense] осмотрелся, а [playerKick] вломил дробящий удар плечом, пробив блок, куда обычно не бьют оппонента.",
+    "[time] - [playerDefense] ковырялся в зубах, как вдруг, неожиданно [playerKick] отчаянно размозжил плечом мышцы пресса оппонента.",
+    "[time] - [playerDefense] пришел в себя, и в это время [playerKick] провел разбивающий удар кистью руки, пробив блок, в голень противника.",
+    "[time] - [playerDefense] пошатнулся, а в это время [playerKick] хихикая влепил грубый удар открытой ладонью по бедрам врага.",
   ],
   defense: [
-    "[playerKick] потерял момент и храбрый [playerDefense] отпрыгнул от удара открытой ладонью в ключицу.",
-    "[playerKick] не контролировал ситуацию, и потому [playerDefense] поставил блок на удар пяткой в правую грудь.",
-    "[playerKick] потерял момент и [playerDefense] поставил блок на удар коленом по селезенке.",
-    "[playerKick] поскользнулся и задумчивый [playerDefense] поставил блок на тычок головой в бровь.",
-    "[playerKick] старался провести удар, но непобедимый [playerDefense] ушел в сторону от удара копчиком прямо в пятку.",
-    "[playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
-    "[playerKick] не думал о бое, потому расстроенный [playerDefense] отпрыгнул от удара кулаком куда обычно не бьют.",
-    "[playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
+    "[time] - [playerKick] потерял момент и храбрый [playerDefense] отпрыгнул от удара открытой ладонью в ключицу.",
+    "[time] - [playerKick] не контролировал ситуацию, и потому [playerDefense] поставил блок на удар пяткой в правую грудь.",
+    "[time] - [playerKick] потерял момент и [playerDefense] поставил блок на удар коленом по селезенке.",
+    "[time] - [playerKick] поскользнулся и задумчивый [playerDefense] поставил блок на тычок головой в бровь.",
+    "[time] - [playerKick] старался провести удар, но непобедимый [playerDefense] ушел в сторону от удара копчиком прямо в пятку.",
+    "[time] - [playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
+    "[time] - [playerKick] не думал о бое, потому расстроенный [playerDefense] отпрыгнул от удара кулаком куда обычно не бьют.",
+    "[time] - [playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
   ],
   draw: "Ничья - это тоже победа!",
 };
@@ -219,45 +219,22 @@ function playerAttack() {
 }
 
 function generateLogs(type, attackPlayer, hitPoints = 0) {
-  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
-  const DEFENDER = attackPlayer.player === 1 ? player2 : player1;
   let logRecord = "";
   switch (type) {
     case "start":
-      logRecord = logs[type][
-        getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
-      ]
-        .replace("[player1]", attackPlayer.name.toUpperCase())
-        .replace("[player2]", DEFENDER.name.toUpperCase())
-        .replace("[time]", LOG_RECORD_TIME);
+      logRecord = insertDataToLogString(type, attackPlayer);
       break;
     case "hit":
-      logRecord = `${LOG_RECORD_TIME} - ${type} - ${logs[type][
-        getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
-      ]
-        .replace("[playerKick]", attackPlayer.name.toUpperCase())
-        .replace(
-          "[playerDefense]",
-          DEFENDER.name.toUpperCase()
-        )} - ${hitPoints} - [${DEFENDER.hp}/100]`;
+      logRecord = insertDataToLogString(type, attackPlayer, hitPoints);
       break;
     case "defense":
-      logRecord = `${LOG_RECORD_TIME} - ${type} - ${logs[type][
-        getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
-      ]
-        .replace("[playerKick]", attackPlayer.name.toUpperCase())
-        .replace("[playerDefense]", DEFENDER.name.toUpperCase())}`;
+      logRecord = insertDataToLogString(type, attackPlayer);
       break;
     case "end":
-      logRecord = logs[type][
-        getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)
-      ]
-        .replace("[playerWins]", attackPlayer.name.toUpperCase())
-        .replace("[playerLose]", DEFENDER.name.toLocaleUpperCase());
+      logRecord = insertDataToLogString(type, attackPlayer);
       break;
     case "draw":
-      logRecord =
-        logs[type][getRandomNumber(RANDOMIZE_MIN, logs[type].length - 1)];
+      logRecord = insertDataToLogString(type, attackPlayer);
       break;
   }
   $CHAT.insertAdjacentHTML("afterbegin", `<p>${logRecord}</p>`);
@@ -288,6 +265,25 @@ function renderFight(attackerParams, defenderParams) {
   } else {
     generateLogs("defense", FIGTHER);
   }
+}
+
+function insertDataToLogString(typeStr, playerAttack, hits) {
+  const DEFENDER = playerAttack.player === 1 ? player2 : player1;
+  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
+  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
+  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
+  let stringNum = 0;
+  let logString = "";
+  stringNum = getRandomNumber(RANDOMIZE_MIN, logs[typeStr].length - 1);
+  if (typeStr === "hit") {
+    logString = `${logs[typeStr][stringNum]} - ${hits} - [${DEFENDER.hp}/100]`;
+  } else {
+    logString = logs[typeStr][stringNum];
+  };
+  return logString
+    .replace(RELACE_EXPR_1, playerAttack.name.toUpperCase())
+    .replace(RELACE_EXPR_2, DEFENDER.name.toUpperCase())
+    .replace("[time]", LOG_RECORD_TIME);
 }
 
 $arenas.appendChild(createPlayer(player1));
