@@ -196,9 +196,14 @@ function getBangImg(numPlayer, bodyPart) {
     BANGS.length - 1
   )}.png`;
   const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
-  const POW_LEVEL = (ATTACK.indexOf(bodyPart)+1)*30;
+  const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
   $punchImg.src = IMG_PATH;
-  $punchImg.style.top = `${getRandomNumber(POW_LEVEL>30?POW_LEVEL-30:15, POW_LEVEL)}%`;
+  $punchImg.style.top = `${getRandomNumber(
+    POW_LEVEL > 30 ? POW_LEVEL - 30 : 15,
+    POW_LEVEL
+  )}%`;
+  playSound();
+
   setTimeout(() => {
     $punchImg.src = "";
   }, 1500);
@@ -219,7 +224,6 @@ function playerAttack() {
   }
   return MY_ATTACK;
 }
-
 
 $frmControl.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -267,6 +271,11 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
     .replace("[time]", LOG_RECORD_TIME);
 
   $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
+}
+
+function playSound() {
+  const SOUND = new Audio(`./assets/sound/hitsounds/mk3-00${getRandomNumber(10, 36)}${getRandomNumber(0,1)*5}.mp3`);
+  SOUND.play();
 }
 
 window.addEventListener("DOMContentLoaded", () => {
