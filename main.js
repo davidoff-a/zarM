@@ -73,8 +73,12 @@ const logs = {
   ],
   draw: "Ничья - это тоже победа!",
 };
-
 const $CHAT = document.querySelector(".chat");
+const SOUND_LIB = {
+  hit: "./assets/sound/hitsounds/mk3-00",
+  block: "./assets/sound/block/mk3-09",
+  wins: "./assets/sound/wins/",
+};
 
 function createPlayer(player) {
   const $player = createElement("div", `player${player.player}`);
@@ -157,6 +161,7 @@ function declareWinner(winner) {
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
   generateLogs("end", winner);
+  playSound("wins");
 }
 
 function createReloadButton() {
@@ -202,7 +207,6 @@ function getBangImg(numPlayer, bodyPart) {
     POW_LEVEL > 30 ? POW_LEVEL - 30 : 15,
     POW_LEVEL
   )}%`;
-  playSound();
 
   setTimeout(() => {
     $punchImg.src = "";
@@ -247,8 +251,10 @@ function renderFight(attackerParams, defenderParams) {
     getBangImg(this.player, attackerParams.hit);
     this.renderHP(this.elHP());
     generateLogs("hit", FIGTHER, attackerParams.hitPoints);
+    playSound("hit");
   } else {
     generateLogs("defense", FIGTHER);
+    playSound("block");
   }
 }
 
@@ -273,8 +279,24 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
 }
 
-function playSound() {
-  const SOUND = new Audio(`./assets/sound/hitsounds/mk3-00${getRandomNumber(10, 36)}${getRandomNumber(0,1)*5}.mp3`);
+function playSound(kind) {
+  const PATH = SOUND_LIB[kind];
+  let soundPathEnd = "";
+  switch (kind) {
+    case "hit":
+      soundPathEnd = `${getRandomNumber(10, 36)}${
+        getRandomNumber(0, 1) * 5
+      }.mp3`;
+      break;
+    case "block":
+      soundPathEnd = `${getRandomNumber(1, 4)}.mp3`;
+      break;
+    case "wins":
+      soundPathEnd = `victory.mp3`;
+      break;
+  }
+  console.log(`${PATH}${soundPathEnd}`);
+  const SOUND = new Audio(`${PATH}${soundPathEnd}`);
   SOUND.play();
 }
 
