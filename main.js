@@ -218,27 +218,27 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-function generateLogs(type, attackPlayer, hitPoints = 0) {
-  let logRecord = "";
-  switch (type) {
-    case "start":
-      logRecord = insertDataToLogString(type, attackPlayer);
-      break;
-    case "hit":
-      logRecord = insertDataToLogString(type, attackPlayer, hitPoints);
-      break;
-    case "defense":
-      logRecord = insertDataToLogString(type, attackPlayer);
-      break;
-    case "end":
-      logRecord = insertDataToLogString(type, attackPlayer);
-      break;
-    case "draw":
-      logRecord = insertDataToLogString(type, attackPlayer);
-      break;
-  }
-  $CHAT.insertAdjacentHTML("afterbegin", `<p>${logRecord}</p>`);
-}
+// function generateLogs(type, attackPlayer, hitPoints = 0) {
+//   let logRecord = "";
+//   switch (type) {
+//     case "start":
+//       logRecord = insertDataToLogString(type, attackPlayer);
+//       break;
+//     case "hit":
+//       logRecord = insertDataToLogString(type, attackPlayer, hitPoints);
+//       break;
+//     case "defense":
+//       logRecord = insertDataToLogString(type, attackPlayer);
+//       break;
+//     case "end":
+//       logRecord = insertDataToLogString(type, attackPlayer);
+//       break;
+//     case "draw":
+//       logRecord = insertDataToLogString(type, attackPlayer);
+//       break;
+//   }
+  
+// }
 
 $frmControl.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -267,7 +267,7 @@ function renderFight(attackerParams, defenderParams) {
   }
 }
 
-function insertDataToLogString(typeStr, playerAttack, hits) {
+function generateLogs(typeStr, playerAttack, hits = 0) {
   const DEFENDER = playerAttack.player === 1 ? player2 : player1;
   const LOG_RECORD_TIME = new Date().toLocaleTimeString();
   const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
@@ -279,11 +279,13 @@ function insertDataToLogString(typeStr, playerAttack, hits) {
     logString = `${logs[typeStr][stringNum]} - ${hits} - [${DEFENDER.hp}/100]`;
   } else {
     logString = logs[typeStr][stringNum];
-  };
-  return logString
+  }
+  logString = logString
     .replace(RELACE_EXPR_1, playerAttack.name.toUpperCase())
     .replace(RELACE_EXPR_2, DEFENDER.name.toUpperCase())
     .replace("[time]", LOG_RECORD_TIME);
+
+  $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
 }
 
 $arenas.appendChild(createPlayer(player1));
