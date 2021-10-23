@@ -73,6 +73,7 @@ const logs = {
   ],
   draw: "Ничья - это тоже победа!",
 };
+
 const $CHAT = document.querySelector(".chat");
 
 function createPlayer(player) {
@@ -189,14 +190,15 @@ function checkBlocked(objAttacks, objDefense) {
   }
 }
 
-function getBangImg(numPlayer) {
+function getBangImg(numPlayer, bodyPart) {
   const IMG_PATH = `./assets/mk/${getRandomNumber(
     RANDOMIZE_MIN,
     BANGS.length - 1
   )}.png`;
   const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
+  const POW_LEVEL = (ATTACK.indexOf(bodyPart)+1)*30;
   $punchImg.src = IMG_PATH;
-
+  $punchImg.style.top = `${getRandomNumber(POW_LEVEL>30?POW_LEVEL-30:15, POW_LEVEL)}%`;
   setTimeout(() => {
     $punchImg.src = "";
   }, 1500);
@@ -218,27 +220,6 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-// function generateLogs(type, attackPlayer, hitPoints = 0) {
-//   let logRecord = "";
-//   switch (type) {
-//     case "start":
-//       logRecord = insertDataToLogString(type, attackPlayer);
-//       break;
-//     case "hit":
-//       logRecord = insertDataToLogString(type, attackPlayer, hitPoints);
-//       break;
-//     case "defense":
-//       logRecord = insertDataToLogString(type, attackPlayer);
-//       break;
-//     case "end":
-//       logRecord = insertDataToLogString(type, attackPlayer);
-//       break;
-//     case "draw":
-//       logRecord = insertDataToLogString(type, attackPlayer);
-//       break;
-//   }
-  
-// }
 
 $frmControl.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -259,7 +240,7 @@ function renderFight(attackerParams, defenderParams) {
   const FIGTHER = this.player === 1 ? player2 : player1;
   if (checkBlocked(attackerParams, defenderParams)) {
     this.changeHP(attackerParams.hitPoints);
-    getBangImg(this.player);
+    getBangImg(this.player, attackerParams.hit);
     this.renderHP(this.elHP());
     generateLogs("hit", FIGTHER, attackerParams.hitPoints);
   } else {
