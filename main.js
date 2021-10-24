@@ -32,6 +32,53 @@ const player2 = {
   elHP,
   renderHP,
 };
+const logs = {
+  start: [
+    "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
+  ],
+  end: [
+    "[time] - Результат удара [playerWins]: [playerLose] - труп",
+    "[time] - [playerLose] погиб от удара бойца [playerWins]",
+    "[time] - Результат боя: [playerLose] - жертва, [playerWins] - убийца",
+  ],
+  hit: [
+    "[time] - [playerDefense] пытался сконцентрироваться, но [playerKick] разбежавшись раздробил копчиком левое ухо врага.",
+    "[time] - [playerDefense] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил грудью грудину противника.",
+    "[time] - [playerDefense] зажмурился, а в это время [playerKick], прослезившись, раздробил кулаком пах оппонента.",
+    "[time] - [playerDefense] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил грудью левый бицепс оппонента.",
+    "[time] - [playerDefense] задумался, но внезапно [playerKick] случайно влепил грубый удар копчиком в пояс оппонента.",
+    "[time] - [playerDefense] ковырялся в зубах, но [playerKick] проснувшись влепил тяжелый удар пальцем в кадык врага.",
+    "[time] - [playerDefense] вспомнил что-то важное, но внезапно [playerKick] зевнув, размозжил открытой ладонью челюсть противника.",
+    "[time] - [playerDefense] осмотрелся, и в это время [playerKick] мимоходом раздробил стопой аппендикс соперника.",
+    "[time] - [playerDefense] кашлянул, но внезапно [playerKick] показав палец, размозжил пальцем грудь соперника.",
+    "[time] - [playerDefense] пытался что-то сказать, а жестокий [playerKick] проснувшись размозжил копчиком левую ногу противника.",
+    "[time] - [playerDefense] забылся, как внезапно безумный [playerKick] со скуки, влепил удар коленом в левый бок соперника.",
+    "[time] - [playerDefense] поперхнулся, а за это [playerKick] мимоходом раздробил коленом висок врага.",
+    "[time] - [playerDefense] расстроился, а в это время наглый [playerKick] пошатнувшись размозжил копчиком губы оппонента.",
+    "[time] - [playerDefense] осмотрелся, но внезапно [playerKick] робко размозжил коленом левый глаз противника.",
+    "[time] - [playerDefense] осмотрелся, а [playerKick] вломил дробящий удар плечом, пробив блок, куда обычно не бьют оппонента.",
+    "[time] - [playerDefense] ковырялся в зубах, как вдруг, неожиданно [playerKick] отчаянно размозжил плечом мышцы пресса оппонента.",
+    "[time] - [playerDefense] пришел в себя, и в это время [playerKick] провел разбивающий удар кистью руки, пробив блок, в голень противника.",
+    "[time] - [playerDefense] пошатнулся, а в это время [playerKick] хихикая влепил грубый удар открытой ладонью по бедрам врага.",
+  ],
+  defense: [
+    "[time] - [playerKick] потерял момент и храбрый [playerDefense] отпрыгнул от удара открытой ладонью в ключицу.",
+    "[time] - [playerKick] не контролировал ситуацию, и потому [playerDefense] поставил блок на удар пяткой в правую грудь.",
+    "[time] - [playerKick] потерял момент и [playerDefense] поставил блок на удар коленом по селезенке.",
+    "[time] - [playerKick] поскользнулся и задумчивый [playerDefense] поставил блок на тычок головой в бровь.",
+    "[time] - [playerKick] старался провести удар, но непобедимый [playerDefense] ушел в сторону от удара копчиком прямо в пятку.",
+    "[time] - [playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
+    "[time] - [playerKick] не думал о бое, потому расстроенный [playerDefense] отпрыгнул от удара кулаком куда обычно не бьют.",
+    "[time] - [playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
+  ],
+  draw: "Ничья - это тоже победа!",
+};
+const $CHAT = document.querySelector(".chat");
+const SOUND_LIB = {
+  hit: "./assets/sound/hitsounds/mk3-00",
+  block: "./assets/sound/block/mk3-09",
+  wins: "./assets/sound/wins/",
+};
 
 function createPlayer(player) {
   const $player = createElement("div", `player${player.player}`);
@@ -84,29 +131,6 @@ function playerWins(name) {
   return $winsTitle;
 }
 
-$frmControl.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const ENEMY = enemyAttack();
-  const MY_ATTACK = {};
-  for (let item of $frmControl) {
-    if (item.checked && item.name === "hit") {
-      MY_ATTACK.hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[item.value]);
-      MY_ATTACK.hit = item.value;
-    }
-
-    if (item.checked && item.name === "defense") {
-      MY_ATTACK.defense = item.value;
-    }
-    item.checked = false;
-  }
-  renderFight.apply(player1, [MY_ATTACK, ENEMY]);
-  renderFight.apply(player2, [ENEMY, MY_ATTACK]);
-  let winner = determineWinner();
-  if (winner) {
-    declareWinner(winner);
-  }
-});
-
 function createElement(tag, className) {
   const $element = document.createElement(tag);
   if (className && className.length > 0) {
@@ -117,13 +141,15 @@ function createElement(tag, className) {
 
 function determineWinner() {
   if (player1.hp && !player2.hp) {
-    return player1.name;
+    return player1;
   }
   if (!player1.hp && player2.hp) {
-    return player2.name;
+    return player2;
   }
   if (!player1.hp && !player2.hp) {
+    generateLogs("draw", player1);
     return "Double Kill!";
+    
   }
 }
 
@@ -131,11 +157,13 @@ function getRandomNumber(min, max) {
   return Math.ceil(Math.random() * (max - min) + min);
 }
 
-function declareWinner(winnerName) {
-  $arenas.appendChild(playerWins(winnerName));
+function declareWinner(winner) {
+  $arenas.appendChild(playerWins(winner.name));
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
+  generateLogs("end", winner);
+  playSound("wins");
 }
 
 function createReloadButton() {
@@ -169,26 +197,114 @@ function checkBlocked(objAttacks, objDefense) {
   }
 }
 
-function getBangImg(numPlayer) {
+function getBangImg(numPlayer, bodyPart) {
   const IMG_PATH = `./assets/mk/${getRandomNumber(
     RANDOMIZE_MIN,
     BANGS.length - 1
   )}.png`;
   const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
+  const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
   $punchImg.src = IMG_PATH;
+  $punchImg.style.top = `${getRandomNumber(
+    POW_LEVEL > 30 ? POW_LEVEL - 30 : 15,
+    POW_LEVEL
+  )}%`;
 
   setTimeout(() => {
     $punchImg.src = "";
   }, 1500);
 }
 
+function playerAttack() {
+  const MY_ATTACK = {};
+  for (let item of $frmControl) {
+    if (item.checked && item.name === "hit") {
+      MY_ATTACK.hitPoints = getRandomNumber(RANDOMIZE_MIN, HIT[item.value]);
+      MY_ATTACK.hit = item.value;
+    }
+
+    if (item.checked && item.name === "defense") {
+      MY_ATTACK.defense = item.value;
+    }
+    item.checked = false;
+  }
+  return MY_ATTACK;
+}
+
+$frmControl.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const ENEMY = enemyAttack();
+  const PLAYER = playerAttack();
+  if ($CHAT.children.length === 0) {
+    generateLogs("start", player1);
+  }
+  renderFight.apply(player1, [PLAYER, ENEMY]);
+  renderFight.apply(player2, [ENEMY, PLAYER]);
+  let winner = determineWinner();
+  if (winner) {
+    declareWinner(winner);
+  }
+});
+
 function renderFight(attackerParams, defenderParams) {
+  const FIGTHER = this.player === 1 ? player2 : player1;
   if (checkBlocked(attackerParams, defenderParams)) {
     this.changeHP(attackerParams.hitPoints);
-    getBangImg(this.player);
+    getBangImg(this.player, attackerParams.hit);
     this.renderHP(this.elHP());
+    generateLogs("hit", FIGTHER, attackerParams.hitPoints);
+    playSound("hit");
+  } else {
+    generateLogs("defense", FIGTHER);
+    playSound("block");
   }
 }
+
+function generateLogs(typeStr, playerAttack, hits = 0) {
+  const DEFENDER = playerAttack.player === 1 ? player2 : player1;
+  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
+  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
+  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
+  let stringNum = 0;
+  let logString = "";
+  stringNum = getRandomNumber(RANDOMIZE_MIN, logs[typeStr].length - 1);
+  if (typeStr === "hit") {
+    logString = `${logs[typeStr][stringNum]} - ${hits} - [${DEFENDER.hp}/100]`;
+  } else {
+    logString = logs[typeStr][stringNum];
+  }
+  logString = logString
+    .replace(RELACE_EXPR_1, playerAttack.name.toUpperCase())
+    .replace(RELACE_EXPR_2, DEFENDER.name.toUpperCase())
+    .replace("[time]", LOG_RECORD_TIME);
+
+  $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
+}
+
+function playSound(kind) {
+  const PATH = SOUND_LIB[kind];
+  let soundPathEnd = "";
+  switch (kind) {
+    case "hit":
+      soundPathEnd = `${getRandomNumber(10, 36)}${
+        getRandomNumber(0, 1) * 5
+      }.mp3`;
+      break;
+    case "block":
+      soundPathEnd = `${getRandomNumber(1, 4)}.mp3`;
+      break;
+    case "wins":
+      soundPathEnd = `victory.mp3`;
+      break;
+  }
+  console.log(`${PATH}${soundPathEnd}`);
+  const SOUND = new Audio(`${PATH}${soundPathEnd}`);
+  SOUND.play();
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  $arenas.classList.add(`arena${getRandomNumber(1, 5)}`);
+});
 
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
