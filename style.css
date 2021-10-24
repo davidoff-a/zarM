@@ -182,7 +182,7 @@ body {
   font-family: Arial;
 }
 
-.chat::-webkit-scrollbar {
+.chat::-webkit-scrollbar{
   width: 0;
 }
 
