@@ -81,17 +81,18 @@ const SOUND_LIB = {
 };
 
 function createPlayer(player) {
-  const $player = createElement("div", `player${player.player}`);
+  const { player:playerNumber, hp, name } = player;
+  const $player = createElement("div", `player${playerNumber}`);
   const $progressbar = createElement("div", "progressbar");
   const $life = createElement("div", "life");
-  $life.style.width = `${player.hp}%`;
+  $life.style.width = `${hp}%`;
   const $name = createElement("div", "name");
-  $name.innerText = `${player.name}`;
+  $name.innerText = `${name}`;
   const $character = createElement("div", "character");
   const $charImg = createElement("img");
   const $bangImg = createElement("img");
-  $bangImg.classList.add(`bang`, `fighter${player.player}`);
-  $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${player.name}.gif`;
+  $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
+  $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
   $character.appendChild($charImg);
   $character.appendChild($bangImg);
   $progressbar.appendChild($life);
@@ -158,7 +159,8 @@ function getRandomNumber(min, max) {
 }
 
 function declareWinner(winner) {
-  $arenas.appendChild(playerWins(winner.name));
+  const { name } = winner;
+  $arenas.appendChild(playerWins(name));
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
@@ -190,10 +192,12 @@ function enemyAttack() {
 }
 
 function checkBlocked(objAttacks, objDefense) {
-  if (objAttacks.hit === objDefense.defense) {
+  const { hit, hitPoints } = objAttacks;
+  const { defense } = objDefense;
+  if (hit === defense) {
     return 0;
   } else {
-    return objAttacks.hitPoints;
+    return hitPoints;
   }
 }
 
@@ -247,21 +251,24 @@ $frmControl.addEventListener("submit", (event) => {
 });
 
 function renderFight(attackerParams, defenderParams) {
-  const FIGTHER = this.player === 1 ? player2 : player1;
+  const DEFENDER = this.player === 1 ? player2 : player1;
+  const { hit, hitPoints } = attackerParams;
   if (checkBlocked(attackerParams, defenderParams)) {
-    this.changeHP(attackerParams.hitPoints);
-    getBangImg(this.player, attackerParams.hit);
+    this.changeHP(hitPoints);
+    getBangImg(this.player, hit);
     this.renderHP(this.elHP());
-    generateLogs("hit", FIGTHER, attackerParams.hitPoints);
+    generateLogs("hit", DEFENDER, hitPoints);
     playSound("hit");
   } else {
-    generateLogs("defense", FIGTHER);
+    generateLogs("defense", DEFENDER);
     playSound("block");
   }
 }
 
 function generateLogs(typeStr, playerAttack, hits = 0) {
-  const DEFENDER = playerAttack.player === 1 ? player2 : player1;
+  const { player: attackerPlayer, name: attackerName } = playerAttack;
+  const DEFENDER = attackerPlayer === 1 ? player2 : player1;
+  const { name: defenderName, hp: defenderHP } = DEFENDER;
   const LOG_RECORD_TIME = new Date().toLocaleTimeString();
   const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
@@ -269,13 +276,13 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   let logString = "";
   stringNum = getRandomNumber(RANDOMIZE_MIN, logs[typeStr].length - 1);
   if (typeStr === "hit") {
-    logString = `${logs[typeStr][stringNum]} - ${hits} - [${DEFENDER.hp}/100]`;
+    logString = `${logs[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`;
   } else {
     logString = logs[typeStr][stringNum];
   }
   logString = logString
-    .replace(RELACE_EXPR_1, playerAttack.name.toUpperCase())
-    .replace(RELACE_EXPR_2, DEFENDER.name.toUpperCase())
+    .replace(RELACE_EXPR_1, attackerName.toUpperCase())
+    .replace(RELACE_EXPR_2, defenderName.toUpperCase())
     .replace("[time]", LOG_RECORD_TIME);
 
   $CHAT.insertAdjacentHTML("afterbegin", `<p>${logString}</p>`);
@@ -297,7 +304,6 @@ function playSound(kind) {
       soundPathEnd = `victory.mp3`;
       break;
   }
-  console.log(`${PATH}${soundPathEnd}`);
   const SOUND = new Audio(`${PATH}${soundPathEnd}`);
   SOUND.play();
 }
