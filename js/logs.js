@@ -40,7 +40,7 @@ const LOGS = {
     "[time] - [playerKick] не думал о бое, потому расстроенный [playerDefense] отпрыгнул от удара кулаком куда обычно не бьют.",
     "[time] - [playerKick] обманулся и жестокий [playerDefense] блокировал удар стопой в солнечное сплетение.",
   ],
-  draw: "Ничья - это тоже победа!",
+  draw: ["Ничья - это тоже победа!"],
 };
 
 const $CHAT = document.querySelector(".chat");
@@ -54,11 +54,11 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
   const LOG_RECORD = createElement("p");
   const LOG_SETTINGS = {
-    hit: ["#cd0e03", "⚡"],
-    defense: ["#0431f9", "🚧"],
-    start: ["#063f06", "🔪"],
-    draw: ["#f5d100", "🤝"],
-    end: ["#063f06", "💀"],
+    hit: ["rgba(225, 13, 3, 0.3)", "⚡"],
+    defense: ["rgba(7, 13, 225, 0.3)", "🚧"],
+    start: ["rgba(9, 172, 9, 0.3)", "🔪"],
+    draw: ["rgba(253, 216, 3, 0.5)", "🤝"],
+    end: ["rgba(9, 172, 9, 0.3)", "💀"],
   };
   let stringNum = 0;
   let logString = "";
@@ -69,9 +69,9 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
     : (logString = LOGS[typeStr][stringNum]);
   
   logString = logString
-    .replace(RELACE_EXPR_1, ` 💣 ${attackerName.toUpperCase()}`)
-    .replace(RELACE_EXPR_2, ` 🔒 ${defenderName.toUpperCase()}`)
-    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME}`);
+    .replace(RELACE_EXPR_1, ` 💣 ${attackerName.toUpperCase()} 💣 `)
+    .replace(RELACE_EXPR_2, ` 🔒 ${defenderName.toUpperCase()} 🔒 `)
+    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
   LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
