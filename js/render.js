@@ -1,9 +1,8 @@
 import { getRandomNumber, createElement, checkBlocked } from "./utils.js";
 import { $CHAT, generateLogs } from "./logs.js";
-import { player1, player2 } from "./player.js";
+import { player1, player2, createPlayer } from "./player.js";
 import { playSound } from "./audio.js";
 import { $arenas } from "./arena.js";
-
 
 const $frmControl = document.querySelector(".control");
 
@@ -18,6 +17,23 @@ const $btnFight = document.querySelector("#Fight");
 const ATTACK = ["head", "body", "foot"];
 
 const BANGS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const declareDraw = () => {
+  generateLogs("draw", player1);
+  return "Double Kill!";
+};
+
+const determineWinner = () => {
+  if (!player1.hp && player2.hp) {
+    return player2;
+  }
+  if (player1.hp && !player2.hp) {
+    return player1;
+  }
+  if (!player1.hp && !player2.hp) {
+    return declareDraw();
+  }
+};
 
 function createReloadButton() {
   const $wrap = createElement("div", "reloadWrap");
@@ -56,7 +72,11 @@ function fight() {
     }
     renderFight.apply(player1, [PLAYER, ENEMY]);
     renderFight.apply(player2, [ENEMY, PLAYER]);
+    console.log(player1.hp || player2.hp);
+
     let winner = determineWinner();
+    console.log(determineWinner());
+
     if (winner) {
       declareWinner(winner);
     }
@@ -105,19 +125,6 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-function determineWinner() {
-  if (player1.hp && !player2.hp) {
-    return player1;
-  }
-  if (!player1.hp && player2.hp) {
-    return player2;
-  }
-  if (!player1.hp && !player2.hp) {
-    generateLogs("draw", player1);
-    return "Double Kill!";
-  }
-}
-
 function declareWinner(winner) {
   const { name } = winner;
   $arenas.appendChild(playerWins(name));
@@ -130,13 +137,15 @@ function declareWinner(winner) {
 
 function playerWins(name) {
   const $winsTitle = createElement("div", "winsTitle");
-  if (name === "Double Kill!") {
-    $winsTitle.innerText = name;
-  } else {
-    $winsTitle.innerText = `${name} WINS!`;
-  }
+  name === "Double Kill!"
+    ? ($winsTitle.innerText = name)
+    : ($winsTitle.innerText = `${name} WINS!`);
   return $winsTitle;
 }
+
+$arenas.appendChild(createPlayer(player1));
+$arenas.appendChild(createPlayer(player2));
+$arenas.appendChild(createReloadButton());
 
 export {
   fight,

@@ -55,11 +55,11 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   let stringNum = 0;
   let logString = "";
   stringNum = getRandomNumber(LOGS[typeStr].length - 1);
-  if (typeStr === "hit") {
-    logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`;
-  } else {
-    logString = LOGS[typeStr][stringNum];
-  }
+
+  typeStr === "hit"
+    ? (logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`)
+    : (logString = LOGS[typeStr][stringNum]);
+  
   logString = logString
     .replace(RELACE_EXPR_1, attackerName.toUpperCase())
     .replace(RELACE_EXPR_2, defenderName.toUpperCase())

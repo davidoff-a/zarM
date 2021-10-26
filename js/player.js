@@ -24,9 +24,6 @@ const player2 = {
   renderHP,
 };
 
-
-
-
 function attack() {
   console.log(`${this.name}, FIGHT!`);
 }
