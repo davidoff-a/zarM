@@ -53,12 +53,12 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
   const LOG_RECORD = createElement("p");
-  const LOG_COLOURS = {
-    hit: "#cd0e03",
-    defense: "#0431f9",
-    start: "#063f06",
-    draw: "#f5d100",
-    end: "#063f06",
+  const LOG_SETTINGS = {
+    hit: ["#cd0e03", "⚡"],
+    defense: ["#0431f9", "🚧"],
+    start: ["#063f06", "🔪"],
+    draw: ["#f5d100", "🤝"],
+    end: ["#063f06", "💀"],
   };
   let stringNum = 0;
   let logString = "";
@@ -69,11 +69,11 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
     : (logString = LOGS[typeStr][stringNum]);
   
   logString = logString
-    .replace(RELACE_EXPR_1, attackerName.toUpperCase())
-    .replace(RELACE_EXPR_2, defenderName.toUpperCase())
-    .replace("[time]", LOG_RECORD_TIME);
-  LOG_RECORD.innerHTML = logString;
-  LOG_RECORD.style.background = LOG_COLOURS[typeStr];
+    .replace(RELACE_EXPR_1, ` 💣 ${attackerName.toUpperCase()}`)
+    .replace(RELACE_EXPR_2, ` 🔒 ${defenderName.toUpperCase()}`)
+    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME}`);
+  LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
+  LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
 }
 
