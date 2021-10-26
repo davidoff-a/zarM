@@ -33,21 +33,23 @@ function createPlayer(player) {
   const $player = createElement("div", `player${playerNumber}`);
   const $progressbar = createElement("div", "progressbar");
   const $life = createElement("div", "life");
-  $life.style.width = `${hp}%`;
   const $name = createElement("div", "name");
-  $name.innerText = `${name}`;
   const $character = createElement("div", "character");
   const $charImg = createElement("img");
   const $bangImg = createElement("img");
-  $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
-  $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
-  $character.appendChild($charImg);
-  $character.appendChild($bangImg);
-  $progressbar.appendChild($life);
-  $progressbar.appendChild($name);
-  $player.appendChild($progressbar);
-  $player.appendChild($character);
-  return $player;
+    
+  
+    $life.style.width = `${hp}%`;
+    $name.innerText = `${name}`;
+    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
+    $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
+    $character.appendChild($charImg);
+    $character.appendChild($bangImg);
+    $progressbar.appendChild($life);
+    $progressbar.appendChild($name);
+    $player.appendChild($progressbar);
+    $player.appendChild($character);
+    return $player;
 }
 
 function changeHP(HP) {
@@ -66,8 +68,4 @@ function renderHP($element) {
   $element.style.width = this.hp + "%";
 }
 
-export {
-  player1,
-  player2,
-  createPlayer,
-};
+export { player1, player2, createPlayer };

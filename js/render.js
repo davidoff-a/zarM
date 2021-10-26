@@ -72,11 +72,9 @@ function fight() {
     }
     renderFight.apply(player1, [PLAYER, ENEMY]);
     renderFight.apply(player2, [ENEMY, PLAYER]);
-    console.log(player1.hp || player2.hp);
 
     let winner = determineWinner();
-    console.log(determineWinner());
-
+    
     if (winner) {
       declareWinner(winner);
     }
@@ -86,7 +84,8 @@ function fight() {
 function renderFight(attackerParams, defenderParams) {
   const DEFENDER = this.player === 1 ? player2 : player1;
   const { hit, hitPoints } = attackerParams;
-  if (checkBlocked(attackerParams, defenderParams)) {
+  const { defense } = defenderParams;
+  if (checkBlocked(hit, defense, hitPoints)) {
     this.changeHP(hitPoints);
     getBangImg(this.player, hit);
     this.renderHP(this.elHP());

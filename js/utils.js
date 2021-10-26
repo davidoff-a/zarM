@@ -9,10 +9,6 @@ const createElement = (tag, className) => {
   return $element;
 };
 
-const checkBlocked = (objAttacks, objDefense) => {
-  const { hit, hitPoints } = objAttacks;
-  const { defense } = objDefense;
-  return (hit === defense)? 0: hitPoints;
-}
+const checkBlocked = (aim, block, damage) => (aim === block ? 0 : damage);
 
 export { getRandomNumber, createElement, checkBlocked };
