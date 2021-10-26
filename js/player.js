@@ -65,7 +65,7 @@ function elHP() {
 }
 
 function renderHP($element) {
-  $element.style.width = this.hp + "%";
+  $element.style.width = `${this.hp}%`;
 }
 
 export { player1, player2, createPlayer };
