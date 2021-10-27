@@ -54,11 +54,19 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
   const LOG_RECORD = createElement("p");
   const LOG_SETTINGS = {
-    hit: ["rgba(225, 13, 3, 0.3)", "⚡"],
-    defense: ["rgba(7, 13, 225, 0.3)", "🚧"],
-    start: ["rgba(9, 172, 9, 0.3)", "🔪"],
-    draw: ["rgba(253, 216, 3, 0.5)", "🤝"],
-    end: ["rgba(9, 172, 9, 0.3)", "💀"],
+    hit: [
+      "rgba(225, 13, 3, 0.2)",
+      "⚡",
+      '<img src="/assets/icons/11.gif" alt="💣">',
+    ],
+    defense: [
+      "rgba(7, 13, 225, 0.2)",
+      "🚧",
+      '<img src="/assets/icons/08.gif" alt="🔒">',
+    ],
+    start: ["rgba(9, 172, 9, 0.2)", "🔪"],
+    draw: ["rgba(253, 216, 3, 0.3)", "🤝"],
+    end: ["rgba(9, 172, 9, 0.2)", "💀"],
   };
   let stringNum = 0;
   let logString = "";
@@ -67,10 +75,10 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr][stringNum]);
-  
+
   logString = logString
-    .replace(RELACE_EXPR_1, ` 💣 ${attackerName.toUpperCase()} 💣 `)
-    .replace(RELACE_EXPR_2, ` 🔒 ${defenderName.toUpperCase()} 🔒 `)
+    .replace(RELACE_EXPR_1, ` <span>${attackerName.toUpperCase()}</span>`)
+    .replace(RELACE_EXPR_2, ` <span> ${defenderName.toUpperCase()} </span> `)
     .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
   LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
