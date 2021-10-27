@@ -3,10 +3,10 @@
 - [x] - add block message
 - [x] - add draw sound
 - [x] - hitPoints = 0 in log. Why?
+- [x] - add favicon.icon
+- [x] - add player class
 
 
-- [ ] - add favicon.icon
-- [ ] - add player class
 - [ ] - add game class
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
