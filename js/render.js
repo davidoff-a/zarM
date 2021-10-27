@@ -74,7 +74,7 @@ function fight() {
     renderFight.apply(player2, [ENEMY, PLAYER]);
 
     let winner = determineWinner();
-    
+
     if (winner) {
       declareWinner(winner);
     }
@@ -125,8 +125,9 @@ function playerAttack() {
 }
 
 function declareWinner(winner) {
-  const { name } = winner;
-  $arenas.appendChild(playerWins(name));
+  const NAME = typeof winner === "object" ? winner.name : winner;
+
+  $arenas.appendChild(playerWins(NAME));
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
