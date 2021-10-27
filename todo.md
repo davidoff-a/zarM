@@ -1,0 +1,14 @@
+- [x] - place messages in relation to damaget bodypart.
+- [x] - randomize hit message places
+- [x] - add block message
+- [] - add draw sound
+- [] - add final countdown before round starts
+- [] - add message Fight before round starts
+- [] - refactor functions and game logic
+- [] - check function renderFight
+- [] - check function showHitMsg
+- [] - hitPoints = 0 in log. Why?
+- [] - add favicon.icon
+- [] - add player class
+- [] - add game class
+

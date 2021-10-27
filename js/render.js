@@ -16,7 +16,10 @@ const $btnFight = document.querySelector("#Fight");
 
 const ATTACK = ["head", "body", "foot"];
 
-const BANGS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const MESSAGES = {
+  hit: ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png"],
+  defense: ["block.gif"],
+};
 
 const declareDraw = () => {
   generateLogs("draw", player1);
@@ -47,8 +50,10 @@ function createReloadButton() {
   return $wrap;
 }
 
-function getBangImg(numPlayer, bodyPart) {
-  const IMG_PATH = `./assets/mk/${getRandomNumber(BANGS.length - 1)}.png`;
+function showHitMsg(numPlayer, bodyPart, type) {
+  const IMG_PATH = `./assets/messages/${type}/${MESSAGES[type][getRandomNumber(
+    MESSAGES[type].length - 1)]
+  }`;
   const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
   const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
   $punchImg.src = IMG_PATH;
@@ -85,14 +90,15 @@ function renderFight(attackerParams, defenderParams) {
   const DEFENDER = this.player === 1 ? player2 : player1;
   const { hit, hitPoints } = attackerParams;
   const { defense } = defenderParams;
-  if (checkBlocked(hit, defense, hitPoints)) {
+  if (checkBlocked(hit, defense)) {
     this.changeHP(hitPoints);
-    getBangImg(this.player, hit);
+    showHitMsg(this.player, hit, "hit");
     this.renderHP(this.elHP());
-    generateLogs("hit", DEFENDER, hitPoints);
+    generateLogs("hit", DEFENDER);
     playSound("hit");
   } else {
     generateLogs("defense", DEFENDER);
+    showHitMsg(this.player, defense, "defense");
     playSound("block");
   }
 }
@@ -127,7 +133,7 @@ function playerAttack() {
 function declareWinner(winner) {
   const NAME = typeof winner === "object" ? winner.name : winner;
 
-  $arenas.appendChild(playerWins(NAME));
+  $arenas.appendChild(showPlayerWins(NAME));
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
@@ -135,7 +141,7 @@ function declareWinner(winner) {
   playSound("wins");
 }
 
-function playerWins(name) {
+function showPlayerWins(name) {
   const $winsTitle = createElement("div", "winsTitle");
   name === "Double Kill!"
     ? ($winsTitle.innerText = name)
@@ -150,9 +156,8 @@ $arenas.appendChild(createReloadButton());
 export {
   fight,
   renderFight,
-  getBangImg,
+  showHitMsg,
   createReloadButton,
-  BANGS,
   ATTACK,
   $frmControl,
 };
