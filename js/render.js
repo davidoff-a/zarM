@@ -131,14 +131,21 @@ function playerAttack() {
 }
 
 function declareWinner(winner) {
-  const NAME = typeof winner === "object" ? winner.name : winner;
+  let name; 
+  if (typeof winner === "object") {
+    name = winner.name;
+    playSound("wins")
+  } else {
+    name = winner;
+    playSound("draw");
+  };
 
-  $arenas.appendChild(showPlayerWins(NAME));
+  $arenas.appendChild(showPlayerWins(name));
   const $restartBtn = document.querySelector(".reloadWrap .button");
   $restartBtn.style.display = "block";
   $btnFight.disabled = true;
   generateLogs("end", winner);
-  playSound("wins");
+  
 }
 
 function showPlayerWins(name) {

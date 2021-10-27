@@ -1,7 +1,7 @@
 - [x] - place messages in relation to damaget bodypart.
 - [x] - randomize hit message places
 - [x] - add block message
-- [] - add draw sound
+- [x] - add draw sound
 - [] - add final countdown before round starts
 - [] - add message Fight before round starts
 - [] - refactor functions and game logic
