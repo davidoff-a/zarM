@@ -94,7 +94,7 @@ function renderFight(attackerParams, defenderParams) {
     this.changeHP(hitPoints);
     showHitMsg(this.player, hit, "hit");
     this.renderHP(this.elHP());
-    generateLogs("hit", DEFENDER);
+    generateLogs("hit", DEFENDER, hitPoints);
     playSound("hit");
   } else {
     generateLogs("defense", DEFENDER);
