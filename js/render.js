@@ -1,6 +1,6 @@
 import { getRandomNumber, createElement, checkBlocked } from "./utils.js";
 import { $CHAT, generateLogs } from "./logs.js";
-import { player1, player2, createPlayer } from "./player.js";
+import { player1, player2 } from "./player.js";
 import { playSound } from "./audio.js";
 import { $arenas } from "./arena.js";
 
@@ -156,8 +156,8 @@ function showPlayerWins(name) {
   return $winsTitle;
 }
 
-$arenas.appendChild(createPlayer(player1));
-$arenas.appendChild(createPlayer(player2));
+$arenas.appendChild(player1.createPlayer());
+$arenas.appendChild(player2.createPlayer());
 $arenas.appendChild(createReloadButton());
 
 export {
