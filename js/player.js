@@ -1,5 +1,7 @@
 import { createElement, getRandomNumber } from "./utils.js";
 import { ATTACK } from "./game.js";
+import { generateLogs } from "./logs.js";
+import { playSound } from "./audio.js";
 
 const MESSAGES = {
   hit: [
