@@ -41,7 +41,6 @@ class Player {
   renderHP = ($element) => ($element.style.width = `${this.hp}%`);
 
   attack({ hitPoints, hit }, { defense }) {
-    const DEFENDER = this.player === 1 ? player2 : player1;
     let aim;
     let dealType;
 
@@ -53,12 +52,13 @@ class Player {
       aim = hit;
       dealType = "hit";
     }
-
+    
     this.changeHP(hitPoints);
     showHitMsg(this.player, aim, dealType);
     this.renderHP(this.elHP());
-    generateLogs(dealType, DEFENDER, hitPoints);
     playSound(dealType);
+    return { dealType, hitPoints };
+    // generateLogs(dealType, this, , hitPoints);
   }
 
   createPlayer() {
@@ -102,7 +102,4 @@ function showHitMsg(numPlayer, bodyPart, type) {
   }, 1500);
 }
 
-const player1 = new Player(1, "scorpion");
-const player2 = new Player(2, "sonya");
-
-export { player1, player2 };
+export { Player };

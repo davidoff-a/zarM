@@ -1,8 +1,7 @@
 import { getRandomNumber, createElement } from "./utils.js";
-import { $CHAT, generateLogs } from "./logs.js";
-import { player1, player2 } from "./player.js";
+import { generateLogs, $CHAT } from "./logs.js";
+import { Player } from "./player.js";
 
-const $arenas = document.querySelector(".arenas");
 const ATTACK = ["head", "body", "foot"];
 const SOUND_LIB = {
   hit: "./assets/sound/hitsounds/mk3-00",
@@ -11,63 +10,97 @@ const SOUND_LIB = {
   draw: "./assets/sound/wins/",
 };
 class Game {
-  // constructor() { }
+  constructor() {
+    this.$ARENA = document.querySelector(".arenas");
+    this.player1 = new Player(1, "scorpion");
+    this.player2 = new Player(2, "sonya");
+  }
 
   start() {
     window.addEventListener("DOMContentLoaded", () => {
-      $arenas.classList.add(`arena${getRandomNumber(5, 1)}`);
+      this.$ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
     });
+    this.$ARENA.appendChild(this.player1.createPlayer());
+    this.$ARENA.appendChild(this.player2.createPlayer());
+    this.$ARENA.appendChild(createReloadButton());
+
     $frmControl.addEventListener("submit", (event) => {
       event.preventDefault();
       const ENEMY = enemyAttack();
       const PLAYER = playerAttack();
-
+      let damage;
       if ($CHAT.children.length === 0) {
-        generateLogs("start", player1);
+        generateLogs("start", this.player1, this.player2);
       }
-      player1.attack(PLAYER, ENEMY);
-      player2.attack(ENEMY, PLAYER);
-
-      let winner = this.determineWinner();
-
-      if (winner) {
-        this.declareWinner(winner);
-      }
+      damage = this.player1.attack(PLAYER, ENEMY);
+      generateLogs(
+        damage.dealType,
+        this.player1,
+        this.player2,
+        damage.hitPoints
+      );
+      damage = this.player2.attack(ENEMY, PLAYER);
+      generateLogs(
+        damage.dealType,
+        this.player2,
+        this.player1,
+        damage.hitPoints
+      );
+      // this.player2.attack(ENEMY, PLAYER);
+      // const winner = this.determineWinner();
+      // this.declareWinner(winner);
     });
   }
 
   determineWinner() {
-    if (!player1.hp && player2.hp) {
-      return player2;
+    if (this.player1.hp === 0 && this.player2.hp > 0) {
+      this.playSound("wins");
+      generateLogs("wins", this.player2, this.player1)
+      this.$ARENA.appendChild(this.showPlayerWins(this.player2.name));
+      const $restartBtn = document.querySelector(".reloadWrap .button");
+      $restartBtn.style.display = "block";
+      $btnFight.disabled = true;
+      return this.player2;
     }
-    if (player1.hp && !player2.hp) {
-      return player1;
+    if (this.player1.hp > 0 && this.player2.hp === 0) {
+      this.playSound("wins");
+      generateLogs("wins", this.player1, this.player2);
+      this.$ARENA.appendChild(this.showPlayerWins(this.player1.name));
+      const $restartBtn = document.querySelector(".reloadWrap .button");
+      $restartBtn.style.display = "block";
+      $btnFight.disabled = true;
+      return this.player1;
     }
-    if (!player1.hp && !player2.hp) {
+    if (this.player1.hp===0 && this.player2.hp===0) {
+      this.playSound("draw");
+      generateLogs("draw", this.player1, this.player2);
+      this.$ARENA.appendChild(this.showPlayerWins("DOUBLE KILL!"));
+      const $restartBtn = document.querySelector(".reloadWrap .button");
+      $restartBtn.style.display = "block";
+      $btnFight.disabled = true;
       return this.declareDraw();
     }
   }
 
-  declareDraw = () => {
-    generateLogs("draw", player1);
-    return "Double Kill!";
-  };
+
 
   declareWinner(winner) {
+    console.log(this);
+
     let name;
     if (typeof winner === "object") {
       name = winner.name;
       this.playSound("wins");
     } else {
       name = winner;
-      this.playSound("draw");
     }
 
-    $arenas.appendChild(this.showPlayerWins(name));
+    this.$ARENA.appendChild(this.showPlayerWins(name));
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
-    generateLogs("end", winner);
+    console.log(winner);
+    
   }
 
   showPlayerWins(name) {
@@ -77,7 +110,7 @@ class Game {
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
   }
-  
+
   playSound(kind) {
     const PATH = SOUND_LIB[kind];
     let soundPathEnd = "";
@@ -154,9 +187,5 @@ function playerAttack() {
 
   return MY_ATTACK;
 }
-
-$arenas.appendChild(player1.createPlayer());
-$arenas.appendChild(player2.createPlayer());
-$arenas.appendChild(createReloadButton());
 
 export { createReloadButton, GAME, ATTACK };

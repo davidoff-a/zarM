@@ -8,10 +8,20 @@
 
 ## 10/28/21
 
-- [x] - add game class
+- [x] - add class Game
+- [x] - check function attack(renderFight)
+- [x] - game ends too fast
+- [x] - wrong log messages
+
+
+<!-- have to -->
+- [ ] - add log message about winner
+- [ ] - add log message about end of fighting
+- [ ] - refactor function log
+- [ ] - check function showHitMsg
+
+
+<!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
-- [ ] - refactor functions and game logic
-- [x] - check function attack(renderFight)
-- [ ] - check function showHitMsg
 

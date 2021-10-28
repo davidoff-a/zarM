@@ -1,6 +1,6 @@
-import { player1, player2 } from "./player.js";
+// import { player1, player2 } from "./player.js";
 import { createElement, getRandomNumber } from "./utils.js";
-
+const $CHAT = document.querySelector(".chat");
 const LOGS = {
   start: [
     "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
@@ -43,12 +43,12 @@ const LOGS = {
   draw: ["Ничья - это тоже победа!"],
 };
 
-const $CHAT = document.querySelector(".chat");
-
-function generateLogs(typeStr, playerAttack, hits = 0) {
-  const { player: attackerPlayer, name: attackerName } = playerAttack;
-  const DEFENDER = attackerPlayer === 1 ? player2 : player1;
-  const { name: defenderName, hp: defenderHP } = DEFENDER;
+function generateLogs(
+  typeStr,
+  { name: attackerName },
+  { name: defenderName, hp: defenderHP },
+  hits = 0
+) {
   const LOG_RECORD_TIME = new Date().toLocaleTimeString();
   const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
@@ -71,6 +71,8 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
   let stringNum = 0;
   let logString = "";
   stringNum = getRandomNumber(LOGS[typeStr].length - 1);
+  console.log("hits: " + hits)
+  console.log("ХП обороняющегося: " + defenderHP);
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr][stringNum]);
@@ -80,6 +82,7 @@ function generateLogs(typeStr, playerAttack, hits = 0) {
     .replace(RELACE_EXPR_2, ` <span> ${defenderName.toUpperCase()} </span> `)
     .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
   LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
+  console.log(` ${LOG_SETTINGS[typeStr][1]} ${logString}`);
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
 }
