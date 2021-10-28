@@ -18,14 +18,12 @@ const MESSAGES = {
   defense: ["block.gif"],
 };
 
-
-
 class Player {
-  constructor(player, name, hp) {
+  constructor(player, name) {
     this.player = player;
     this.name = name;
-    this.hp = hp;
-    this.img = `http://reactmarathon-api.herokuapp.com/assets/${this.name.toLowerCase()}.gif`;
+    this.hp = 100;
+    this.img = `http://reactmarathon-api.herokuapp.com/assets/${name.toLowerCase()}.gif`;
   }
 
   changeHP = (HP) => {
@@ -42,18 +40,20 @@ class Player {
 
   renderHP = ($element) => ($element.style.width = `${this.hp}%`);
 
-  renderFight({ hitPoints, hit }, { defense }) {
+  attack({ hitPoints, hit }, { defense }) {
     const DEFENDER = this.player === 1 ? player2 : player1;
     let aim;
     let dealType;
+
     if (hit === defense) {
       hitPoints = 0;
-      aim = hit;
-      dealType = "hit";
-    } else {
       aim = defense;
       dealType = "defense";
+    } else {
+      aim = hit;
+      dealType = "hit";
     }
+
     this.changeHP(hitPoints);
     showHitMsg(this.player, aim, dealType);
     this.renderHP(this.elHP());
@@ -102,8 +102,7 @@ function showHitMsg(numPlayer, bodyPart, type) {
   }, 1500);
 }
 
-
-const player1 = new Player(1, "scorpion", 100);
-const player2 = new Player(2, "sonya", 100);
+const player1 = new Player(1, "scorpion");
+const player2 = new Player(2, "sonya");
 
 export { player1, player2 };

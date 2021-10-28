@@ -6,11 +6,12 @@
 - [x] - add favicon.icon
 - [x] - add player class
 
+## 10/28/21
 
-- [ ] - add game class
+- [x] - add game class
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
 - [ ] - refactor functions and game logic
-- [ ] - check function renderFight
+- [x] - check function attack(renderFight)
 - [ ] - check function showHitMsg
 

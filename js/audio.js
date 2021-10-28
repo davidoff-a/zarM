@@ -2,7 +2,7 @@ import { getRandomNumber } from "./utils.js";
 
 const SOUND_LIB = {
   hit: "./assets/sound/hitsounds/mk3-00",
-  block: "./assets/sound/block/mk3-09",
+  defense: "./assets/sound/block/mk3-09",
   wins: "./assets/sound/wins/",
   draw: "./assets/sound/wins/",
 };
@@ -13,7 +13,7 @@ function playSound(kind) {
     case "hit":
       soundPathEnd = `${getRandomNumber(36, 10)}${getRandomNumber(1) * 5}.mp3`;
       break;
-    case "block":
+    case "defense":
       soundPathEnd = `${getRandomNumber(4, 1)}.mp3`;
       break;
     case "wins":

@@ -1,10 +1,15 @@
 import { getRandomNumber, createElement } from "./utils.js";
 import { $CHAT, generateLogs } from "./logs.js";
 import { player1, player2 } from "./player.js";
-import { playSound } from "./audio.js";
-import { $arenas } from "./arena.js";
 
+const $arenas = document.querySelector(".arenas");
 const ATTACK = ["head", "body", "foot"];
+const SOUND_LIB = {
+  hit: "./assets/sound/hitsounds/mk3-00",
+  defense: "./assets/sound/block/mk3-09",
+  wins: "./assets/sound/wins/",
+  draw: "./assets/sound/wins/",
+};
 class Game {
   // constructor() { }
 
@@ -16,11 +21,12 @@ class Game {
       event.preventDefault();
       const ENEMY = enemyAttack();
       const PLAYER = playerAttack();
+
       if ($CHAT.children.length === 0) {
         generateLogs("start", player1);
       }
-      player1.renderFight(PLAYER, ENEMY);
-      player2.renderFight(ENEMY, PLAYER);
+      player1.attack(PLAYER, ENEMY);
+      player2.attack(ENEMY, PLAYER);
 
       let winner = this.determineWinner();
 
@@ -30,8 +36,6 @@ class Game {
     });
   }
 
-  
-
   determineWinner() {
     if (!player1.hp && player2.hp) {
       return player2;
@@ -40,7 +44,7 @@ class Game {
       return player1;
     }
     if (!player1.hp && !player2.hp) {
-      return declareDraw();
+      return this.declareDraw();
     }
   }
 
@@ -48,17 +52,18 @@ class Game {
     generateLogs("draw", player1);
     return "Double Kill!";
   };
+
   declareWinner(winner) {
     let name;
     if (typeof winner === "object") {
       name = winner.name;
-      playSound("wins");
+      this.playSound("wins");
     } else {
       name = winner;
-      playSound("draw");
+      this.playSound("draw");
     }
 
-    $arenas.appendChild(showPlayerWins(name));
+    $arenas.appendChild(this.showPlayerWins(name));
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
@@ -72,6 +77,29 @@ class Game {
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
   }
+  
+  playSound(kind) {
+    const PATH = SOUND_LIB[kind];
+    let soundPathEnd = "";
+    switch (kind) {
+      case "hit":
+        soundPathEnd = `${getRandomNumber(36, 10)}${
+          getRandomNumber(1) * 5
+        }.mp3`;
+        break;
+      case "defense":
+        soundPathEnd = `${getRandomNumber(4, 1)}.mp3`;
+        break;
+      case "wins":
+        soundPathEnd = `victory.mp3`;
+        break;
+      case "draw":
+        soundPathEnd = `draw.mp3`;
+        break;
+    }
+    const SOUND = new Audio(`${PATH}${soundPathEnd}`);
+    SOUND.play();
+  }
 }
 
 const $frmControl = document.querySelector(".control");
@@ -83,9 +111,6 @@ const HIT = {
 };
 
 const $btnFight = document.querySelector("#Fight");
-
-
-
 
 const GAME = new Game();
 
@@ -105,6 +130,7 @@ function enemyAttack() {
   const hit = ATTACK[getRandomNumber(3) - 1];
   const defense = ATTACK[getRandomNumber(3) - 1];
   const hitPoints = getRandomNumber(HIT[hit]);
+
   return {
     hit,
     defense,
@@ -125,9 +151,9 @@ function playerAttack() {
     }
     item.checked = false;
   }
+
   return MY_ATTACK;
 }
-
 
 $arenas.appendChild(player1.createPlayer());
 $arenas.appendChild(player2.createPlayer());
