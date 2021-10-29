@@ -37,7 +37,6 @@ class Player {
 
   renderHP = ($element) => {
     $element.style.width = `${this.hp}%`;
-    console.log(this.name, this.hp);
   };
 
   getRoundResult({ hitPoints, hit }, { defense }, opponent) {

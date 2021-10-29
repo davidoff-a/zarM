@@ -77,7 +77,6 @@ function generateLogs(
     attackerName,
     defenderName
   )}`;
-  console.log(LOG_RECORD.innerHTML);
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
 }

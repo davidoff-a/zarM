@@ -73,38 +73,14 @@ class Game {
     return winner;
   }
 
-  // determineWinner() {
-  //   if (this.player1.hp === 0 && this.player2.hp > 0) {
-  //     this.playSound("wins");
-  //     generateLogs("wins", this.player2, this.player1);
-  //     this.$ARENA.appendChild(this.showPlayerWins(this.player2.name));
-  //     const $restartBtn = document.querySelector(".reloadWrap .button");
-  //     $restartBtn.style.display = "block";
-  //     $btnFight.disabled = true;
-  //     return this.player2;
-  //   }
-  //   if (this.player1.hp > 0 && this.player2.hp === 0) {
-  //     this.playSound("wins");
-  //     generateLogs("wins", this.player1, this.player2);
-  //     this.$ARENA.appendChild(this.showPlayerWins(this.player1.name));
-  //     const $restartBtn = document.querySelector(".reloadWrap .button");
-  //     $restartBtn.style.display = "block";
-  //     $btnFight.disabled = true;
-  //     return this.player1;
-  //   }
-  //   if (this.player1.hp === 0 && this.player2.hp === 0) {
-  //     this.playSound("draw");
-  //     generateLogs("draw", this.player1, this.player2);
-  //     this.$ARENA.appendChild(this.showPlayerWins("DOUBLE KILL!"));
-  //     const $restartBtn = document.querySelector(".reloadWrap .button");
-  //     $restartBtn.style.display = "block";
-  //     $btnFight.disabled = true;
-  //     return this.declareDraw();
-  //   }
-  // }
-
   declareMatchResult({ name }) {
     this.$ARENA.appendChild(this.showPlayerWins(name));
+    if (name !== "draw") {
+      generateLogs("end", this.player1, this.player2);
+    } else {
+      generateLogs("draw", this.player1, this.player2);
+    }
+
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;

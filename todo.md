@@ -19,18 +19,21 @@
 - [x] - wrong appearance of player HP in log
 - [x] - wrong appearance of player life changing
 - [x] - determine the winner
+- [x] - the game never ends
+- [x] - add log message about winner
+- [x] - add log message about end of fighting
+
 <!-- have to -->
 
 
-- [ ] - the game never ends
-- [ ] - assemble all similar objects storing info about settings into ONE
-- [ ] - add log message about winner
-- [ ] - add log message about end of fighting
-- [ ] - refactor function log. Create separate function insertData
+
+
+- [ ] - refactor function log.
 - [ ] - check function showHitMsg
 
 
 <!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
+- [ ] - assemble all similar objects storing info about settings into ONE
 
