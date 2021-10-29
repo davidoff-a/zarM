@@ -23,18 +23,19 @@
 - [x] - the game never ends
 - [x] - add log message about winner
 - [x] - add log message about end of fighting
+- [x] - assemble all similar objects storing info about settings into ONE
+- [x] - refactor function log.
+
 
 <!-- have to -->
 
 
 
 
-- [x] - refactor function log.
 - [ ] - check function showHitMsg
 
 
 <!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
-- [x] - assemble all similar objects storing info about settings into ONE
 
