@@ -1,8 +1,6 @@
 import { createElement, getRandomNumber } from "./utils.js";
 import { ATTACK } from "./game.js";
-import { generateLogs } from "./logs.js";
 import { playSound } from "./audio.js";
-
 const MESSAGES = {
   hit: [
     "1.png",
@@ -52,7 +50,7 @@ class Player {
     }
     opponent.changeHP(hitPoints);
     opponent.renderHP(opponent.elHP());
-    showHitMsg(opponent.player, aim, dealType);
+    this.showHitMsg(opponent.player, aim, dealType);
     playSound(dealType);
     return { dealType, hitPoints };
     // generateLogs(dealType, this, , hitPoints);
@@ -80,9 +78,8 @@ class Player {
     $player.appendChild($character);
     return $player;
   }
-}
-
-function showHitMsg(numPlayer, bodyPart, type) {
+  
+  showHitMsg(numPlayer, bodyPart, type) {
   const IMG_PATH = `./assets/messages/${type}/${
     MESSAGES[type][getRandomNumber(MESSAGES[type].length - 1)]
   }`;
@@ -98,5 +95,8 @@ function showHitMsg(numPlayer, bodyPart, type) {
     $punchImg.src = "";
   }, 1500);
 }
+}
+
+
 
 export { Player };

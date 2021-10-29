@@ -14,6 +14,7 @@
 - [x] - wrong log messages
 
 ## 10/29/21
+
 - [x] - refactor function log. Create separate function insertData
 - [x] - reload page on pressing button fight
 - [x] - wrong appearance of player HP in log
@@ -28,12 +29,12 @@
 
 
 
-- [ ] - refactor function log.
+- [x] - refactor function log.
 - [ ] - check function showHitMsg
 
 
 <!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
-- [ ] - assemble all similar objects storing info about settings into ONE
+- [x] - assemble all similar objects storing info about settings into ONE
 
