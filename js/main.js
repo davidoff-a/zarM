@@ -1,6 +1,4 @@
-import { getArena } from "./arena.js";
-import { fight } from "./render.js";
+import { GAME } from "./game.js";
 
 
-getArena();
-fight();
+GAME.start();

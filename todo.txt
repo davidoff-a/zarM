@@ -1,2 +1,0 @@
-1. place messages in relation to damaget bodypart.
-2. randomize message places

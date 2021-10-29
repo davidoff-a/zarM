@@ -1,6 +1,6 @@
-import { player1, player2 } from "./player.js";
+// import { player1, player2 } from "./player.js";
 import { createElement, getRandomNumber } from "./utils.js";
-
+const $CHAT = document.querySelector(".chat");
 const LOGS = {
   start: [
     "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
@@ -43,38 +43,53 @@ const LOGS = {
   draw: ["Ничья - это тоже победа!"],
 };
 
-const $CHAT = document.querySelector(".chat");
-
-function generateLogs(typeStr, playerAttack, hits = 0) {
-  const { player: attackerPlayer, name: attackerName } = playerAttack;
-  const DEFENDER = attackerPlayer === 1 ? player2 : player1;
-  const { name: defenderName, hp: defenderHP } = DEFENDER;
-  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
-  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
-  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
+function generateLogs(
+  typeStr,
+  { name: attackerName },
+  { name: defenderName, hp: defenderHP },
+  hits=0
+) {
   const LOG_RECORD = createElement("p");
   const LOG_SETTINGS = {
-    hit: ["rgba(225, 13, 3, 0.3)", "⚡"],
-    defense: ["rgba(7, 13, 225, 0.3)", "🚧"],
-    start: ["rgba(9, 172, 9, 0.3)", "🔪"],
-    draw: ["rgba(253, 216, 3, 0.5)", "🤝"],
-    end: ["rgba(9, 172, 9, 0.3)", "💀"],
+    hit: [
+      "rgba(225, 13, 3, 0.2)",
+      "⚡",
+      '<img src="/assets/icons/11.gif" alt="💣">',
+    ],
+    defense: [
+      "rgba(7, 13, 225, 0.2)",
+      "🚧",
+      '<img src="/assets/icons/08.gif" alt="🔒">',
+    ],
+    start: ["rgba(9, 172, 9, 0.2)", "🔪"],
+    draw: ["rgba(253, 216, 3, 0.3)", "🤝"],
+    end: ["rgba(9, 172, 9, 0.2)", "💀"],
   };
   let stringNum = 0;
   let logString = "";
   stringNum = getRandomNumber(LOGS[typeStr].length - 1);
-
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr][stringNum]);
-  
-  logString = logString
-    .replace(RELACE_EXPR_1, ` 💣 ${attackerName.toUpperCase()} 💣 `)
-    .replace(RELACE_EXPR_2, ` 🔒 ${defenderName.toUpperCase()} 🔒 `)
-    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
-  LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
+
+  LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${insertData(
+    logString,
+    attackerName,
+    defenderName
+  )}`;
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
+}
+
+function insertData(str, attackPl, defPl ) {
+  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
+  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
+  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
+
+  return str
+    .replace(RELACE_EXPR_1, ` <span>${attackPl.toUpperCase()}</span>`)
+    .replace(RELACE_EXPR_2, ` <span> ${defPl.toUpperCase()} </span> `)
+    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
 }
 
 export { generateLogs, $CHAT };

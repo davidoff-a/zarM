@@ -9,6 +9,6 @@ const createElement = (tag, className) => {
   return $element;
 };
 
-const checkBlocked = (aim, block, damage) => (aim === block ? 0 : damage);
 
-export { getRandomNumber, createElement, checkBlocked };
+
+export { getRandomNumber, createElement };
