@@ -26,8 +26,8 @@ class Game {
     generateLogs("start", this.player1, this.player2);
 
     $frmControl.addEventListener("submit", (event) => {
-      e.preventDefault();
-      startRound();
+      event.preventDefault();
+      this.startRound();
     });
   }
 
@@ -35,11 +35,22 @@ class Game {
     const ENEMY = enemyAttack();
     const PLAYER = playerAttack();
     let roundResult;
-    console.log(getRoundResult(PLAYER, ENEMY));
+
     roundResult = this.player1.getRoundResult(PLAYER, ENEMY);
-    generateLogs(roundResult, this.player1, this.player2);
+    console.log(roundResult);
+    generateLogs(
+      roundResult.dealType,
+      this.player1,
+      this.player2,
+      roundResult.hitPoints
+    );
     roundResult = this.player2.getRoundResult(ENEMY, PLAYER);
-    generateLogs(roundResult, this.player2, this.player1);
+    generateLogs(
+      roundResult.dealType,
+      this.player2,
+      this.player1,
+      roundResult.hitPoints
+    );
     // this.player2.attack(ENEMY, PLAYER);
     // const winner = this.determineWinner();
     // this.declareWinner(winner);
