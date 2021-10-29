@@ -27,6 +27,7 @@ class Player {
   }
 
   changeHP = (HP) => {
+    console.log(this.name);
     this.hp -= HP;
     if (this.hp < 0) {
       this.hp = 0;
@@ -40,10 +41,10 @@ class Player {
 
   renderHP = ($element) => ($element.style.width = `${this.hp}%`);
 
-  getRoundResult({ hitPoints, hit }, { defense }) {
+  getRoundResult({ hitPoints, hit }, { defense }, opponent) {
     let aim;
     let dealType;
-
+    console.log(hit, defense, hitPoints);
     if (hit === defense) {
       hitPoints = 0;
       aim = defense;
@@ -52,8 +53,9 @@ class Player {
       aim = hit;
       dealType = "hit";
     }
-    
-    this.changeHP(hitPoints);
+    console.log(this.name, hitPoints, hit, defense);
+    opponent.changeHP(hitPoints);
+    console.log(this.name, this.hp);
     showHitMsg(this.player, aim, dealType);
     this.renderHP(this.elHP());
     playSound(dealType);

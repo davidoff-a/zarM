@@ -36,7 +36,7 @@ class Game {
     const PLAYER = playerAttack();
     let roundResult;
 
-    roundResult = this.player1.getRoundResult(PLAYER, ENEMY);
+    roundResult = this.player1.getRoundResult(PLAYER, ENEMY, this.player2);
     console.log(roundResult);
     generateLogs(
       roundResult.dealType,
@@ -44,7 +44,8 @@ class Game {
       this.player2,
       roundResult.hitPoints
     );
-    roundResult = this.player2.getRoundResult(ENEMY, PLAYER);
+    roundResult = this.player2.getRoundResult(ENEMY, PLAYER, this.player1);
+    console.log(roundResult);
     generateLogs(
       roundResult.dealType,
       this.player2,

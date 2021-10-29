@@ -16,9 +16,10 @@
 ## 10/29/21
 - [x] - refactor function log. Create separate function insertData
 - [x] - reload page on pressing button fight
-
+- [x] - wrong appearance of player HP in log
 
 <!-- have to -->
+
 
 - [ ] - assemble all similar objects storing info about settings into ONE
 - [ ] - add log message about winner
