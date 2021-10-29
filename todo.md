@@ -16,7 +16,11 @@
 ## 10/29/21
 - [x] - refactor function log. Create separate function insertData
 
+
+
 <!-- have to -->
+- [ ] - reload page on pressing button fight
+- [ ] - assemble all similar objects storing info about settings into ONE
 - [ ] - add log message about winner
 - [ ] - add log message about end of fighting
 - [ ] - refactor function log. Create separate function insertData
