@@ -47,11 +47,8 @@ function generateLogs(
   typeStr,
   { name: attackerName },
   { name: defenderName, hp: defenderHP },
-  hits = 0
+  hits=0
 ) {
-  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
-  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
-  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
   const LOG_RECORD = createElement("p");
   const LOG_SETTINGS = {
     hit: [
@@ -71,20 +68,29 @@ function generateLogs(
   let stringNum = 0;
   let logString = "";
   stringNum = getRandomNumber(LOGS[typeStr].length - 1);
-  console.log("hits: " + hits)
-  console.log("ХП обороняющегося: " + defenderHP);
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr][stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr][stringNum]);
 
-  logString = logString
-    .replace(RELACE_EXPR_1, ` <span>${attackerName.toUpperCase()}</span>`)
-    .replace(RELACE_EXPR_2, ` <span> ${defenderName.toUpperCase()} </span> `)
-    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
-  LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${logString}`;
-  console.log(` ${LOG_SETTINGS[typeStr][1]} ${logString}`);
+  LOG_RECORD.innerHTML = ` ${LOG_SETTINGS[typeStr][1]} ${insertData(
+    logString,
+    attackerName,
+    defenderName
+  )}`;
+  console.log(LOG_RECORD.innerHTML);
   LOG_RECORD.style.background = LOG_SETTINGS[typeStr][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
+}
+
+function insertData(str, attackPl, defPl ) {
+  const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
+  const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
+  const LOG_RECORD_TIME = new Date().toLocaleTimeString();
+
+  return str
+    .replace(RELACE_EXPR_1, ` <span>${attackPl.toUpperCase()}</span>`)
+    .replace(RELACE_EXPR_2, ` <span> ${defPl.toUpperCase()} </span> `)
+    .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
 }
 
 export { generateLogs, $CHAT };

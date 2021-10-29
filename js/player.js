@@ -40,7 +40,7 @@ class Player {
 
   renderHP = ($element) => ($element.style.width = `${this.hp}%`);
 
-  attack({ hitPoints, hit }, { defense }) {
+  getRoundResult({ hitPoints, hit }, { defense }) {
     let aim;
     let dealType;
 

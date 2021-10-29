@@ -26,37 +26,28 @@ class Game {
     generateLogs("start", this.player1, this.player2);
 
     $frmControl.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const ENEMY = enemyAttack();
-      const PLAYER = playerAttack();
-      let damage;
-      // if ($CHAT.children.length === 0) {
-      //   generateLogs("start", this.player1, this.player2);
-      // }
-      damage = this.player1.attack(PLAYER, ENEMY);
-      generateLogs(
-        damage.dealType,
-        this.player1,
-        this.player2,
-        damage.hitPoints
-      );
-      damage = this.player2.attack(ENEMY, PLAYER);
-      generateLogs(
-        damage.dealType,
-        this.player2,
-        this.player1,
-        damage.hitPoints
-      );
-      // this.player2.attack(ENEMY, PLAYER);
-      // const winner = this.determineWinner();
-      // this.declareWinner(winner);
+      e.preventDefault();
+      startRound();
     });
   }
 
+  startRound() {
+    const ENEMY = enemyAttack();
+    const PLAYER = playerAttack();
+    let roundResult;
+    console.log(getRoundResult(PLAYER, ENEMY));
+    roundResult = this.player1.getRoundResult(PLAYER, ENEMY);
+    generateLogs(roundResult, this.player1, this.player2);
+    roundResult = this.player2.getRoundResult(ENEMY, PLAYER);
+    generateLogs(roundResult, this.player2, this.player1);
+    // this.player2.attack(ENEMY, PLAYER);
+    // const winner = this.determineWinner();
+    // this.declareWinner(winner);
+  }
   determineWinner() {
     if (this.player1.hp === 0 && this.player2.hp > 0) {
       this.playSound("wins");
-      generateLogs("wins", this.player2, this.player1)
+      generateLogs("wins", this.player2, this.player1);
       this.$ARENA.appendChild(this.showPlayerWins(this.player2.name));
       const $restartBtn = document.querySelector(".reloadWrap .button");
       $restartBtn.style.display = "block";
@@ -72,7 +63,7 @@ class Game {
       $btnFight.disabled = true;
       return this.player1;
     }
-    if (this.player1.hp===0 && this.player2.hp===0) {
+    if (this.player1.hp === 0 && this.player2.hp === 0) {
       this.playSound("draw");
       generateLogs("draw", this.player1, this.player2);
       this.$ARENA.appendChild(this.showPlayerWins("DOUBLE KILL!"));
@@ -82,8 +73,6 @@ class Game {
       return this.declareDraw();
     }
   }
-
-
 
   declareWinner(winner) {
     console.log(this);
@@ -101,7 +90,6 @@ class Game {
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
     console.log(winner);
-    
   }
 
   showPlayerWins(name) {

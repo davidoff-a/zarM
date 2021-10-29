@@ -13,11 +13,13 @@
 - [x] - game ends too fast
 - [x] - wrong log messages
 
+## 10/29/21
+- [x] - refactor function log. Create separate function insertData
 
 <!-- have to -->
 - [ ] - add log message about winner
 - [ ] - add log message about end of fighting
-- [ ] - refactor function log
+- [ ] - refactor function log. Create separate function insertData
 - [ ] - check function showHitMsg
 
 
