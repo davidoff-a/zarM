@@ -18,10 +18,10 @@
 - [x] - reload page on pressing button fight
 - [x] - wrong appearance of player HP in log
 - [x] - wrong appearance of player life changing
-
+- [x] - determine the winner
 <!-- have to -->
 
-- [ ] - define winner
+
 - [ ] - the game never ends
 - [ ] - assemble all similar objects storing info about settings into ONE
 - [ ] - add log message about winner

@@ -37,7 +37,6 @@ class Game {
     let roundResult;
 
     roundResult = this.player1.getRoundResult(PLAYER, ENEMY, this.player2);
-    console.log(roundResult);
     generateLogs(
       roundResult.dealType,
       this.player1,
@@ -45,69 +44,76 @@ class Game {
       roundResult.hitPoints
     );
     roundResult = this.player2.getRoundResult(ENEMY, PLAYER, this.player1);
-    console.log(roundResult);
     generateLogs(
       roundResult.dealType,
       this.player2,
       this.player1,
       roundResult.hitPoints
     );
+    if (this.determineWinner()) {
+      console.log(this.determineWinner());
+      this.declareMatchResult(this.determineWinner());
+    }
     // this.player2.attack(ENEMY, PLAYER);
     // const winner = this.determineWinner();
     // this.declareWinner(winner);
   }
   determineWinner() {
-    if (this.player1.hp === 0 && this.player2.hp > 0) {
-      this.playSound("wins");
-      generateLogs("wins", this.player2, this.player1);
-      this.$ARENA.appendChild(this.showPlayerWins(this.player2.name));
-      const $restartBtn = document.querySelector(".reloadWrap .button");
-      $restartBtn.style.display = "block";
-      $btnFight.disabled = true;
-      return this.player2;
-    }
-    if (this.player1.hp > 0 && this.player2.hp === 0) {
-      this.playSound("wins");
-      generateLogs("wins", this.player1, this.player2);
-      this.$ARENA.appendChild(this.showPlayerWins(this.player1.name));
-      const $restartBtn = document.querySelector(".reloadWrap .button");
-      $restartBtn.style.display = "block";
-      $btnFight.disabled = true;
-      return this.player1;
-    }
+    let winner;
+    console.log(this.player1.hp, this.player2.hp);
     if (this.player1.hp === 0 && this.player2.hp === 0) {
-      this.playSound("draw");
-      generateLogs("draw", this.player1, this.player2);
-      this.$ARENA.appendChild(this.showPlayerWins("DOUBLE KILL!"));
-      const $restartBtn = document.querySelector(".reloadWrap .button");
-      $restartBtn.style.display = "block";
-      $btnFight.disabled = true;
-      return this.declareDraw();
+      winner = { name: "draw" };
     }
+    if (!this.player1.hp && this.player2.hp) {
+      winner = this.player2;
+    }
+    if (!this.player2.hp && this.player1.hp) {
+      winner = this.player1;
+    }
+    return winner;
   }
 
-  declareWinner(winner) {
-    console.log(this);
+  // determineWinner() {
+  //   if (this.player1.hp === 0 && this.player2.hp > 0) {
+  //     this.playSound("wins");
+  //     generateLogs("wins", this.player2, this.player1);
+  //     this.$ARENA.appendChild(this.showPlayerWins(this.player2.name));
+  //     const $restartBtn = document.querySelector(".reloadWrap .button");
+  //     $restartBtn.style.display = "block";
+  //     $btnFight.disabled = true;
+  //     return this.player2;
+  //   }
+  //   if (this.player1.hp > 0 && this.player2.hp === 0) {
+  //     this.playSound("wins");
+  //     generateLogs("wins", this.player1, this.player2);
+  //     this.$ARENA.appendChild(this.showPlayerWins(this.player1.name));
+  //     const $restartBtn = document.querySelector(".reloadWrap .button");
+  //     $restartBtn.style.display = "block";
+  //     $btnFight.disabled = true;
+  //     return this.player1;
+  //   }
+  //   if (this.player1.hp === 0 && this.player2.hp === 0) {
+  //     this.playSound("draw");
+  //     generateLogs("draw", this.player1, this.player2);
+  //     this.$ARENA.appendChild(this.showPlayerWins("DOUBLE KILL!"));
+  //     const $restartBtn = document.querySelector(".reloadWrap .button");
+  //     $restartBtn.style.display = "block";
+  //     $btnFight.disabled = true;
+  //     return this.declareDraw();
+  //   }
+  // }
 
-    let name;
-    if (typeof winner === "object") {
-      name = winner.name;
-      this.playSound("wins");
-    } else {
-      name = winner;
-    }
-
+  declareMatchResult({ name }) {
     this.$ARENA.appendChild(this.showPlayerWins(name));
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
-    console.log(winner);
   }
 
   showPlayerWins(name) {
     const $winsTitle = createElement("div", "winsTitle");
-    name === "Double Kill!"
-      ? ($winsTitle.innerText = name)
+    name === "draw"
+      ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
   }
