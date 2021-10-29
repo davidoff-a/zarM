@@ -55,29 +55,6 @@ class Player {
     return { dealType, hitPoints };
     // generateLogs(dealType, this, , hitPoints);
   }
-
-  createPlayer() {
-    const { player: playerNumber, hp, name } = this;
-    const $player = createElement("div", `player${playerNumber}`);
-    const $progressbar = createElement("div", "progressbar");
-    const $life = createElement("div", "life");
-    const $name = createElement("div", "name");
-    const $character = createElement("div", "character");
-    const $charImg = createElement("img");
-    const $bangImg = createElement("img");
-
-    $life.style.width = `${hp}%`;
-    $name.innerText = `${name}`;
-    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
-    $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
-    $character.appendChild($charImg);
-    $character.appendChild($bangImg);
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
-    $player.appendChild($progressbar);
-    $player.appendChild($character);
-    return $player;
-  }
   
   showHitMsg(numPlayer, bodyPart, type) {
   const IMG_PATH = `./assets/messages/${type}/${

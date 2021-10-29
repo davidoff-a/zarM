@@ -15,8 +15,8 @@ class Game {
     window.addEventListener("DOMContentLoaded", () => {
       this.$ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
     });
-    this.$ARENA.appendChild(this.player1.createPlayer());
-    this.$ARENA.appendChild(this.player2.createPlayer());
+    this.$ARENA.appendChild(this.createPlayer(this.player1));
+    this.$ARENA.appendChild(this.createPlayer(this.player2));
     this.$ARENA.appendChild(createReloadButton());
     generateLogs("start", this.player1, this.player2);
 
@@ -49,9 +49,6 @@ class Game {
       console.log(this.determineWinner());
       this.declareMatchResult(this.determineWinner());
     }
-    // this.player2.attack(ENEMY, PLAYER);
-    // const winner = this.determineWinner();
-    // this.declareWinner(winner);
   }
   determineWinner() {
     let winner;
@@ -87,6 +84,28 @@ class Game {
       ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
+  }
+  createPlayer(playerObj) {
+    const { player: playerNumber, hp, name } = playerObj;
+    const $player = createElement("div", `player${playerNumber}`);
+    const $progressbar = createElement("div", "progressbar");
+    const $life = createElement("div", "life");
+    const $name = createElement("div", "name");
+    const $character = createElement("div", "character");
+    const $charImg = createElement("img");
+    const $bangImg = createElement("img");
+
+    $life.style.width = `${hp}%`;
+    $name.innerText = `${name}`;
+    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
+    $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
+    $character.appendChild($charImg);
+    $character.appendChild($bangImg);
+    $progressbar.appendChild($life);
+    $progressbar.appendChild($name);
+    $player.appendChild($progressbar);
+    $player.appendChild($character);
+    return $player;
   }
 }
 
