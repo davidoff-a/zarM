@@ -23,15 +23,16 @@ class Game {
     this.$ARENA.appendChild(this.player1.createPlayer());
     this.$ARENA.appendChild(this.player2.createPlayer());
     this.$ARENA.appendChild(createReloadButton());
+    generateLogs("start", this.player1, this.player2);
 
     $frmControl.addEventListener("submit", (event) => {
       event.preventDefault();
       const ENEMY = enemyAttack();
       const PLAYER = playerAttack();
       let damage;
-      if ($CHAT.children.length === 0) {
-        generateLogs("start", this.player1, this.player2);
-      }
+      // if ($CHAT.children.length === 0) {
+      //   generateLogs("start", this.player1, this.player2);
+      // }
       damage = this.player1.attack(PLAYER, ENEMY);
       generateLogs(
         damage.dealType,
