@@ -2,7 +2,7 @@ class Query {
   getPlayers = async () => {
     const chars = await fetch(
       "https://reactmarathon-api.herokuapp.com/api/mk/players"
-    ).then((res) => res.json())
+    ).then((res) => res.json());
     return chars;
   };
 
@@ -12,9 +12,20 @@ class Query {
     ).then((res) => res.json());
     return pers;
   };
+
+  postAttackData = async (playerObj) => {
+    const PUNCH = await fetch(
+      "http://reactmarathon-api.herokuapp.com/api/mk/player/fight",
+      {
+        method: "POST",
+        body: JSON.stringify(playerObj),
+      }
+    ).then((res) => res.json());
+    return await PUNCH;
+  };
 }
+
 const data = new Query();
 export { data };
 
-// data.getPlayers();
-// data.getRandomPlayer();
+

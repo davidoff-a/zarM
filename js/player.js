@@ -37,22 +37,22 @@ class Player {
     $element.style.width = `${this.hp}%`;
   };
 
-  getRoundResult({ hitPoints, hit }, { defense }, opponent) {
+  getRoundResult({ value, hit }, { defense }, opponent) {
     let aim;
     let dealType;
     if (hit === defense) {
-      hitPoints = 0;
+      value = 0;
       aim = defense;
       dealType = "defense";
     } else {
       aim = hit;
       dealType = "hit";
     }
-    opponent.changeHP(hitPoints);
+    opponent.changeHP(value);
     opponent.renderHP(opponent.elHP());
     this.showHitMsg(opponent.player, aim, dealType);
     playSound(dealType);
-    return { dealType, hitPoints };
+    return { dealType, value };
   }
   
   showHitMsg(numPlayer, bodyPart, type) {

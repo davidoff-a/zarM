@@ -32,7 +32,7 @@ class Game {
       player: 2,
       rootSelector: "arenas",
     });
-    
+
     this.$ARENA.appendChild(this.createPlayer(player1));
     this.$ARENA.appendChild(this.createPlayer(player2));
     this.$ARENA.appendChild(createReloadButton());
@@ -44,29 +44,20 @@ class Game {
     });
   };
 
-  startRound() {
-    const ENEMY = enemyAttack();
+  startRound = async () => {
     const PLAYER = playerAttack();
+    const HOOK = await data.postAttackData(PLAYER);
+    const ENEMY = HOOK.player2;
     let roundResult;
 
     roundResult = player1.getRoundResult(PLAYER, ENEMY, player2);
-    generateLogs(
-      roundResult.dealType,
-      player1,
-      player2,
-      roundResult.hitPoints
-    );
+    generateLogs(roundResult.dealType, player1, player2, roundResult.value);
     roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
-    generateLogs(
-      roundResult.dealType,
-      player2,
-      player1,
-      roundResult.hitPoints
-    );
+    generateLogs(roundResult.dealType, player2, player1, roundResult.value);
     if (this.determineWinner()) {
       this.declareMatchResult(this.determineWinner());
     }
-  }
+  };
   determineWinner() {
     let winner;
     if (player1.hp === 0 && player2.hp === 0) {
@@ -123,6 +114,18 @@ class Game {
     $player.appendChild($character);
     return $player;
   }
+
+  enemyAttack = async () => {
+    const hit = ATTACK[getRandomNumber(3) - 1];
+    const defense = ATTACK[getRandomNumber(3) - 1];
+    const hitPoints = getRandomNumber(HIT[hit]);
+
+    return {
+      hit,
+      defense,
+      hitPoints,
+    };
+  };
 }
 
 const $frmControl = document.querySelector(".control");
@@ -149,23 +152,23 @@ function createReloadButton() {
   return $wrap;
 }
 
-function enemyAttack() {
-  const hit = ATTACK[getRandomNumber(3) - 1];
-  const defense = ATTACK[getRandomNumber(3) - 1];
-  const hitPoints = getRandomNumber(HIT[hit]);
+// function enemyAttack() {
+//   const hit = ATTACK[getRandomNumber(3) - 1];
+//   const defense = ATTACK[getRandomNumber(3) - 1];
+//   const hitPoints = getRandomNumber(HIT[hit]);
 
-  return {
-    hit,
-    defense,
-    hitPoints,
-  };
-}
+//   return {
+//     hit,
+//     defense,
+//     hitPoints,
+//   };
+// }
 
 function playerAttack() {
   const MY_ATTACK = {};
   for (let item of $frmControl) {
     if (item.checked && item.name === "hit") {
-      MY_ATTACK.hitPoints = getRandomNumber(HIT[item.value]);
+      MY_ATTACK.value = getRandomNumber(HIT[item.value]);
       MY_ATTACK.hit = item.value;
     }
 
@@ -178,4 +181,4 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-export { GAME, ATTACK };
+export { GAME, ATTACK, playerAttack };
