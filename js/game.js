@@ -1,66 +1,81 @@
 import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs, LOGS } from "./logs.js";
 import { Player } from "./player.js";
+import { data } from "./query.js";
 
 const ATTACK = ["head", "body", "foot"];
+let player1;
+let player2;
 
 class Game {
   constructor() {
     this.$ARENA = document.querySelector(".arenas");
-    this.player1 = new Player(1, "scorpion");
-    this.player2 = new Player(2, "sonya");
   }
-
-  start() {
+  init() {
     window.addEventListener("DOMContentLoaded", () => {
       this.$ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
     });
-    this.$ARENA.appendChild(this.createPlayer(this.player1));
-    this.$ARENA.appendChild(this.createPlayer(this.player2));
+    this.start();
+  }
+  start = async () => {
+    const PLAYERS = await data.getPlayers();
+    const p1 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
+    const p2 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
+    player1 = new Player({
+      ...p1,
+      player: 1,
+      rootSelector: "arenas",
+    });
+    player2 = new Player({
+      ...p2,
+      player: 2,
+      rootSelector: "arenas",
+    });
+    
+    this.$ARENA.appendChild(this.createPlayer(player1));
+    this.$ARENA.appendChild(this.createPlayer(player2));
     this.$ARENA.appendChild(createReloadButton());
-    generateLogs("start", this.player1, this.player2);
+    generateLogs("start", player1, player2);
 
     $frmControl.addEventListener("submit", (event) => {
       event.preventDefault();
       this.startRound();
     });
-  }
+  };
 
   startRound() {
     const ENEMY = enemyAttack();
     const PLAYER = playerAttack();
     let roundResult;
 
-    roundResult = this.player1.getRoundResult(PLAYER, ENEMY, this.player2);
+    roundResult = player1.getRoundResult(PLAYER, ENEMY, player2);
     generateLogs(
       roundResult.dealType,
-      this.player1,
-      this.player2,
+      player1,
+      player2,
       roundResult.hitPoints
     );
-    roundResult = this.player2.getRoundResult(ENEMY, PLAYER, this.player1);
+    roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
     generateLogs(
       roundResult.dealType,
-      this.player2,
-      this.player1,
+      player2,
+      player1,
       roundResult.hitPoints
     );
     if (this.determineWinner()) {
-      console.log(this.determineWinner());
       this.declareMatchResult(this.determineWinner());
     }
   }
   determineWinner() {
     let winner;
-    console.log(this.player1.hp, this.player2.hp);
-    if (this.player1.hp === 0 && this.player2.hp === 0) {
+    if (player1.hp === 0 && player2.hp === 0) {
       winner = { name: "draw" };
     }
-    if (!this.player1.hp && this.player2.hp) {
-      winner = this.player2;
+    if (!player1.hp && player2.hp) {
+      winner = player2;
     }
-    if (!this.player2.hp && this.player1.hp) {
-      winner = this.player1;
+    if (!player2.hp && player1.hp) {
+      winner = player1;
     }
     return winner;
   }
@@ -68,9 +83,9 @@ class Game {
   declareMatchResult({ name }) {
     this.$ARENA.appendChild(this.showPlayerWins(name));
     if (name !== "draw") {
-      generateLogs("end", this.player1, this.player2);
+      generateLogs("end", player1, player2);
     } else {
-      generateLogs("draw", this.player1, this.player2);
+      generateLogs("draw", player1, player2);
     }
 
     const $restartBtn = document.querySelector(".reloadWrap .button");
@@ -86,7 +101,7 @@ class Game {
     return $winsTitle;
   }
   createPlayer(playerObj) {
-    const { player: playerNumber, hp, name } = playerObj;
+    const { player: playerNumber, hp, name, img } = playerObj;
     const $player = createElement("div", `player${playerNumber}`);
     const $progressbar = createElement("div", "progressbar");
     const $life = createElement("div", "life");
@@ -98,7 +113,7 @@ class Game {
     $life.style.width = `${hp}%`;
     $name.innerText = `${name}`;
     $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
-    $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
+    $charImg.src = img;
     $character.appendChild($charImg);
     $character.appendChild($bangImg);
     $progressbar.appendChild($life);
@@ -162,4 +177,4 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-export { createReloadButton, GAME, ATTACK };
+export { GAME, ATTACK };

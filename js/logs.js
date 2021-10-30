@@ -9,7 +9,7 @@ const LOGS = {
     recordSettings: ["rgba(9, 172, 9, 0.2)", "🔪"],
     audio: {
       firstPart: "",
-      lastPart:" function () { }",
+      lastPart: " function () { }",
     },
   },
   end: {
@@ -98,7 +98,7 @@ function generateLogs(
   typeStr,
   { name: attackerName },
   { name: defenderName, hp: defenderHP },
-  hits=0
+  hits = 0
 ) {
   const LOG_RECORD = createElement("p");
   let stringNum = 0;
@@ -107,7 +107,6 @@ function generateLogs(
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr]["text"][stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr]["text"][stringNum]);
-
   LOG_RECORD.innerHTML = ` ${LOGS[typeStr]["recordSettings"][1]} ${insertData(
     logString,
     attackerName,
@@ -117,7 +116,7 @@ function generateLogs(
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
 }
 
-function insertData(str, attackPl, defPl ) {
+function insertData(str, attackPl, defPl) {
   const RELACE_EXPR_1 = /\[player(1|Kick|Wins)\]/gi;
   const RELACE_EXPR_2 = /\[player(2|Defense|Lose)\]/gi;
   const LOG_RECORD_TIME = new Date().toLocaleTimeString();

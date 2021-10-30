@@ -17,11 +17,11 @@ const MESSAGES = {
 };
 
 class Player {
-  constructor(player, name) {
+  constructor({player, name, img}) {
     this.player = player;
     this.name = name;
     this.hp = 100;
-    this.img = `http://reactmarathon-api.herokuapp.com/assets/${name.toLowerCase()}.gif`;
+    this.img = img;
   }
 
   changeHP = (HP) => {
@@ -53,7 +53,6 @@ class Player {
     this.showHitMsg(opponent.player, aim, dealType);
     playSound(dealType);
     return { dealType, hitPoints };
-    // generateLogs(dealType, this, , hitPoints);
   }
   
   showHitMsg(numPlayer, bodyPart, type) {
