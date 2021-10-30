@@ -19,8 +19,9 @@ class Game {
   }
   start = async () => {
     const PLAYERS = await data.getPlayers();
+    const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
     const p1 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
-    const p2 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
+    const p2 = OPPOSITE_FIGHTER;
     player1 = new Player({
       ...p1,
       player: 1,
