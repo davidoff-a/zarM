@@ -152,18 +152,6 @@ function createReloadButton() {
   return $wrap;
 }
 
-// function enemyAttack() {
-//   const hit = ATTACK[getRandomNumber(3) - 1];
-//   const defense = ATTACK[getRandomNumber(3) - 1];
-//   const hitPoints = getRandomNumber(HIT[hit]);
-
-//   return {
-//     hit,
-//     defense,
-//     hitPoints,
-//   };
-// }
-
 function playerAttack() {
   const MY_ATTACK = {};
   for (let item of $frmControl) {
