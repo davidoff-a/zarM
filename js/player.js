@@ -1,8 +1,6 @@
 import { createElement, getRandomNumber } from "./utils.js";
 import { ATTACK } from "./game.js";
-import { generateLogs } from "./logs.js";
 import { playSound } from "./audio.js";
-
 const MESSAGES = {
   hit: [
     "1.png",
@@ -19,11 +17,11 @@ const MESSAGES = {
 };
 
 class Player {
-  constructor(player, name) {
+  constructor({player, name, img}) {
     this.player = player;
     this.name = name;
     this.hp = 100;
-    this.img = `http://reactmarathon-api.herokuapp.com/assets/${name.toLowerCase()}.gif`;
+    this.img = img;
   }
 
   changeHP = (HP) => {
@@ -39,50 +37,25 @@ class Player {
     $element.style.width = `${this.hp}%`;
   };
 
-  getRoundResult({ hitPoints, hit }, { defense }, opponent) {
+  getRoundResult({ value, hit }, { defense }, opponent) {
     let aim;
     let dealType;
     if (hit === defense) {
-      hitPoints = 0;
+      value = 0;
       aim = defense;
       dealType = "defense";
     } else {
       aim = hit;
       dealType = "hit";
     }
-    opponent.changeHP(hitPoints);
+    opponent.changeHP(value);
     opponent.renderHP(opponent.elHP());
-    showHitMsg(opponent.player, aim, dealType);
+    this.showHitMsg(opponent.player, aim, dealType);
     playSound(dealType);
-    return { dealType, hitPoints };
-    // generateLogs(dealType, this, , hitPoints);
+    return { dealType, value };
   }
-
-  createPlayer() {
-    const { player: playerNumber, hp, name } = this;
-    const $player = createElement("div", `player${playerNumber}`);
-    const $progressbar = createElement("div", "progressbar");
-    const $life = createElement("div", "life");
-    const $name = createElement("div", "name");
-    const $character = createElement("div", "character");
-    const $charImg = createElement("img");
-    const $bangImg = createElement("img");
-
-    $life.style.width = `${hp}%`;
-    $name.innerText = `${name}`;
-    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
-    $charImg.src = `http://reactmarathon-api.herokuapp.com/assets/${name}.gif`;
-    $character.appendChild($charImg);
-    $character.appendChild($bangImg);
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
-    $player.appendChild($progressbar);
-    $player.appendChild($character);
-    return $player;
-  }
-}
-
-function showHitMsg(numPlayer, bodyPart, type) {
+  
+  showHitMsg(numPlayer, bodyPart, type) {
   const IMG_PATH = `./assets/messages/${type}/${
     MESSAGES[type][getRandomNumber(MESSAGES[type].length - 1)]
   }`;
@@ -98,5 +71,8 @@ function showHitMsg(numPlayer, bodyPart, type) {
     $punchImg.src = "";
   }, 1500);
 }
+}
+
+
 
 export { Player };

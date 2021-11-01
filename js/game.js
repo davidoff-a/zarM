@@ -1,74 +1,90 @@
 import { getRandomNumber, createElement } from "./utils.js";
-import { generateLogs, $CHAT } from "./logs.js";
+import { generateLogs, LOGS } from "./logs.js";
 import { Player } from "./player.js";
+import { data } from "./query.js";
 
 const ATTACK = ["head", "body", "foot"];
-const SOUND_LIB = {
-  hit: "./assets/sound/hitsounds/mk3-00",
-  defense: "./assets/sound/block/mk3-09",
-  wins: "./assets/sound/wins/",
-  draw: "./assets/sound/wins/",
-};
+let player1;
+let player2;
+
 class Game {
   constructor() {
     this.$ARENA = document.querySelector(".arenas");
-    this.player1 = new Player(1, "scorpion");
-    this.player2 = new Player(2, "sonya");
+    this.$FORM = document.querySelector(".control");
+    this.$LOGO = document.querySelector(".logo");
   }
-
-  start() {
+  init() {
     window.addEventListener("DOMContentLoaded", () => {
       this.$ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+      const $SLIDE_DOOR_LEFT = document.querySelector(".wall-left");
+      const $SLIDE_DOOR_RIGHT = document.querySelector(".wall-right");
+      setTimeout(() => {
+        $SLIDE_DOOR_LEFT.classList.add("open");
+        $SLIDE_DOOR_RIGHT.classList.add("open");
+        setTimeout(() => {
+          this.$FORM.style.display = "flex";
+          this.$LOGO.display = "block";
+          const FIGHT_SOUND = new Audio("./assets/sound/fight/mk3-09020.mp3");
+          FIGHT_SOUND.play();
+        }, 5000);
+      }, 1500);
+      setTimeout(() => {
+        this.$LOGO.classList.add("off");
+      }, 3000);
     });
-    this.$ARENA.appendChild(this.player1.createPlayer());
-    this.$ARENA.appendChild(this.player2.createPlayer());
+    this.start();
+  }
+  start = async () => {
+    const PLAYERS = await data.getPlayers();
+    const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
+    const p1 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
+    const p2 = OPPOSITE_FIGHTER;
+    player1 = new Player({
+      ...p1,
+      player: 1,
+      rootSelector: "arenas",
+    });
+    player2 = new Player({
+      ...p2,
+      player: 2,
+      rootSelector: "arenas",
+    });
+
+    this.$ARENA.appendChild(this.createPlayer(player1));
+    this.$ARENA.appendChild(this.createPlayer(player2));
     this.$ARENA.appendChild(createReloadButton());
-    generateLogs("start", this.player1, this.player2);
+    generateLogs("start", player1, player2);
 
     $frmControl.addEventListener("submit", (event) => {
       event.preventDefault();
       this.startRound();
     });
-  }
+  };
 
-  startRound() {
-    const ENEMY = enemyAttack();
+  startRound = async () => {
     const PLAYER = playerAttack();
+    const HOOK = await data.postAttackData(PLAYER);
+    const ENEMY = HOOK.player2;
     let roundResult;
 
-    roundResult = this.player1.getRoundResult(PLAYER, ENEMY, this.player2);
-    generateLogs(
-      roundResult.dealType,
-      this.player1,
-      this.player2,
-      roundResult.hitPoints
-    );
-    roundResult = this.player2.getRoundResult(ENEMY, PLAYER, this.player1);
-    generateLogs(
-      roundResult.dealType,
-      this.player2,
-      this.player1,
-      roundResult.hitPoints
-    );
+    roundResult = player1.getRoundResult(PLAYER, ENEMY, player2);
+    generateLogs(roundResult.dealType, player1, player2, roundResult.value);
+    roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
+    generateLogs(roundResult.dealType, player2, player1, roundResult.value);
     if (this.determineWinner()) {
-      console.log(this.determineWinner());
       this.declareMatchResult(this.determineWinner());
     }
-    // this.player2.attack(ENEMY, PLAYER);
-    // const winner = this.determineWinner();
-    // this.declareWinner(winner);
-  }
+  };
   determineWinner() {
     let winner;
-    console.log(this.player1.hp, this.player2.hp);
-    if (this.player1.hp === 0 && this.player2.hp === 0) {
+    if (player1.hp === 0 && player2.hp === 0) {
       winner = { name: "draw" };
     }
-    if (!this.player1.hp && this.player2.hp) {
-      winner = this.player2;
+    if (!player1.hp && player2.hp) {
+      winner = player2;
     }
-    if (!this.player2.hp && this.player1.hp) {
-      winner = this.player1;
+    if (!player2.hp && player1.hp) {
+      winner = player1;
     }
     return winner;
   }
@@ -76,9 +92,9 @@ class Game {
   declareMatchResult({ name }) {
     this.$ARENA.appendChild(this.showPlayerWins(name));
     if (name !== "draw") {
-      generateLogs("end", this.player1, this.player2);
+      generateLogs("end", player1, player2);
     } else {
-      generateLogs("draw", this.player1, this.player2);
+      generateLogs("draw", player1, player2);
     }
 
     const $restartBtn = document.querySelector(".reloadWrap .button");
@@ -93,29 +109,40 @@ class Game {
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
   }
+  createPlayer(playerObj) {
+    const { player: playerNumber, hp, name, img } = playerObj;
+    const $player = createElement("div", `player${playerNumber}`);
+    const $progressbar = createElement("div", "progressbar");
+    const $life = createElement("div", "life");
+    const $name = createElement("div", "name");
+    const $character = createElement("div", "character");
+    const $charImg = createElement("img");
+    const $bangImg = createElement("img");
 
-  playSound(kind) {
-    const PATH = SOUND_LIB[kind];
-    let soundPathEnd = "";
-    switch (kind) {
-      case "hit":
-        soundPathEnd = `${getRandomNumber(36, 10)}${
-          getRandomNumber(1) * 5
-        }.mp3`;
-        break;
-      case "defense":
-        soundPathEnd = `${getRandomNumber(4, 1)}.mp3`;
-        break;
-      case "wins":
-        soundPathEnd = `victory.mp3`;
-        break;
-      case "draw":
-        soundPathEnd = `draw.mp3`;
-        break;
-    }
-    const SOUND = new Audio(`${PATH}${soundPathEnd}`);
-    SOUND.play();
+    $life.style.width = `${hp}%`;
+    $name.innerText = `${name}`;
+    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
+    $charImg.src = img;
+    $character.appendChild($charImg);
+    $character.appendChild($bangImg);
+    $progressbar.appendChild($life);
+    $progressbar.appendChild($name);
+    $player.appendChild($progressbar);
+    $player.appendChild($character);
+    return $player;
   }
+
+  enemyAttack = async () => {
+    const hit = ATTACK[getRandomNumber(3) - 1];
+    const defense = ATTACK[getRandomNumber(3) - 1];
+    const hitPoints = getRandomNumber(HIT[hit]);
+
+    return {
+      hit,
+      defense,
+      hitPoints,
+    };
+  };
 }
 
 const $frmControl = document.querySelector(".control");
@@ -142,23 +169,11 @@ function createReloadButton() {
   return $wrap;
 }
 
-function enemyAttack() {
-  const hit = ATTACK[getRandomNumber(3) - 1];
-  const defense = ATTACK[getRandomNumber(3) - 1];
-  const hitPoints = getRandomNumber(HIT[hit]);
-
-  return {
-    hit,
-    defense,
-    hitPoints,
-  };
-}
-
 function playerAttack() {
   const MY_ATTACK = {};
   for (let item of $frmControl) {
     if (item.checked && item.name === "hit") {
-      MY_ATTACK.hitPoints = getRandomNumber(HIT[item.value]);
+      MY_ATTACK.value = getRandomNumber(HIT[item.value]);
       MY_ATTACK.hit = item.value;
     }
 
@@ -171,4 +186,4 @@ function playerAttack() {
   return MY_ATTACK;
 }
 
-export { createReloadButton, GAME, ATTACK };
+export { GAME, ATTACK, playerAttack };

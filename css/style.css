@@ -1,11 +1,11 @@
 @font-face {
   font-family: "Mortal Kombat 3";
-  src: url("./assets/fonts/MortalKombat3-Regular.eot");
-  src: url("./assets/fonts/MortalKombat3-Regular.eot?#iefix")
+  src: url("../assets/fonts/MortalKombat3-Regular.eot");
+  src: url("../assets/fonts/MortalKombat3-Regular.eot?#iefix")
       format("embedded-opentype"),
-    url("./assets/fonts/MortalKombat3-Regular.woff2") format("woff2"),
-    url("./assets/fonts/MortalKombat3-Regular.woff") format("woff"),
-    url("./assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
+    url("../assets/fonts/MortalKombat3-Regular.woff2") format("woff2"),
+    url("../assets/fonts/MortalKombat3-Regular.woff") format("woff"),
+    url("../assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -36,34 +36,65 @@ body {
   align-items: center;
   position: relative;
   background: #424466;
+  overflow: hidden;
 }
 
 .wall-left {
   position: absolute;
-  width: 87px;
-  background-image: url(assets/wall-left.png);
+  width: 450px;
+  /* background: url(../assets/wall-left.png) right center; */
+  background-color: #424466;
   min-height: 100vh;
   background-size: contain;
   background-repeat: repeat-y;
   top: 0;
+  left: calc(50% - 467px);
   z-index: 100;
-  left: 50%;
-  transform: translate(-450px, 0px);
+
+  /* transform: translate(-463px, 0px); */
+  transition: transform 5s ease-in-out;
+
   height: 100%;
 }
 
 .wall-right {
   position: absolute;
-  width: 87px;
-  background-image: url(./assets/wall-right.png);
+  width: 450px;
+  /* background: url(../assets/wall-right.png) left center; */
+  background-color: #424466;
   min-height: 100vh;
   background-size: contain;
   background-repeat: repeat-y;
   top: 0;
+  right: calc(50% - 467px);
   z-index: 100;
-  right: 50%;
-  transform: translate(450px, 0px);
+  /* transform: translate(450px, 0px); */
   height: 100%;
+  transition: transform 5s ease-in-out;
+}
+
+.wall-right.open {
+  transform: translate(380px, 0px);
+  transition: transform 5s ease-in-out;
+}
+
+.wall-left.open {
+  transform: translate(-380px, 0px);
+  transition: transform 5s ease-in-out;
+}
+
+.wall-left img {
+  width: 87px;
+  height: 100%;
+  position: absolute;
+  right: -30px;
+}
+
+.wall-right img {
+  width: 87px;
+  height: 100%;
+  position: absolute;
+  left: -30px;
 }
 
 .arenas {
@@ -77,23 +108,23 @@ body {
 }
 
 .arenas.arena1 {
-  background-image: url(./assets/scorpions-lair-arenas.png);
+  background-image: url(../assets/scorpions-lair-arenas.png);
 }
 
 .arenas.arena2 {
-  background-image: url(./assets/the-cave.png);
+  background-image: url(../assets/the-cave.png);
 }
 
 .arenas.arena3 {
-  background-image: url(./assets/jade-s-desert.png);
+  background-image: url(../assets/jade-s-desert.png);
 }
 
 .arenas.arena4 {
-  background-image: url(./assets/scislac-busorez.png);
+  background-image: url(../assets/scislac-busorez.png);
 }
 
 .arenas.arena5 {
-  background-image: url(./assets/waterfront.png);
+  background-image: url(../assets/waterfront.png);
 }
 
 .player1,
@@ -172,7 +203,7 @@ body {
 .chat {
   width: 786px;
   height: 30vh;
-  background-image: url(./assets/versus.png);
+  background-image: url(../assets/versus.png);
   background-size: cover;
   background-position: center;
   border-top: 4px solid #f5d100;
@@ -182,11 +213,11 @@ body {
   font-family: Arial;
 }
 
-.chat::-webkit-scrollbar{
+.chat::-webkit-scrollbar {
   width: 0;
 }
 
-.chat span{
+.chat span {
   font-family: "Mortal Kombat 3";
   color: #f58300;
 }
@@ -336,7 +367,7 @@ form:invalid button[class="button"]:active::after {
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
@@ -424,4 +455,19 @@ input[type="radio"]:checked + label > span:hover {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.logo{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  opacity: 1;
+  transition: opacity 3s ease-in-out;
+}
+
+.logo.off{
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
 }

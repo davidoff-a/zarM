@@ -14,6 +14,7 @@
 - [x] - wrong log messages
 
 ## 10/29/21
+
 - [x] - refactor function log. Create separate function insertData
 - [x] - reload page on pressing button fight
 - [x] - wrong appearance of player HP in log
@@ -22,18 +23,34 @@
 - [x] - the game never ends
 - [x] - add log message about winner
 - [x] - add log message about end of fighting
+- [x] - assemble all similar objects storing info about settings into ONE
+- [x] - refactor function log.
+
+## 10/30/21
+
+- [x] - Task #1. get all 23 characters
+- [x] - make log messages work
+- [x] - make players damage each other
+- [x] - Task #2. get random character from API
+
+## 10/31/21
+
+- [x] - Task #3. realize fight using API
 
 <!-- have to -->
 
+- [ ] - add first page with MK Logo
+- [ ] - add second page for choosing character
+- [ ] - add loader on page loading
 
 
 
-- [ ] - refactor function log.
+
 - [ ] - check function showHitMsg
+- [ ] - refactor class player. getRoundResult disturbing me. I think that method musn't change another instance.
 
 
 <!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
-- [ ] - assemble all similar objects storing info about settings into ONE
 
