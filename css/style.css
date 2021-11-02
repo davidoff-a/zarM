@@ -1,11 +1,115 @@
 @font-face {
   font-family: "Mortal Kombat 3";
   src: url("../assets/fonts/MortalKombat3-Regular.eot");
-  src: url("../assets/fonts/MortalKombat3-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("../assets/fonts/MortalKombat3-Regular.woff2") format("woff2"),
-    url("../assets/fonts/MortalKombat3-Regular.woff") format("woff"),
-    url("../assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/MortalKombat3-Regular.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/MortalKombat3-Regular.woff2") format("woff2"), url("../assets/fonts/MortalKombat3-Regular.woff") format("woff"), url("../assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.button {
+  display: block;
+  position: relative;
+  padding: 0 16px;
+  height: 36px;
+  color: white;
+  font-size: 18px;
+  text-transform: uppercase;
+  background-color: #f5d100;
+  border: none;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  font-family: "Mortal Kombat 3";
+  outline: none;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 4px;
+  left: 0;
+  background-color: #cd0e03;
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.button:hover {
+  background-color: #f5d100;
+}
+
+.button:active {
+  top: 2px;
+}
+
+.button:active::after {
+  top: 1px;
+}
+
+.button:disabled {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+.button:disabled:after {
+  opacity: 0.1;
+}
+
+.button:disabled:active {
+  top: 0px;
+}
+
+.button:disabled:active::after {
+  top: 4px;
+}
+
+.reloadWrap {
+  position: absolute;
+  top: 54px;
+  z-index: 1000;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
+}
+
+.reloadWrap .button {
+  margin-top: 0;
+}
+
+.buttonWrap {
+  margin-top: 12px;
+}
+
+input {
+  display: none;
+}
+
+input[type="radio"]:checked + label > span {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="radio"]:checked + label > span::before {
+  background: #f5d100;
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+input[type="radio"]:checked + label > span:hover {
+  background: none;
+}
+
+@font-face {
+  font-family: "Mortal Kombat 3";
+  src: url("../assets/fonts/MortalKombat3-Regular.eot");
+  src: url("../assets/fonts/MortalKombat3-Regular.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/MortalKombat3-Regular.woff2") format("woff2"), url("../assets/fonts/MortalKombat3-Regular.woff") format("woff"), url("../assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -14,7 +118,8 @@
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 html {
@@ -29,11 +134,20 @@ body {
 }
 
 .root {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 100%;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   position: relative;
   background: #424466;
   overflow: hidden;
@@ -50,10 +164,11 @@ body {
   top: 0;
   left: calc(50% - 467px);
   z-index: 100;
-
   /* transform: translate(-463px, 0px); */
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
   transition: transform 5s ease-in-out;
-
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
   height: 100%;
 }
 
@@ -70,17 +185,28 @@ body {
   z-index: 100;
   /* transform: translate(450px, 0px); */
   height: 100%;
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
   transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
 }
 
 .wall-right.open {
-  transform: translate(380px, 0px);
+  -webkit-transform: translate(380px, 0px);
+          transform: translate(380px, 0px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
   transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
 }
 
 .wall-left.open {
-  transform: translate(-380px, 0px);
+  -webkit-transform: translate(-380px, 0px);
+          transform: translate(-380px, 0px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
   transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
 }
 
 .wall-left img {
@@ -104,6 +230,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -140,6 +268,8 @@ body {
   top: 59px;
   height: 28px;
   background-color: #cd0336;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -149,7 +279,10 @@ body {
 
 .player2 .progressbar {
   right: 38px;
-  flex-direction: row-reverse;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
 }
 
 .extralife {
@@ -159,6 +292,8 @@ body {
   top: 85px;
   height: 12px;
   background-color: #cd0e03;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -168,7 +303,10 @@ body {
 
 .player2 .extralife {
   right: 38px;
-  flex-direction: row-reverse;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
 }
 
 .extralife .life {
@@ -238,7 +376,8 @@ body {
 }
 
 .player2 .character img:not([class]) {
-  transform: scaleX(-1) translate(50%, 0);
+  -webkit-transform: scaleX(-1) translate(50%, 0);
+          transform: scaleX(-1) translate(50%, 0);
 }
 
 .character img {
@@ -246,7 +385,8 @@ body {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
 }
 
 .fight {
@@ -255,68 +395,12 @@ body {
   top: 30%;
   width: 300px;
   left: 50%;
-  transform: translate(-50%, 0%);
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
 }
 
 .fight img {
   width: 100%;
-}
-
-.button {
-  display: block;
-  position: relative;
-  padding: 0 16px;
-  height: 36px;
-  color: white;
-  font-size: 18px;
-  text-transform: uppercase;
-  background-color: #f5d100;
-  border: none;
-  margin-top: 0;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 4px;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-family: "Mortal Kombat 3";
-  outline: none;
-}
-.button::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 4px;
-  left: 0;
-  background-color: #cd0e03;
-  border-radius: 4px;
-  z-index: -1;
-}
-.button:hover {
-  background-color: #f5d100;
-}
-.button:active {
-  top: 2px;
-}
-.button:active::after {
-  top: 1px;
-}
-
-.button:disabled {
-  opacity: 0.9;
-  cursor: not-allowed;
-}
-
-.button:disabled:after {
-  opacity: 0.1;
-}
-
-.button:disabled:active {
-  top: 0px;
-}
-
-.button:disabled:active::after {
-  top: 4px;
 }
 
 .winsTitle {
@@ -324,24 +408,13 @@ body {
   top: 22%;
   left: 50%;
   font-size: 36px;
-  transform: translate(-50%, 0%);
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
   text-transform: uppercase;
   z-index: 1000;
   color: white;
   font-family: "Mortal Kombat 3";
   text-shadow: 2px 2px 2px #cd0e03;
-}
-
-.reloadWrap {
-  position: absolute;
-  top: 54px;
-  z-index: 1000;
-  left: 50%;
-  transform: translate(-50%, 0%);
-}
-
-.reloadWrap .button {
-  margin-top: 0;
 }
 
 form:invalid button[class="button"] {
@@ -366,11 +439,19 @@ form:invalid button[class="button"]:active::after {
   width: 200px;
   top: 60%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   display: none;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   z-index: 1000;
 }
 
@@ -378,10 +459,6 @@ form:invalid button[class="button"]:active::after {
   position: relative;
   width: 280px;
   margin-bottom: 24px;
-}
-
-.buttonWrap {
-  margin-top: 12px;
 }
 
 .inputWrap h2 {
@@ -398,55 +475,51 @@ form:invalid button[class="button"]:active::after {
   height: 50px;
   padding: 0 12px;
   font-family: "Mortal Kombat 3";
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   color: #efefef;
 }
+
 .ul label {
   cursor: pointer;
 }
+
 .ul label:nth-of-type(2) {
   margin: 0 -4.5px;
 }
+
 .ul label span {
   position: relative;
   display: inline-block;
   width: 80px;
   height: 50px;
   line-height: 50px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
   text-align: center;
   margin-top: -3px;
 }
+
 .ul label span::before {
   position: relative;
   display: block;
   width: 80px;
   height: 50px;
   content: "";
-  transform: scaleY(1.2);
+  -webkit-transform: scaleY(1.2);
+          transform: scaleY(1.2);
   z-index: -1;
   margin-bottom: -50px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
+
 .ul label span:hover {
   background-color: rgba(107, 185, 240, 0.2);
-}
-
-input {
-  display: none;
-}
-input[type="radio"]:checked + label > span {
-  color: #fff;
-  font-weight: 700;
-  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
-}
-input[type="radio"]:checked + label > span::before {
-  background: #f5d100;
-  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
-}
-input[type="radio"]:checked + label > span:hover {
-  background: none;
 }
 
 .bang {
@@ -457,17 +530,20 @@ input[type="radio"]:checked + label > span:hover {
   top: 10px;
 }
 
-.logo{
+.logo {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   z-index: 200;
   opacity: 1;
+  -webkit-transition: opacity 3s ease-in-out;
   transition: opacity 3s ease-in-out;
 }
 
-.logo.off{
+.logo.off {
   opacity: 0;
+  -webkit-transition: opacity 3s ease-in-out;
   transition: opacity 3s ease-in-out;
 }

@@ -1,4 +1,5 @@
 class Query {
+  cons
   getPlayers = async () => {
     const chars = await fetch(
       "https://reactmarathon-api.herokuapp.com/api/mk/players"

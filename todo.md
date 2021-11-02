@@ -36,21 +36,22 @@
 ## 10/31/21
 
 - [x] - Task #3. realize fight using API
-
+## 11/02/21
 <!-- have to -->
-
-- [ ] - add first page with MK Logo
-- [ ] - add second page for choosing character
+- [ ] - rearrange css files
+- [ ] - make layout for all pages in project: loading page(transition page with sliding doors), choose player page, , versus  page, arena page. It may be a class or function building a page.
+- [ ] - add div with position fixed for hide page loading
 - [ ] - add loader on page loading
 
 
-
-
+- [ ] - add second page for choosing character
 - [ ] - check function showHitMsg
 - [ ] - refactor class player. getRoundResult disturbing me. I think that method musn't change another instance.
-
 
 <!-- may be -->
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
+- [ ] - change page loading. Show pages after full page loading 
+- [ ] - dynamically build pages
+
 

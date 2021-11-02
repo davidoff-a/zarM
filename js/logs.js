@@ -1,6 +1,6 @@
 // import { player1, player2 } from "./player.js";
 import { createElement, getRandomNumber } from "./utils.js";
-const $CHAT = document.querySelector(".chat");
+
 const LOGS = {
   start: {
     text: [
@@ -100,6 +100,7 @@ function generateLogs(
   { name: defenderName, hp: defenderHP },
   hits = 0
 ) {
+  const $CHAT = document.querySelector(".chat");
   const LOG_RECORD = createElement("p");
   let stringNum = 0;
   let logString = "";
@@ -127,4 +128,4 @@ function insertData(str, attackPl, defPl) {
     .replace("[time]", ` ⌚ ${LOG_RECORD_TIME} `);
 }
 
-export { generateLogs, $CHAT, LOGS };
+export { generateLogs, LOGS };
