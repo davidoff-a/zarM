@@ -2,13 +2,18 @@ const getRandomNumber = (max, min = 0) =>
   Math.ceil(Math.random() * (max - min) + min);
 
 const createElement = (tag, className) => {
-  const $element = document.createElement(tag);
+  const $tag = document.createElement(tag);
   if (className && className.length > 0) {
-    $element.classList.add(className);
+    if (Array.isArray(className)) {
+      className.forEach((item) => {
+        $tag.classList.add(item);
+      });
+    } else {
+      $tag.classList.add(className);
+    }
   }
-  return $element;
+
+  return $tag;
 };
-
-
 
 export { getRandomNumber, createElement };

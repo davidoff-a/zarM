@@ -2,7 +2,7 @@ import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
-import { $ARENA_HTML } from "./buildHTML.js";
+import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
 
 const ATTACK = ["head", "body", "foot"];
 let player1;
@@ -15,11 +15,11 @@ class Game {
   }
   init() {
     window.addEventListener("DOMContentLoaded", () => {
-      this.$ROOT.insertAdjacentHTML("afterbegin", $ARENA_HTML);
-      const $ARENA = document.querySelector(".arenas");
-      const $FORM = document.querySelector(".control");
+      this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
+      // const $ARENA = document.querySelector(".arenas");
+      // const $FORM = document.querySelector(".control");
       const $LOGO = document.querySelector(".logo");
-      $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+      // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
       const $SLIDE_DOOR_LEFT = document.querySelector(".wall-left");
       const $SLIDE_DOOR_RIGHT = document.querySelector(".wall-right");
       setTimeout(() => {

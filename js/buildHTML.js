@@ -1,38 +1,5 @@
 const $ARENA_HTML = `
-    <div class="arenas">
-        <form class="control">
-          <div class="inputWrap">
-            <h2>HIT</h2>
-            <div class="ul">
-              <input
-                type="radio"
-                name="hit"
-                value="head"
-                id="headHit"
-                required
-              />
-              <label for="headHit">
-                <span>HEAD</span>
-              </label>
-              <input
-                type="radio"
-                name="hit"
-                value="body"
-                id="bodyHit"
-                required
-              />
-              <label for="bodyHit">
-                <span>BODY</span>
-              </label>
-              <input
-                type="radio"
-                name="hit"
-                value="foot"
-                id="footHit"
-                required
-              />
-              <label for="footHit">
-                <span>FOOT</span>
+    <div class="arenas"><form class="control"><div class="inputWrap"><h2>HIT</h2><div class="ul"><input type="radio" name="hit" value="head" id="headHit" required/> <label for="headHit"><span>HEAD</span></label><input type="radio" name="hit" value="body" id="bodyHit"  required /><label for="bodyHit"><span>BODY</span></label><input type="radio" name="hit" value="foot" id="footHit" required /> <label for="footHit"> <span>FOOT</span>
               </label>
             </div>
           </div>
@@ -80,7 +47,7 @@ const $ARENA_HTML = `
       </div>
       <div class="chat">
       </div>`;
-class Page {
-  
-}
-export { $ARENA_HTML };
+const $PLAYER_CHOICE = `
+<div class="title title__choice">SELECT YOUR FIGHTERS</div><div class="warrior"></div><div class="parent"></div>
+`;
+export { $ARENA_HTML, $PLAYER_CHOICE };
