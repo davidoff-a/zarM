@@ -1,5 +1,6 @@
 import { createElement } from "./utils.js";
 import { $PLAYER_CHOICE } from "./buildHTML.js";
+import { data } from "./query.js";
 
 // const $parent = document.querySelector(".parent");
 const $player = document.querySelector(".warrior");
@@ -16,10 +17,8 @@ async function addRoster() {
   localStorage.removeItem("player1");
   const $ROOT = document.querySelector(".root");
   $ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
-  const PLAYERS = await fetch(
-    "https://reactmarathon-api.herokuapp.com/api/mk/players"
-  ).then((res) => res.json());
-
+  const PLAYERS = await data.getPlayers();
+  console.log(PLAYERS);
   let imgSrc = null;
   createEmptyPlayerBlock();
 

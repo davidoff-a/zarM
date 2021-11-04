@@ -42,7 +42,7 @@
 }
 
 .parent {
-  max-width: 600px;
+  max-width: 560px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(4, 1fr);
@@ -151,7 +151,7 @@
     top: -2px;
     left: -2px;
     position: absolute;
-    border: 14px solid #21aa21;
+    border: 9px solid #21aa21;
   }
   &.disabled {
     cursor: default;

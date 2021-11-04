@@ -199,7 +199,7 @@ body {
 }
 
 .parent {
-  max-width: 600px;
+  max-width: 560px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[7];
@@ -434,7 +434,7 @@ body {
   top: -2px;
   left: -2px;
   position: absolute;
-  border: 14px solid #21aa21;
+  border: 9px solid #21aa21;
 }
 
 .fighter-ava.disabled {
