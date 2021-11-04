@@ -38,13 +38,18 @@
 - [x] - Task #3. realize fight using API
 ## 11/02/21
 <!-- have to -->
+
+## 11/03/21
+- [x] - make layout for all pages in project: loading page(transition page with sliding doors), choose player page, , versus  page, arena page. It may be a class or function building a page.
+## 11/04/21
+
+- [ ] - add enemy choice
+- [ ] - add posibility to change app screens by loading parts of page
 - [ ] - rearrange css files
-- [ ] - make layout for all pages in project: loading page(transition page with sliding doors), choose player page, , versus  page, arena page. It may be a class or function building a page.
-- [ ] - add div with position fixed for hide page loading
 - [ ] - add loader on page loading
 
 
-- [ ] - add second page for choosing character
+
 - [ ] - check function showHitMsg
 - [ ] - refactor class player. getRoundResult disturbing me. I think that method musn't change another instance.
 
@@ -53,5 +58,6 @@
 - [ ] - add message Fight before round starts
 - [ ] - change page loading. Show pages after full page loading 
 - [ ] - dynamically build pages
+- [ ] - add div with position fixed for hide page loading
 
 

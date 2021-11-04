@@ -12,21 +12,20 @@ function createEmptyPlayerBlock() {
   document.querySelector(".parent").appendChild(el);
 }
 
-async function init() {
+async function addRoster() {
   localStorage.removeItem("player1");
   const $ROOT = document.querySelector(".root");
   $ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
-  const players = await fetch(
+  const PLAYERS = await fetch(
     "https://reactmarathon-api.herokuapp.com/api/mk/players"
   ).then((res) => res.json());
 
   let imgSrc = null;
   createEmptyPlayerBlock();
 
-  players.forEach((item) => {
+  PLAYERS.forEach((item) => {
     const el = createElement("div", ["fighter-ava", `div${item.id}`]);
     const img = createElement("img");
-
     el.addEventListener("mousemove", () => {
       if (imgSrc === null) {
         imgSrc = item.img;
@@ -43,15 +42,20 @@ async function init() {
       }
     });
 
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (event) => {
       //TODO: Мы кладем нашего игрока в localStorage что бы потом на арене его достать.
       // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
       // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
       // но это уже будет в нашем классе Game когда мы инициализируем игроков.
+      const $AVATARS = document.querySelectorAll(".fighter-ava");
       localStorage.setItem("player1", JSON.stringify(item));
-
-      el.classList.add("active");
-
+      $AVATARS.forEach((element) => {
+        if (element.classList.contains("active")) {
+          element.classList.remove("active");
+        }
+      });
+      event.target.classList.add("active");
+      console.log(JSON.parse(localStorage.getItem("player1")));
       setTimeout(() => {
         // TODO: Здесь должен быть код который перенаправит вас на ваше игровое поле...
         //  Пример использования: window.location.pathname = 'arenas.html';
@@ -66,4 +70,4 @@ async function init() {
   });
 }
 
-init();
+export { addRoster };

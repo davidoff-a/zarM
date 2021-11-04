@@ -3,6 +3,8 @@ import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
+import { addRoster } from "./choice.js";
+
 
 const ATTACK = ["head", "body", "foot"];
 let player1;
@@ -11,34 +13,36 @@ let player2;
 class Game {
   constructor() {
     this.$ROOT = document.querySelector(".root");
-    
   }
+
   init() {
     window.addEventListener("DOMContentLoaded", () => {
-      this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
+      const ROSTER = new Promise((resolve, reject) => {
+        addRoster();
+        resolve();
+      })
+        .then(() => {
+          setTimeout(() => {
+            this.operateDoors();
+          }, 1500);
+          setTimeout(() => {
+            $LOGO.classList.add("off");
+            setTimeout(() => {
+              $LOGO.style.zIndex = "-1";
+            }, 3000);
+          }, 3000);
+        })
+      });
+      // this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
       // const $ARENA = document.querySelector(".arenas");
       // const $FORM = document.querySelector(".control");
       const $LOGO = document.querySelector(".logo");
       // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-      const $SLIDE_DOOR_LEFT = document.querySelector(".wall-left");
-      const $SLIDE_DOOR_RIGHT = document.querySelector(".wall-right");
-      setTimeout(() => {
-        $SLIDE_DOOR_LEFT.classList.add("open");
-        $SLIDE_DOOR_RIGHT.classList.add("open");
-        setTimeout(() => {
-          $FORM.style.display = "flex";
-          setTimeout(() => {
-            const FIGHT_SOUND = new Audio("./assets/sound/fight/mk3-09020.mp3");
-            FIGHT_SOUND.play();
-          }, 3500);
-        }, 5000);
-      }, 1500);
-      setTimeout(() => {
-        $LOGO.classList.add("off");
-      }, 3000);
-    });
-    this.start();
+      
+      
+    // this.start();
   }
+
   start = async () => {
     const PLAYERS = await data.getPlayers();
     const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
@@ -80,6 +84,7 @@ class Game {
       this.declareMatchResult(this.determineWinner());
     }
   };
+
   determineWinner() {
     let winner;
     if (player1.hp === 0 && player2.hp === 0) {
@@ -114,6 +119,7 @@ class Game {
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
   }
+
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
     const $player = createElement("div", `player${playerNumber}`);
@@ -147,7 +153,14 @@ class Game {
       defense,
       hitPoints,
     };
-  };
+  }
+
+  operateDoors = () => {
+    const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
+    const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
+    $SLIDE_DOOR_LEFT.classList.toggle("open");
+    $SLIDE_DOOR_RIGHT.classList.toggle("open");
+  }
 }
 
 const $frmControl = document.querySelector(".control");
@@ -192,3 +205,12 @@ function playerAttack() {
 }
 
 export { GAME, ATTACK, playerAttack };
+
+
+// setTimeout(() => {
+//   $FORM.style.display = "flex";
+//   setTimeout(() => {
+//     const FIGHT_SOUND = new Audio("./assets/sound/fight/mk3-09020.mp3");
+//     FIGHT_SOUND.play();
+//   }, 3500);
+// }, 5000);
