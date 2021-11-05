@@ -44,6 +44,12 @@
 ## 11/04/21
 
 - [ ] - add enemy choice
+
+      - [x] - determine enemy player
+      - [x] - find and mark enemy avatar
+      - [x] - save and pass enemy player to arena
+      - [ ] - immitate choosing random fighters by computer
+
 - [ ] - add posibility to change app screens by loading parts of page
 - [ ] - rearrange css files
 - [ ] - add loader on page loading

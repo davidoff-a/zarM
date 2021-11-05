@@ -1,4 +1,4 @@
-import { createElement } from "./utils.js";
+import { createElement, getRandomNumber } from "./utils.js";
 import { $PLAYER_CHOICE } from "./buildHTML.js";
 import { data } from "./query.js";
 
@@ -18,7 +18,7 @@ async function addRoster() {
   const $ROOT = document.querySelector(".root");
   $ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
   const PLAYERS = await data.getPlayers();
-  console.log(PLAYERS);
+
   let imgSrc = null;
   createEmptyPlayerBlock();
 
@@ -46,19 +46,26 @@ async function addRoster() {
       // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
       // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
       // но это уже будет в нашем классе Game когда мы инициализируем игроков.
-      const $AVATARS = document.querySelectorAll(".fighter-ava");
-      localStorage.setItem("player1", JSON.stringify(item));
-      $AVATARS.forEach((element) => {
-        if (element.classList.contains("active")) {
-          element.classList.remove("active");
-        }
-      });
-      event.target.classList.add("active");
-      console.log(JSON.parse(localStorage.getItem("player1")));
-      setTimeout(() => {
-        // TODO: Здесь должен быть код который перенаправит вас на ваше игровое поле...
-        //  Пример использования: window.location.pathname = 'arenas.html';
-      }, 1000);
+
+      const SELECT_FIGHTERS = new Promise((resolve) => {
+        removeClasses(".fighter-ava", "active");
+        event.target.classList.toggle("active");
+
+        resolve();
+      })
+        .then(() => {
+          localStorage.setItem("player1", JSON.stringify(item));
+        })
+        .then(() => {
+          const ENEMY = PLAYERS[getRandomNumber(22)];
+          return ENEMY;
+        })
+        .then((ENEMY) => {
+          const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+          removeClasses(".fighter-ava", "active-p2");
+          $ENEMY_AVATAR.classList.toggle("active-p2");
+          localStorage.setItem("player2", JSON.stringify(ENEMY));
+        });
     });
 
     img.src = item.avatar;
@@ -68,5 +75,29 @@ async function addRoster() {
     document.querySelector(".parent").appendChild(el);
   });
 }
+
+function removeClasses(selector, className) {
+  const arrOfElements = document.querySelectorAll(`${selector}`);
+  arrOfElements.forEach((el) => {
+    if (el && el.classList.contains(className)) {
+      el.classList.remove(className);
+    }
+  });
+}
+
+// async function chooseEnemyFighter() {
+
+// }
+
+// const variantNum = getRandomNumber(8, 1);
+// for (let i = 0; i < variantNum; i++) {
+//   const TIMEOUT = getRandomNumber(10, 3) * 100;
+//   const RANDOM_FIGHTER_ID = getRandomNumber(23, 1);
+//   const $GET_AVATAR = document.querySelector(`.div${RANDOM_FIGHTER_ID}`);
+//   $GET_AVATAR.classList.toggle("active-p2");
+//   setTimeout(() => {
+//     $GET_AVATAR.classList.toggle("active-p2");
+//   }, TIMEOUT);
+// }
 
 export { addRoster };

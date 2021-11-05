@@ -189,7 +189,7 @@ body {
   left: 54%;
   margin-left: -105px;
   -webkit-transform: translate(-205%, 0px);
-  transform: translate(-205%, 0px);
+          transform: translate(-205%, 0px);
 }
 
 .warrior img {
@@ -427,14 +427,36 @@ body {
 }
 
 .fighter-ava:hover:before, .fighter-ava.active:before {
-  content: "";
+  content: "P1";
   display: block;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  top: -2px;
-  left: -2px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  top: -4px;
+  left: -4px;
   position: absolute;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000;
+  font-family: "Mortal Kombat 3";
   border: 9px solid #21aa21;
+}
+
+.fighter-ava.active-p2 {
+  z-index: 2;
+}
+
+.fighter-ava.active-p2:after {
+  content: "P2";
+  text-align: right;
+  display: block;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  top: -3px;
+  left: -3px;
+  position: absolute;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000;
+  font-family: "Mortal Kombat 3";
+  border: 9px solid #cd0e03;
 }
 
 .fighter-ava.disabled {
