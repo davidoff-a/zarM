@@ -17,8 +17,8 @@ function createEmptyPlayerBlock() {
 async function addRoster() {
   localStorage.removeItem("player1");
   localStorage.removeItem("player2");
-  const $CONTENT = document.querySelector(".content");
-  $CONTENT.innerHTML = $PLAYER_CHOICE;
+  insertHTMLcode(".content", $PLAYER_CHOICE);
+
   const PLAYERS = await data.getPlayers();
 
   let imgSrc = null;
@@ -27,79 +27,26 @@ async function addRoster() {
   PLAYERS.forEach((item) => {
     const el = createElement("div", ["fighter-ava", `div${item.id}`]);
     const img = createElement("img");
-    el.addEventListener("mousemove", () => {
-      if (imgSrc === null) {
-        imgSrc = item.img;
-        const $img = createElement("img");
-        $img.src = imgSrc;
-        document.querySelector(".warrior").appendChild($img);
-      }
-    });
-
-    el.addEventListener("mouseout", () => {
-      if (imgSrc) {
-        imgSrc = null;
-        document.querySelector(".warrior").innerHTML = "";
-      }
-    });
-
-    el.addEventListener("click", (event) => {
-      //TODO: Мы кладем нашего игрока в localStorage что бы потом на арене его достать.
-      // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
-      // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
-      // но это уже будет в нашем классе Game когда мы инициализируем игроков.
-
-      const SELECT_FIGHTERS = new Promise((resolve) => {
-        removeClasses(".fighter-ava", "active");
-        event.target.classList.toggle("active");
-
-        resolve();
-      })
-        .then(() => {
-          localStorage.setItem("player1", JSON.stringify(item));
-        })
-        .then(() => {
-          highlightAvatar(5);
-        })
-        .then(() => {
-          const ENEMY = PLAYERS[getRandomNumber(22)];
-          const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
-          removeClasses(".fighter-ava", "active-p2");
-
-          $ENEMY_AVATAR.classList.toggle("active-p2");
-          localStorage.setItem("player2", JSON.stringify(ENEMY));
-        })
-        .then(async () => {
-          setTimeout( () => {
-            GAME.operateDoors();
-            setTimeout(() => {
-              $CONTENT.innerHTML = $ARENA_HTML;
-              const $ARENA = document.querySelector(".arenas");
-              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-              setTimeout(() => {
-                GAME.operateDoors();
-              }, 3000);
-            }, 5000);
-          }, 3000);
-        })
-        .then(() => {
-          setTimeout(() => {
-            GAME.start()
-          }, 1000);
-        })
-        ;
-      // .then(() => {
-      //   setTimeout(() => {
-      //     GAME.operateDoors();
-      //   }, 3000);
-      // });
-    });
-
     img.src = item.avatar;
     img.alt = item.name;
 
     el.appendChild(img);
     document.querySelector(".parent").appendChild(el);
+
+    el.addEventListener("mousemove", () => {
+      showHideChoosenCharacter(imgSrc, item);
+    });
+
+    el.addEventListener("mouseout", () => {
+      showHideChoosenCharacter(imgSrc, item);
+    });
+
+    el.addEventListener("click", (event) => {
+      chooseCharacterForPlayer(event, item);
+      chooseCharacterForOpponent(PLAYERS);
+      transitionToArena();
+    });
+
   });
 }
 
@@ -112,12 +59,65 @@ function removeClasses(selector, className) {
   });
 }
 
-function highlightAvatar(id = 5, timeout = 1000) {
-  setTimeout(() => {
-    console.log("hi");
-    document.querySelector(`.div${id}`);
-  }, timeout);
+function insertHTMLcode(selector, HTMLcode) {
+  const $TAG = document.querySelector(selector);
+  $TAG.innerHTML = HTMLcode;
 }
+
+function showHideChoosenCharacter(imageSrc, playerObj) {
+  if (imageSrc === null) {
+    imageSrc = playerObj.img;
+    const $img = createElement("img");
+    $img.src = imageSrc;
+    document.querySelector(".warrior").appendChild($img);
+  } else {
+    imageSrc = null;
+    document.querySelector(".warrior").innerHTML = "";
+  }
+}
+
+function chooseCharacterForPlayer(event, playerObj) {
+  removeClasses(".fighter-ava", "active");
+  event.target.classList.toggle("active");
+  localStorage.setItem("player1", JSON.stringify(playerObj));
+}
+
+function chooseCharacterForOpponent(arrCharacters) {
+  const ENEMY = arrCharacters[getRandomNumber(22)];
+  const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+  removeClasses(".fighter-ava", "active-p2");
+
+  $ENEMY_AVATAR.classList.toggle("active-p2");
+  localStorage.setItem("player2", JSON.stringify(ENEMY));
+}
+
+function transitionToArena() {
+  setTimeout(() => {
+    GAME.operateDoors();
+    setTimeout(() => {
+      const $CONTENT = document.querySelector(".content");
+      $CONTENT.innerHTML = $ARENA_HTML;
+      const $ARENA = document.querySelector(".arenas");
+      $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+      setTimeout(() => {
+        GAME.operateDoors();
+        setTimeout(() => {
+          GAME.start();
+        }, 1000);
+      }, 3000);
+    }, 5000);
+  }, 3000);
+}
+
+export { addRoster };
+
+
+// function highlightAvatar(id = 5, timeout = 1000) {
+//   setTimeout(() => {
+//     document.querySelector(`.div${id}`);
+//   }, timeout);
+// }
+
 // async function chooseEnemyFighter() {
 
 // }
@@ -133,4 +133,52 @@ function highlightAvatar(id = 5, timeout = 1000) {
 //   }, TIMEOUT);
 // }
 
-export { addRoster };
+  // .then(() => {
+  //   setTimeout(() => {
+  //     GAME.operateDoors();
+  //   }, 3000);
+  // });
+
+
+  // function chooseCharactersForPlayers(event, playerObj) {
+  //   //TODO: Мы кладем нашего игрока в localStorage что бы потом на арене его достать.
+  //   // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
+  //   // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
+  //   // но это уже будет в нашем классе Game когда мы инициализируем игроков.
+
+  //   const SELECT_FIGHTERS = new Promise((resolve) => {
+  //     removeClasses(".fighter-ava", "active");
+  //     event.target.classList.toggle("active");
+
+  //     resolve();
+  //   })
+  //     .then(() => {
+  //       localStorage.setItem("player1", JSON.stringify(playerObj));
+  //     })
+  //     .then(() => {
+  //       const ENEMY = PLAYERS[getRandomNumber(22)];
+  //       const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+  //       removeClasses(".fighter-ava", "active-p2");
+
+  //       $ENEMY_AVATAR.classList.toggle("active-p2");
+  //       localStorage.setItem("player2", JSON.stringify(ENEMY));
+  //     })
+  //     .then(async () => {
+  //       setTimeout(() => {
+  //         GAME.operateDoors();
+  //         setTimeout(() => {
+  //           $CONTENT.innerHTML = $ARENA_HTML;
+  //           const $ARENA = document.querySelector(".arenas");
+  //           $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+  //           setTimeout(() => {
+  //             GAME.operateDoors();
+  //           }, 3000);
+  //         }, 5000);
+  //       }, 3000);
+  //     })
+  //     .then(() => {
+  //       setTimeout(() => {
+  //         GAME.start();
+  //       }, 1000);
+  //     });
+  // }
