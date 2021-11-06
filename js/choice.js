@@ -46,7 +46,6 @@ async function addRoster() {
       chooseCharacterForOpponent(PLAYERS);
       transitionToArena();
     });
-
   });
 }
 
@@ -69,6 +68,7 @@ function showHideChoosenCharacter(imageSrc, playerObj) {
     imageSrc = playerObj.img;
     const $img = createElement("img");
     $img.src = imageSrc;
+    document.querySelector(".warrior").innerHTML = "";
     document.querySelector(".warrior").appendChild($img);
   } else {
     imageSrc = null;
@@ -111,7 +111,6 @@ function transitionToArena() {
 
 export { addRoster };
 
-
 // function highlightAvatar(id = 5, timeout = 1000) {
 //   setTimeout(() => {
 //     document.querySelector(`.div${id}`);
@@ -133,52 +132,51 @@ export { addRoster };
 //   }, TIMEOUT);
 // }
 
-  // .then(() => {
-  //   setTimeout(() => {
-  //     GAME.operateDoors();
-  //   }, 3000);
-  // });
+// .then(() => {
+//   setTimeout(() => {
+//     GAME.operateDoors();
+//   }, 3000);
+// });
 
+// function chooseCharactersForPlayers(event, playerObj) {
+//   //TODO: Мы кладем нашего игрока в localStorage что бы потом на арене его достать.
+//   // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
+//   // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
+//   // но это уже будет в нашем классе Game когда мы инициализируем игроков.
 
-  // function chooseCharactersForPlayers(event, playerObj) {
-  //   //TODO: Мы кладем нашего игрока в localStorage что бы потом на арене его достать.
-  //   // При помощи localStorage.getItem('player1'); т.к. в localStorage кладется строка,
-  //   // то мы должны ее распарсить обратным методом JSON.parse(localStorage.getItem('player1'));
-  //   // но это уже будет в нашем классе Game когда мы инициализируем игроков.
+//   const SELECT_FIGHTERS = new Promise((resolve) => {
+//     removeClasses(".fighter-ava", "active");
+//     event.target.classList.toggle("active");
 
-  //   const SELECT_FIGHTERS = new Promise((resolve) => {
-  //     removeClasses(".fighter-ava", "active");
-  //     event.target.classList.toggle("active");
+//     resolve();
+//   })
+//     .then(() => {
+//       localStorage.setItem("player1", JSON.stringify(playerObj));
+//     })
+//     .then(() => {
+//       const ENEMY = PLAYERS[getRandomNumber(22)];
+//       const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+//       removeClasses(".fighter-ava", "active-p2");
 
-  //     resolve();
-  //   })
-  //     .then(() => {
-  //       localStorage.setItem("player1", JSON.stringify(playerObj));
-  //     })
-  //     .then(() => {
-  //       const ENEMY = PLAYERS[getRandomNumber(22)];
-  //       const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
-  //       removeClasses(".fighter-ava", "active-p2");
-
-  //       $ENEMY_AVATAR.classList.toggle("active-p2");
-  //       localStorage.setItem("player2", JSON.stringify(ENEMY));
-  //     })
-  //     .then(async () => {
-  //       setTimeout(() => {
-  //         GAME.operateDoors();
-  //         setTimeout(() => {
-  //           $CONTENT.innerHTML = $ARENA_HTML;
-  //           const $ARENA = document.querySelector(".arenas");
-  //           $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-  //           setTimeout(() => {
-  //             GAME.operateDoors();
-  //           }, 3000);
-  //         }, 5000);
-  //       }, 3000);
-  //     })
-  //     .then(() => {
-  //       setTimeout(() => {
-  //         GAME.start();
-  //       }, 1000);
-  //     });
-  // }
+//       $ENEMY_AVATAR.classList.toggle("active-p2");
+//       localStorage.setItem("player2", JSON.stringify(ENEMY));
+//     })
+//     .then(async () => {
+//       setTimeout(() => {
+//         GAME.operateDoors();
+//         setTimeout(() => {
+//           $CONTENT.innerHTML = $ARENA_HTML;
+//           const $ARENA = document.querySelector(".arenas");
+//           $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+//           setTimeout(() => {
+//             GAME.operateDoors();
+//           }, 3000);
+//         }, 5000);
+//       }, 3000);
+//     })
+//     .then(() => {
+//       setTimeout(() => {
+//         GAME.start();
+//       }, 1000);
+//     });
+// }
