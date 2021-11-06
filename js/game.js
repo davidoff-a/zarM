@@ -112,7 +112,7 @@ class Game {
   }
 
   showPlayerWins(name) {
-    const $winsTitle = createElement("div", "winsTitle");
+    const $winsTitle = createElement("div", ["winsTitle"]);
     name === "draw"
       ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
@@ -121,11 +121,11 @@ class Game {
 
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
-    const $player = createElement("div", `player${playerNumber}`);
-    const $progressbar = createElement("div", "progressbar");
-    const $life = createElement("div", "life");
-    const $name = createElement("div", "name");
-    const $character = createElement("div", "character");
+    const $player = createElement("div", [`player${playerNumber}`]);
+    const $progressbar = createElement("div", ["progressbar"]);
+    const $life = createElement("div", ["life"]);
+    const $name = createElement("div", ["name"]);
+    const $character = createElement("div", ["character"]);
     const $charImg = createElement("img");
     const $bangImg = createElement("img");
 
@@ -175,8 +175,8 @@ const $btnFight = document.querySelector("#Fight");
 const GAME = new Game();
 
 function createReloadButton() {
-  const $wrap = createElement("div", "reloadWrap");
-  const $wrapBtn = createElement("button", "button");
+  const $wrap = createElement("div", ["reloadWrap"]);
+  const $wrapBtn = createElement("button", ["button"]);
   $wrapBtn.style.display = "none";
   $wrapBtn.innerText = "RESTART";
   $wrap.appendChild($wrapBtn);
