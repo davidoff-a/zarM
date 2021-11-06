@@ -45,8 +45,9 @@ class Game {
   start = async () => {
     // const PLAYERS = await data.getPlayers();
     // const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
-    const p1 = localStorage.getItem("player1");
-    const p2 = localStorage.getItem("player2");
+    const p1 = JSON.parse(localStorage.getItem("player1"));
+    const p2 = JSON.parse(localStorage.getItem("player2"));
+    console.table(p1, p2);
     player1 = new Player({
       ...p1,
       player: 1,
