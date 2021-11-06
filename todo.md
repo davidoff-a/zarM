@@ -43,12 +43,11 @@
 - [x] - make layout for all pages in project: loading page(transition page with sliding doors), choose player page, , versus  page, arena page. It may be a class or function building a page.
 ## 11/04/21
 
-- [ ] - add enemy choice
+- [x] - add enemy choice
 
       - [x] - determine enemy player
       - [x] - find and mark enemy avatar
       - [x] - save and pass enemy player to arena
-      - [ ] - immitate choosing random fighters by computer
 
 - [ ] - add posibility to change app screens by loading parts of page
 - [ ] - rearrange css files
@@ -65,5 +64,13 @@
 - [ ] - change page loading. Show pages after full page loading 
 - [ ] - dynamically build pages
 - [ ] - add div with position fixed for hide page loading
+- [ ] - immitate choosing random fighters by computer
 
 
+
+
+загружается страница index.html
+запускаем скрипт 
+получаем данные с сервера обо всех персонажах
+подгружается страница ростера добавляются обработчики событий. Необходимо вынести в отдельные методы или функции
+выбираем игрока

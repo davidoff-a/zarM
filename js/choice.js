@@ -1,6 +1,7 @@
 import { createElement, getRandomNumber } from "./utils.js";
-import { $PLAYER_CHOICE } from "./buildHTML.js";
+import { $PLAYER_CHOICE, $ARENA_HTML } from "./buildHTML.js";
 import { data } from "./query.js";
+import { GAME } from "./game.js";
 
 // const $parent = document.querySelector(".parent");
 const $player = document.querySelector(".warrior");
@@ -15,8 +16,9 @@ function createEmptyPlayerBlock() {
 
 async function addRoster() {
   localStorage.removeItem("player1");
-  const $ROOT = document.querySelector(".root");
-  $ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
+  localStorage.removeItem("player2");
+  const $CONTENT = document.querySelector(".content");
+  $CONTENT.innerHTML = $PLAYER_CHOICE;
   const PLAYERS = await data.getPlayers();
 
   let imgSrc = null;
@@ -57,15 +59,40 @@ async function addRoster() {
           localStorage.setItem("player1", JSON.stringify(item));
         })
         .then(() => {
-          const ENEMY = PLAYERS[getRandomNumber(22)];
-          return ENEMY;
+          highlightAvatar(5);
         })
-        .then((ENEMY) => {
+        .then(() => {
+          const ENEMY = PLAYERS[getRandomNumber(22)];
           const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
           removeClasses(".fighter-ava", "active-p2");
+
           $ENEMY_AVATAR.classList.toggle("active-p2");
           localStorage.setItem("player2", JSON.stringify(ENEMY));
-        });
+        })
+        .then(async () => {
+          setTimeout( () => {
+            GAME.operateDoors();
+            setTimeout(() => {
+              $CONTENT.innerHTML = $ARENA_HTML;
+              const $ARENA = document.querySelector(".arenas");
+              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+              setTimeout(() => {
+                GAME.operateDoors();
+              }, 3000);
+            }, 5000);
+          }, 3000);
+        })
+        .then(() => {
+          setTimeout(() => {
+            GAME.start()
+          }, 1000);
+        })
+        ;
+      // .then(() => {
+      //   setTimeout(() => {
+      //     GAME.operateDoors();
+      //   }, 3000);
+      // });
     });
 
     img.src = item.avatar;
@@ -85,6 +112,12 @@ function removeClasses(selector, className) {
   });
 }
 
+function highlightAvatar(id = 5, timeout = 1000) {
+  setTimeout(() => {
+    console.log("hi");
+    document.querySelector(`.div${id}`);
+  }, timeout);
+}
 // async function chooseEnemyFighter() {
 
 // }

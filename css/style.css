@@ -144,26 +144,10 @@ body {
   overflow: hidden;
 }
 
-.root {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding-top: 30px;
-  min-height: 100vh;
-  min-width: 100vh;
-  background-size: contain;
-  background-position: center;
-  position: relative;
+.content {
+  margin: 0 auto;
+  padding: 0;
+  height: 100vh;
 }
 
 .title__choice {
@@ -199,6 +183,7 @@ body {
 }
 
 .parent {
+  margin-top: 35%;
   max-width: 560px;
   display: -ms-grid;
   display: grid;
@@ -529,16 +514,55 @@ body {
   left: -30px;
 }
 
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 200;
+  opacity: 1;
+  -webkit-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+}
+
+.logo.off {
+  opacity: 0;
+  -webkit-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+}
+
+.arena__wrapper {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+
 .arenas {
   width: 786px;
-  height: 578px;
-  background-size: cover;
-  background-position: center;
+  background-size: contain;
+  background-position: center bottom;
   background-repeat: no-repeat;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
 }
 
 .arenas.arena1 {
@@ -655,6 +679,9 @@ body {
   overflow: auto;
   color: white;
   font-family: Arial;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 200px;
+          flex: 0 1 200px;
 }
 
 .chat::-webkit-scrollbar {
@@ -833,22 +860,4 @@ form:invalid button[class="button"]:active::after {
   position: absolute;
   right: 10px;
   top: 10px;
-}
-
-.logo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  z-index: 200;
-  opacity: 1;
-  -webkit-transition: opacity 3s ease-in-out;
-  transition: opacity 3s ease-in-out;
-}
-
-.logo.off {
-  opacity: 0;
-  -webkit-transition: opacity 3s ease-in-out;
-  transition: opacity 3s ease-in-out;
 }

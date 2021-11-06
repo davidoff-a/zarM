@@ -12,7 +12,7 @@ let player2;
 
 class Game {
   constructor() {
-    this.$ROOT = document.querySelector(".root");
+    this.$CONTENT = document.querySelector(".content");
   }
 
   init() {
@@ -34,7 +34,6 @@ class Game {
         })
       });
       // this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
-      // const $ARENA = document.querySelector(".arenas");
       // const $FORM = document.querySelector(".control");
       const $LOGO = document.querySelector(".logo");
       // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
@@ -44,10 +43,10 @@ class Game {
   }
 
   start = async () => {
-    const PLAYERS = await data.getPlayers();
-    const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
-    const p1 = PLAYERS[getRandomNumber(PLAYERS.length - 1)];
-    const p2 = OPPOSITE_FIGHTER;
+    // const PLAYERS = await data.getPlayers();
+    // const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
+    const p1 = localStorage.getItem("player1");
+    const p2 = localStorage.getItem("player2");
     player1 = new Player({
       ...p1,
       player: 1,
