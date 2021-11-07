@@ -49,7 +49,9 @@
       - [x] - find and mark enemy avatar
       - [x] - save and pass enemy player to arena
 
-- [ ] - add posibility to change app screens by loading parts of page
+- [x] - add posibility to change app screens by loading parts of page
+
+
 - [ ] - rearrange css files
 - [ ] - add loader on page loading
 

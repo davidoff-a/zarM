@@ -1,4 +1,4 @@
-.arena__wrapper{
+.arena__wrapper {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -94,7 +94,7 @@
 
 .name {
   position: absolute;
-  font-family: "Mortal Kombat 3";
+  font-family: $ff;
   font-size: 26px;
   line-height: 20px;
   letter-spacing: 2px;
@@ -135,7 +135,7 @@
 }
 
 .character {
-  // position: absolute;
+  position: absolute;
   bottom: 20px;
   width: 150px;
   height: 268px;

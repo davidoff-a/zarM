@@ -5,7 +5,6 @@ import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
 import { addRoster } from "./choice.js";
 
-
 const ATTACK = ["head", "body", "foot"];
 let player1;
 let player2;
@@ -20,25 +19,23 @@ class Game {
       const ROSTER = new Promise((resolve, reject) => {
         addRoster();
         resolve();
-      })
-        .then(() => {
+      }).then(() => {
+        setTimeout(() => {
+          this.operateDoors();
+        }, 1500);
+        setTimeout(() => {
+          $LOGO.classList.add("off");
           setTimeout(() => {
-            this.operateDoors();
-          }, 1500);
-          setTimeout(() => {
-            $LOGO.classList.add("off");
-            setTimeout(() => {
-              $LOGO.style.zIndex = "-1";
-            }, 3000);
+            $LOGO.style.zIndex = "-1";
           }, 3000);
-        })
+        }, 3000);
       });
-      // this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
-      // const $FORM = document.querySelector(".control");
-      const $LOGO = document.querySelector(".logo");
-      // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-      
-      
+    });
+    // this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
+    // const $FORM = document.querySelector(".control");
+    const $LOGO = document.querySelector(".logo");
+    // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+
     // this.start();
   }
 
@@ -59,12 +56,17 @@ class Game {
       rootSelector: "arenas",
     });
 
-    document.querySelector(".arenas").appendChild(this.createPlayer(player1));
-    document.querySelector(".arenas").appendChild(this.createPlayer(player2));
-    document.querySelector(".arenas").appendChild(createReloadButton());
+    await document
+      .querySelector(".arenas")
+      .appendChild(this.createPlayer(player1));
+    await document
+      .querySelector(".arenas")
+      .appendChild(this.createPlayer(player2));
+    await document.querySelector(".arenas").appendChild(createReloadButton());
     generateLogs("start", player1, player2);
-
-    $frmControl.addEventListener("submit", (event) => {
+    const $FORM_CONTROL = document.querySelector(".control");
+    $FORM_CONTROL.style.display = flex;
+    $FORM_CONTROL.addEventListener("submit", (event) => {
       event.preventDefault();
       this.startRound();
     });
@@ -132,14 +134,16 @@ class Game {
 
     $life.style.width = `${hp}%`;
     $name.innerText = `${name}`;
-    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
+    $progressbar.appendChild($life);
+    $progressbar.appendChild($name);
+    
     $charImg.src = img;
     $character.appendChild($charImg);
     $character.appendChild($bangImg);
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
+    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
     $player.appendChild($progressbar);
     $player.appendChild($character);
+
     return $player;
   }
 
@@ -153,14 +157,14 @@ class Game {
       defense,
       hitPoints,
     };
-  }
+  };
 
   operateDoors = () => {
     const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
     const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
     $SLIDE_DOOR_LEFT.classList.toggle("open");
     $SLIDE_DOOR_RIGHT.classList.toggle("open");
-  }
+  };
 }
 
 const $frmControl = document.querySelector(".control");
@@ -205,7 +209,6 @@ function playerAttack() {
 }
 
 export { GAME, ATTACK, playerAttack };
-
 
 // setTimeout(() => {
 //   $FORM.style.display = "flex";
