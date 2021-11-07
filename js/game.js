@@ -31,20 +31,16 @@ class Game {
         }, 3000);
       });
     });
-    // this.$ROOT.insertAdjacentHTML("afterbegin", $PLAYER_CHOICE);
-    // const $FORM = document.querySelector(".control");
-    const $LOGO = document.querySelector(".logo");
-    // $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
 
-    // this.start();
+    const $LOGO = document.querySelector(".logo");
   }
 
   start = async () => {
-    // const PLAYERS = await data.getPlayers();
-    // const OPPOSITE_FIGHTER = await data.getEnemyPlayer();
+    //add players to arena
+
     const p1 = JSON.parse(localStorage.getItem("player1"));
     const p2 = JSON.parse(localStorage.getItem("player2"));
-    console.table(p1, p2);
+    // console.table(p1, p2);
     player1 = new Player({
       ...p1,
       player: 1,
@@ -62,14 +58,10 @@ class Game {
     await document
       .querySelector(".arenas")
       .appendChild(this.createPlayer(player2));
+    // add reload button
     await document.querySelector(".arenas").appendChild(createReloadButton());
     generateLogs("start", player1, player2);
-    const $FORM_CONTROL = document.querySelector(".control");
-    $FORM_CONTROL.style.display = flex;
-    $FORM_CONTROL.addEventListener("submit", (event) => {
-      event.preventDefault();
-      this.startRound();
-    });
+    
   };
 
   startRound = async () => {
@@ -102,7 +94,7 @@ class Game {
   }
 
   declareMatchResult({ name }) {
-    this.$ARENA.appendChild(this.showPlayerWins(name));
+    document.querySelector(".arenas").appendChild(this.showPlayerWins(name));
     if (name !== "draw") {
       generateLogs("end", player1, player2);
     } else {
@@ -167,7 +159,7 @@ class Game {
   };
 }
 
-const $frmControl = document.querySelector(".control");
+// const $frmControl = document.querySelector(".control");
 
 const HIT = {
   head: 30,
@@ -186,13 +178,17 @@ function createReloadButton() {
   $wrapBtn.innerText = "RESTART";
   $wrap.appendChild($wrapBtn);
   $wrapBtn.addEventListener("click", () => {
-    window.location.reload();
+    // window.location.reload();
+    GAME.operateDoors();
+    addRoster();
+    
   });
   return $wrap;
 }
 
 function playerAttack() {
   const MY_ATTACK = {};
+  const $frmControl = document.querySelector(".control");
   for (let item of $frmControl) {
     if (item.checked && item.name === "hit") {
       MY_ATTACK.value = getRandomNumber(HIT[item.value]);

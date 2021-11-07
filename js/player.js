@@ -69,7 +69,7 @@ class Player {
 
   setTimeout(() => {
     $punchImg.src = "";
-  }, 1500);
+  }, 2000);
 }
 }
 

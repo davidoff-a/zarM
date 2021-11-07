@@ -102,7 +102,16 @@ function transitionToArena() {
       setTimeout(() => {
         GAME.operateDoors();
         setTimeout(() => {
+          const $FORM_CONTROL = document.querySelector(".control");
+          $FORM_CONTROL.addEventListener("submit", (event) => {
+            event.preventDefault();
+            GAME.startRound();
+          });
           GAME.start();
+          setTimeout(() => {
+            $FORM_CONTROL.style.display = "flex";
+
+          }, 1500)
         }, 1000);
       }, 3000);
     }, 5000);
