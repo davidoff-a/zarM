@@ -3,7 +3,7 @@ import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
-import { addRoster } from "./choice.js";
+// import { addRoster } from "./choice.js";
 
 const ATTACK = ["head", "body", "foot"];
 let player1;
@@ -17,7 +17,7 @@ class Game {
   init() {
     window.addEventListener("DOMContentLoaded", () => {
       const ROSTER = new Promise((resolve, reject) => {
-        addRoster();
+        this.addRoster();
         resolve();
       }).then(() => {
         setTimeout(() => {
@@ -61,7 +61,6 @@ class Game {
     // add reload button
     await document.querySelector(".arenas").appendChild(createReloadButton());
     generateLogs("start", player1, player2);
-    
   };
 
   startRound = async () => {
@@ -128,7 +127,7 @@ class Game {
     $name.innerText = `${name}`;
     $progressbar.appendChild($life);
     $progressbar.appendChild($name);
-    
+
     $charImg.src = img;
     $character.appendChild($charImg);
     $character.appendChild($bangImg);
@@ -157,6 +156,117 @@ class Game {
     $SLIDE_DOOR_LEFT.classList.toggle("open");
     $SLIDE_DOOR_RIGHT.classList.toggle("open");
   };
+
+  async addRoster() {
+    localStorage.removeItem("player1");
+    localStorage.removeItem("player2");
+    this.insertHTMLcode(".content", $PLAYER_CHOICE);
+
+    const PLAYERS = await data.getPlayers();
+
+    let imgSrc = null;
+    this.createEmptyPlayerBlock();
+
+    PLAYERS.forEach((item) => {
+      const el = createElement("div", ["fighter-ava", `div${item.id}`]);
+      const img = createElement("img");
+      img.src = item.avatar;
+      img.alt = item.name;
+
+      el.appendChild(img);
+      document.querySelector(".parent").appendChild(el);
+
+      el.addEventListener("mousemove", () => {
+        this.showHideChoosenCharacter(imgSrc, item);
+      });
+
+      el.addEventListener("mouseout", () => {
+        this.showHideChoosenCharacter(imgSrc, item);
+      });
+
+      el.addEventListener("click", (event) => {
+        this.chooseCharacterForPlayer(event, item);
+        this.chooseCharacterForOpponent(PLAYERS);
+        this.transitionToArena();
+      });
+    });
+  }
+
+  insertHTMLcode(selector, HTMLcode) {
+    const $TAG = document.querySelector(selector);
+    $TAG.innerHTML = HTMLcode;
+  }
+
+  createEmptyPlayerBlock() {
+    const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
+    const img = createElement("img");
+    img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
+    el.appendChild(img);
+    document.querySelector(".parent").appendChild(el);
+  }
+
+  showHideChoosenCharacter(imageSrc, playerObj) {
+    if (imageSrc === null) {
+      imageSrc = playerObj.img;
+      const $img = createElement("img");
+      $img.src = imageSrc;
+      document.querySelector(".warrior").innerHTML = "";
+      document.querySelector(".warrior").appendChild($img);
+    } else {
+      imageSrc = null;
+      document.querySelector(".warrior").innerHTML = "";
+    }
+  }
+
+  chooseCharacterForPlayer(event, playerObj) {
+    this.removeClasses(".fighter-ava", "active");
+    event.target.classList.toggle("active");
+    localStorage.setItem("player1", JSON.stringify(playerObj));
+  }
+
+  chooseCharacterForOpponent(arrCharacters) {
+    const ENEMY = arrCharacters[getRandomNumber(22)];
+    const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+    this.removeClasses(".fighter-ava", "active-p2");
+
+    $ENEMY_AVATAR.classList.toggle("active-p2");
+    localStorage.setItem("player2", JSON.stringify(ENEMY));
+  }
+
+  transitionToArena() {
+    setTimeout(() => {
+      GAME.operateDoors();
+      setTimeout(() => {
+        const $CONTENT = document.querySelector(".content");
+        $CONTENT.innerHTML = $ARENA_HTML;
+        const $ARENA = document.querySelector(".arenas");
+        $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+        setTimeout(() => {
+          GAME.operateDoors();
+          setTimeout(() => {
+            const $FORM_CONTROL = document.querySelector(".control");
+            $FORM_CONTROL.addEventListener("submit", (event) => {
+              event.preventDefault();
+              GAME.startRound();
+            });
+            GAME.start();
+            setTimeout(() => {
+              $FORM_CONTROL.style.display = "flex";
+            }, 1500);
+          }, 1000);
+        }, 3000);
+      }, 5000);
+    }, 3000);
+  }
+
+  removeClasses(selector, className) {
+  const arrOfElements = document.querySelectorAll(`${selector}`);
+  arrOfElements.forEach((el) => {
+    if (el && el.classList.contains(className)) {
+      el.classList.remove(className);
+    }
+  });
+}
 }
 
 // const $frmControl = document.querySelector(".control");
@@ -181,7 +291,6 @@ function createReloadButton() {
     // window.location.reload();
     GAME.operateDoors();
     addRoster();
-    
   });
   return $wrap;
 }
@@ -203,6 +312,8 @@ function playerAttack() {
 
   return MY_ATTACK;
 }
+
+
 
 export { GAME, ATTACK, playerAttack };
 

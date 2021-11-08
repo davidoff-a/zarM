@@ -4,119 +4,119 @@ import { data } from "./query.js";
 import { GAME } from "./game.js";
 
 // const $parent = document.querySelector(".parent");
-const $player = document.querySelector(".warrior");
+// const $player = document.querySelector(".warrior");
 
-function createEmptyPlayerBlock() {
-  const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
-  const img = createElement("img");
-  img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
-  el.appendChild(img);
-  document.querySelector(".parent").appendChild(el);
-}
+// function createEmptyPlayerBlock() {
+//   const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
+//   const img = createElement("img");
+//   img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
+//   el.appendChild(img);
+//   document.querySelector(".parent").appendChild(el);
+// }
 
-async function addRoster() {
-  localStorage.removeItem("player1");
-  localStorage.removeItem("player2");
-  insertHTMLcode(".content", $PLAYER_CHOICE);
+// async function addRoster() {
+//   localStorage.removeItem("player1");
+//   localStorage.removeItem("player2");
+//   insertHTMLcode(".content", $PLAYER_CHOICE);
 
-  const PLAYERS = await data.getPlayers();
+//   const PLAYERS = await data.getPlayers();
 
-  let imgSrc = null;
-  createEmptyPlayerBlock();
+//   let imgSrc = null;
+//   createEmptyPlayerBlock();
 
-  PLAYERS.forEach((item) => {
-    const el = createElement("div", ["fighter-ava", `div${item.id}`]);
-    const img = createElement("img");
-    img.src = item.avatar;
-    img.alt = item.name;
+//   PLAYERS.forEach((item) => {
+//     const el = createElement("div", ["fighter-ava", `div${item.id}`]);
+//     const img = createElement("img");
+//     img.src = item.avatar;
+//     img.alt = item.name;
 
-    el.appendChild(img);
-    document.querySelector(".parent").appendChild(el);
+//     el.appendChild(img);
+//     document.querySelector(".parent").appendChild(el);
 
-    el.addEventListener("mousemove", () => {
-      showHideChoosenCharacter(imgSrc, item);
-    });
+//     el.addEventListener("mousemove", () => {
+//       showHideChoosenCharacter(imgSrc, item);
+//     });
 
-    el.addEventListener("mouseout", () => {
-      showHideChoosenCharacter(imgSrc, item);
-    });
+//     el.addEventListener("mouseout", () => {
+//       showHideChoosenCharacter(imgSrc, item);
+//     });
 
-    el.addEventListener("click", (event) => {
-      chooseCharacterForPlayer(event, item);
-      chooseCharacterForOpponent(PLAYERS);
-      transitionToArena();
-    });
-  });
-}
+//     el.addEventListener("click", (event) => {
+//       chooseCharacterForPlayer(event, item);
+//       chooseCharacterForOpponent(PLAYERS);
+//       transitionToArena();
+//     });
+//   });
+// }
 
-function removeClasses(selector, className) {
-  const arrOfElements = document.querySelectorAll(`${selector}`);
-  arrOfElements.forEach((el) => {
-    if (el && el.classList.contains(className)) {
-      el.classList.remove(className);
-    }
-  });
-}
+// function removeClasses(selector, className) {
+//   const arrOfElements = document.querySelectorAll(`${selector}`);
+//   arrOfElements.forEach((el) => {
+//     if (el && el.classList.contains(className)) {
+//       el.classList.remove(className);
+//     }
+//   });
+// }
 
-function insertHTMLcode(selector, HTMLcode) {
-  const $TAG = document.querySelector(selector);
-  $TAG.innerHTML = HTMLcode;
-}
+// function insertHTMLcode(selector, HTMLcode) {
+//   const $TAG = document.querySelector(selector);
+//   $TAG.innerHTML = HTMLcode;
+// }
 
-function showHideChoosenCharacter(imageSrc, playerObj) {
-  if (imageSrc === null) {
-    imageSrc = playerObj.img;
-    const $img = createElement("img");
-    $img.src = imageSrc;
-    document.querySelector(".warrior").innerHTML = "";
-    document.querySelector(".warrior").appendChild($img);
-  } else {
-    imageSrc = null;
-    document.querySelector(".warrior").innerHTML = "";
-  }
-}
+// function showHideChoosenCharacter(imageSrc, playerObj) {
+//   if (imageSrc === null) {
+//     imageSrc = playerObj.img;
+//     const $img = createElement("img");
+//     $img.src = imageSrc;
+//     document.querySelector(".warrior").innerHTML = "";
+//     document.querySelector(".warrior").appendChild($img);
+//   } else {
+//     imageSrc = null;
+//     document.querySelector(".warrior").innerHTML = "";
+//   }
+// }
 
-function chooseCharacterForPlayer(event, playerObj) {
-  removeClasses(".fighter-ava", "active");
-  event.target.classList.toggle("active");
-  localStorage.setItem("player1", JSON.stringify(playerObj));
-}
+// function chooseCharacterForPlayer(event, playerObj) {
+//   removeClasses(".fighter-ava", "active");
+//   event.target.classList.toggle("active");
+//   localStorage.setItem("player1", JSON.stringify(playerObj));
+// }
 
-function chooseCharacterForOpponent(arrCharacters) {
-  const ENEMY = arrCharacters[getRandomNumber(22)];
-  const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
-  removeClasses(".fighter-ava", "active-p2");
+// function chooseCharacterForOpponent(arrCharacters) {
+//   const ENEMY = arrCharacters[getRandomNumber(22)];
+//   const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+//   removeClasses(".fighter-ava", "active-p2");
 
-  $ENEMY_AVATAR.classList.toggle("active-p2");
-  localStorage.setItem("player2", JSON.stringify(ENEMY));
-}
+//   $ENEMY_AVATAR.classList.toggle("active-p2");
+//   localStorage.setItem("player2", JSON.stringify(ENEMY));
+// }
 
-function transitionToArena() {
-  setTimeout(() => {
-    GAME.operateDoors();
-    setTimeout(() => {
-      const $CONTENT = document.querySelector(".content");
-      $CONTENT.innerHTML = $ARENA_HTML;
-      const $ARENA = document.querySelector(".arenas");
-      $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-      setTimeout(() => {
-        GAME.operateDoors();
-        setTimeout(() => {
-          const $FORM_CONTROL = document.querySelector(".control");
-          $FORM_CONTROL.addEventListener("submit", (event) => {
-            event.preventDefault();
-            GAME.startRound();
-          });
-          GAME.start();
-          setTimeout(() => {
-            $FORM_CONTROL.style.display = "flex";
+// function transitionToArena() {
+//   setTimeout(() => {
+//     GAME.operateDoors();
+//     setTimeout(() => {
+//       const $CONTENT = document.querySelector(".content");
+//       $CONTENT.innerHTML = $ARENA_HTML;
+//       const $ARENA = document.querySelector(".arenas");
+//       $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+//       setTimeout(() => {
+//         GAME.operateDoors();
+//         setTimeout(() => {
+//           const $FORM_CONTROL = document.querySelector(".control");
+//           $FORM_CONTROL.addEventListener("submit", (event) => {
+//             event.preventDefault();
+//             GAME.startRound();
+//           });
+//           GAME.start();
+//           setTimeout(() => {
+//             $FORM_CONTROL.style.display = "flex";
 
-          }, 1500)
-        }, 1000);
-      }, 3000);
-    }, 5000);
-  }, 3000);
-}
+//           }, 1500)
+//         }, 1000);
+//       }, 3000);
+//     }, 5000);
+//   }, 3000);
+// }
 
 export { addRoster };
 
