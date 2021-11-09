@@ -3,7 +3,7 @@ import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
-// import { addRoster } from "./choice.js";
+import { playSound } from "./audio.js";
 
 const ATTACK = ["head", "body", "foot"];
 let player1;
@@ -66,17 +66,47 @@ class Game {
   startRound = async () => {
     const PLAYER = playerAttack();
     const HOOK = await data.postAttackData(PLAYER);
-    const ENEMY = HOOK.player2;
-    let roundResult;
 
-    roundResult = player1.getRoundResult(PLAYER, ENEMY, player2);
-    generateLogs(roundResult.dealType, player1, player2, roundResult.value);
-    roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
-    generateLogs(roundResult.dealType, player2, player1, roundResult.value);
+    HOOK.player1.defence = PLAYER.defense;
+    
+    console.table(PLAYER);
+    console.table(HOOK);
+    
+    this.getRoundResult(HOOK);
+    player1.renderHP(player1.elHP());
+    player2.renderHP(player2.elHP());
+
+
+
+    // 
+    // roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
+    // generateLogs(roundResult.dealType, player2, player1, roundResult.value);
     if (this.determineWinner()) {
       this.declareMatchResult(this.determineWinner());
     }
   };
+
+  getRoundResult(fightInfoObj) {
+    let dealType;
+    for (let player in fightInfoObj) {
+      const ABUSER = player === "player1" ? "player2" : "player1";
+      const VICTIM = ABUSER === "player1" ? "player2" : "player1";
+      if (fightInfoObj[ABUSER].hit === fightInfoObj[VICTIM].defence) {
+        fightInfoObj[ABUSER].value = 0;
+      }
+      dealType = fightInfoObj[ABUSER].value ? "hit" : "defense";
+      playSound(dealType);
+      generateLogs(dealType, ABUSER, VICTIM, fightInfoObj[ABUSER].value);
+    }
+    
+    player1.changeHP(fightInfoObj.player2.value);
+    player2.changeHP(fightInfoObj.player1.value);
+
+    player1.showHitMsg(fightInfoObj.player1.hit, dealType);
+    player2.showHitMsg(fightInfoObj.player2.hit, dealType);
+
+    
+  }
 
   determineWinner() {
     let winner;

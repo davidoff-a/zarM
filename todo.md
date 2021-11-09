@@ -50,6 +50,7 @@
       - [x] - save and pass enemy player to arena
 
 - [x] - add posibility to change app screens by loading parts of page
+- [x] - refactor class player. move getRoundResult() into Game class.
 
 
 - [ ] - rearrange css files
@@ -58,7 +59,7 @@
 
 
 - [ ] - check function showHitMsg
-- [ ] - refactor class player. getRoundResult disturbing me. I think that method musn't change another instance.
+
 
 <!-- may be -->
 - [ ] - add final countdown before round starts

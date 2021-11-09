@@ -17,7 +17,7 @@ const MESSAGES = {
 };
 
 class Player {
-  constructor({player, name, img}) {
+  constructor({ player, name, img }) {
     this.player = player;
     this.name = name;
     this.hp = 100;
@@ -37,40 +37,39 @@ class Player {
     $element.style.width = `${this.hp}%`;
   };
 
-  getRoundResult({ value, hit }, { defense }, opponent) {
-    let aim;
-    let dealType;
-    if (hit === defense) {
-      value = 0;
-      aim = defense;
-      dealType = "defense";
-    } else {
-      aim = hit;
-      dealType = "hit";
-    }
-    opponent.changeHP(value);
-    opponent.renderHP(opponent.elHP());
-    this.showHitMsg(opponent.player, aim, dealType);
-    playSound(dealType);
-    return { dealType, value };
-  }
-  
-  showHitMsg(numPlayer, bodyPart, type) {
-  const IMG_PATH = `./assets/messages/${type}/${
-    MESSAGES[type][getRandomNumber(MESSAGES[type].length - 1)]
-  }`;
-  const $punchImg = document.querySelector(`.bang.fighter${numPlayer}`);
-  const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
-  $punchImg.src = IMG_PATH;
-  $punchImg.style.top = `${getRandomNumber(
-    POW_LEVEL,
-    POW_LEVEL > 30 ? POW_LEVEL - 30 : 15
-  )}%`;
+  // getRoundResult(fightInfoObj) {
+  //   const PLAYER_ID = `player${this.player}`;
+  //   const AIM = fightInfoObj[PLAYER_ID].hit;
+  //   const DEFENDER_ID = (PLAYER_ID === "player1") ? "player2" : "player1";
+  //   const DEFENSE = fightInfoObj[DEFENDER_ID].defence;
+  //   let dealType;
+  //   if (AIM === DEFENSE) {
+  //     fightInfoObj[PLAYER_ID].value = 0;
+  //     // aim = defense;
+  //     dealType = "defense";
+  //   } else {
+  //     // aim = hit;
+  //     dealType = "hit";
+  //   }
+  //   // opponent.changeHP(value);
+  //   // opponent.renderHP(opponent.elHP());
+  //   // this.showHitMsg(opponent.player, aim, dealType);
+  //   playSound(dealType);
+  //   return { dealType, value };
+  // }
 
-  setTimeout(() => {
-    $punchImg.src = "";
-  }, 2000);
-}
+  showHitMsg(bodyPart, type) {
+    const PIC_INDEX = getRandomNumber((MESSAGES[type].length - 1));
+    const IMG_PATH = `./assets/messages/${type}/${MESSAGES[type][PIC_INDEX]}`;
+    const $PUNCH_IMG = document.querySelector(`.bang.fighter${this.player}`);
+    const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
+    $PUNCH_IMG.src = IMG_PATH;
+    $PUNCH_IMG.style.top = `${POW_LEVEL > 30 ? POW_LEVEL - 30 : 15}%`;
+
+    setTimeout(() => {
+      $PUNCH_IMG.src = "";
+    }, 2000);
+  }
 }
 
 
