@@ -24,7 +24,7 @@ class Player {
     this.img = img;
   }
 
-  changeHP = (HP) => {
+  changeHP = ({value: HP}) => {
     this.hp < HP ? (this.hp = 0) : (this.hp -= HP);
   };
 
@@ -37,32 +37,12 @@ class Player {
     $element.style.width = `${this.hp}%`;
   };
 
-  // getRoundResult(fightInfoObj) {
-  //   const PLAYER_ID = `player${this.player}`;
-  //   const AIM = fightInfoObj[PLAYER_ID].hit;
-  //   const DEFENDER_ID = (PLAYER_ID === "player1") ? "player2" : "player1";
-  //   const DEFENSE = fightInfoObj[DEFENDER_ID].defence;
-  //   let dealType;
-  //   if (AIM === DEFENSE) {
-  //     fightInfoObj[PLAYER_ID].value = 0;
-  //     // aim = defense;
-  //     dealType = "defense";
-  //   } else {
-  //     // aim = hit;
-  //     dealType = "hit";
-  //   }
-  //   // opponent.changeHP(value);
-  //   // opponent.renderHP(opponent.elHP());
-  //   // this.showHitMsg(opponent.player, aim, dealType);
-  //   playSound(dealType);
-  //   return { dealType, value };
-  // }
-
-  showHitMsg(bodyPart, type) {
-    const PIC_INDEX = getRandomNumber((MESSAGES[type].length - 1));
-    const IMG_PATH = `./assets/messages/${type}/${MESSAGES[type][PIC_INDEX]}`;
+  showHitMsg({ hit, dealType }) {
+    console.log(dealType);
+    const PIC_INDEX = getRandomNumber(MESSAGES[dealType].length - 1);
+    const IMG_PATH = `./assets/messages/${dealType}/${MESSAGES[dealType][PIC_INDEX]}`;
     const $PUNCH_IMG = document.querySelector(`.bang.fighter${this.player}`);
-    const POW_LEVEL = (ATTACK.indexOf(bodyPart) + 1) * 30;
+    const POW_LEVEL = (ATTACK.indexOf(hit) + 1) * 30;
     $PUNCH_IMG.src = IMG_PATH;
     $PUNCH_IMG.style.top = `${POW_LEVEL > 30 ? POW_LEVEL - 30 : 15}%`;
 

@@ -40,7 +40,6 @@ class Game {
 
     const p1 = JSON.parse(localStorage.getItem("player1"));
     const p2 = JSON.parse(localStorage.getItem("player2"));
-    // console.table(p1, p2);
     player1 = new Player({
       ...p1,
       player: 1,
@@ -60,25 +59,24 @@ class Game {
       .appendChild(this.createPlayer(player2));
     // add reload button
     await document.querySelector(".arenas").appendChild(createReloadButton());
-    generateLogs("start", player1, player2);
+    generateLogs({name: player1.name }, { dealType: "start", name: player2.name });
   };
 
   startRound = async () => {
     const PLAYER = playerAttack();
-    const HOOK = await data.postAttackData(PLAYER);
+    const attackData = await data.postAttackData(PLAYER);
 
-    HOOK.player1.defence = PLAYER.defense;
-    
-    console.table(PLAYER);
-    console.table(HOOK);
-    
-    this.getRoundResult(HOOK);
-    player1.renderHP(player1.elHP());
-    player2.renderHP(player2.elHP());
+    attackData.player1.defence = PLAYER.defense;
+    attackData.player1.name = player1.name;
+    attackData.player2.name = player2.name;
+    attackData.player1.player = player1.player;
+    attackData.player2.player = player2.player;
+    attackData.player1.hp = player1.hp;
+    attackData.player2.hp = player2.hp;
+    console.table(attackData);
+    this.getRoundResult(attackData);
 
-
-
-    // 
+    //
     // roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
     // generateLogs(roundResult.dealType, player2, player1, roundResult.value);
     if (this.determineWinner()) {
@@ -87,25 +85,50 @@ class Game {
   };
 
   getRoundResult(fightInfoObj) {
-    let dealType;
-    for (let player in fightInfoObj) {
-      const ABUSER = player === "player1" ? "player2" : "player1";
-      const VICTIM = ABUSER === "player1" ? "player2" : "player1";
-      if (fightInfoObj[ABUSER].hit === fightInfoObj[VICTIM].defence) {
-        fightInfoObj[ABUSER].value = 0;
+    const ARR_PLAYERS = [player1, player2];
+    ARR_PLAYERS.forEach((player) => {
+      const ABUSER = player.player === 1 ? player2 : player1;
+      const VICTIM = ABUSER.player === 1 ? player2 : player1;
+      const ATTACKER = fightInfoObj[`player${ABUSER.player}`];
+      const DEFENDER = fightInfoObj[`player${VICTIM.player}`];
+      console.log(`abuser - ${ABUSER.name}`);
+      console.log(`defender - ${DEFENDER.name}`);
+      if (ATTACKER.hit === DEFENDER.defence) {
+        DEFENDER.dealType = "defense";
+        VICTIM.showHitMsg(DEFENDER);
+        generateLogs(ATTACKER, DEFENDER);
+      } else {
+        DEFENDER.dealType = "hit";
+        VICTIM.changeHP(ATTACKER);
+        VICTIM.renderHP(VICTIM.elHP());
+        VICTIM.showHitMsg(DEFENDER);
+        generateLogs(ATTACKER, DEFENDER);
       }
-      dealType = fightInfoObj[ABUSER].value ? "hit" : "defense";
-      playSound(dealType);
-      generateLogs(dealType, ABUSER, VICTIM, fightInfoObj[ABUSER].value);
-    }
-    
-    player1.changeHP(fightInfoObj.player2.value);
-    player2.changeHP(fightInfoObj.player1.value);
+      
+    });
+    // ARR_PLAYERS.forEach((player) => {
+    //   const ABUSER = player.player === 1 ? player2 : player1;
+    //   const VICTIM = ABUSER.player === 1 ? player2 : player1;
+    //   const ATTACKER = fightInfoObj[`player${ABUSER.player}`];
+    //   const DEFENDER = fightInfoObj[`player${VICTIM.player}`];
+    //   console.log(ATTACKER);
+    //   VICTIM.showHitMsg(DEFENDER);
+    //   generateLogs(VICTIM, ABUSER, DEFENDER);
+    // });
 
-    player1.showHitMsg(fightInfoObj.player1.hit, dealType);
-    player2.showHitMsg(fightInfoObj.player2.hit, dealType);
+    // console.table(fightInfoObj);
 
-    
+    // player1.changeHP(fightInfoObj.player1);
+    // player2.changeHP(fightInfoObj.player2);
+
+    // player1.renderHP(player1.elHP());
+    // player2.renderHP(player2.elHP());
+
+    // player1.showHitMsg(fightInfoObj.player1);
+    // player2.showHitMsg(fightInfoObj.player2);
+
+    // generateLogs(player1, player2, fightInfoObj.player1);
+    // generateLogs(player2, player1, fightInfoObj.player2);
   }
 
   determineWinner() {
@@ -124,12 +147,16 @@ class Game {
 
   declareMatchResult({ name }) {
     document.querySelector(".arenas").appendChild(this.showPlayerWins(name));
+    const MATCH_RESULT = {
+      dealType: "",
+      hits: 0,
+    };
     if (name !== "draw") {
-      generateLogs("end", player1, player2);
+      MATCH_RESULT.dealType = "end";
     } else {
-      generateLogs("draw", player1, player2);
+      MATCH_RESULT.dealType = "draw";
     }
-
+    generateLogs({name:player1.name}, {name:player2.name, dealType:MATCH_RESULT});
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
@@ -290,13 +317,13 @@ class Game {
   }
 
   removeClasses(selector, className) {
-  const arrOfElements = document.querySelectorAll(`${selector}`);
-  arrOfElements.forEach((el) => {
-    if (el && el.classList.contains(className)) {
-      el.classList.remove(className);
-    }
-  });
-}
+    const arrOfElements = document.querySelectorAll(`${selector}`);
+    arrOfElements.forEach((el) => {
+      if (el && el.classList.contains(className)) {
+        el.classList.remove(className);
+      }
+    });
+  }
 }
 
 // const $frmControl = document.querySelector(".control");
@@ -342,8 +369,6 @@ function playerAttack() {
 
   return MY_ATTACK;
 }
-
-
 
 export { GAME, ATTACK, playerAttack };
 

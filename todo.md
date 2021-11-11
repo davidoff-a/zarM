@@ -52,6 +52,7 @@
 - [x] - add posibility to change app screens by loading parts of page
 - [x] - refactor class player. move getRoundResult() into Game class.
 
+- [ ] - refactor getRoundResult() method. collect info about round to separate object. Calculate result of round based on data in the   object
 
 - [ ] - rearrange css files
 - [ ] - add loader on page loading

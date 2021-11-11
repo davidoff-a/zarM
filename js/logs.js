@@ -95,19 +95,18 @@ const LOGS = {
 };
 
 function generateLogs(
-  typeStr,
-  { name: attackerName },
-  { name: defenderName, hp: defenderHP },
-  hits = 0
+  { name: attackerName, value: hits },
+  { name: defenderName, hp: defenderHP, dealType: typeStr }
 ) {
   const $CHAT = document.querySelector(".chat");
   const LOG_RECORD = createElement("p");
   let stringNum = 0;
   let logString = "";
-  stringNum = getRandomNumber(LOGS[typeStr]["text"].length - 1);
+  // console.log("Искомое значение "+LOGS[typeStr].text);
+  stringNum = getRandomNumber(LOGS[typeStr].text.length - 1);
   typeStr === "hit"
-    ? (logString = `${LOGS[typeStr]["text"][stringNum]} - ${hits} - [${defenderHP}/100]`)
-    : (logString = LOGS[typeStr]["text"][stringNum]);
+    ? (logString = `${LOGS[typeStr].text[stringNum]} - ${hits} - [${defenderHP-hits}/100]`)
+    : (logString = LOGS[typeStr].text[stringNum]);
   LOG_RECORD.innerHTML = ` ${LOGS[typeStr]["recordSettings"][1]} ${insertData(
     logString,
     attackerName,
