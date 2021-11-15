@@ -51,15 +51,15 @@
 
 - [x] - add posibility to change app screens by loading parts of page
 - [x] - refactor class player. move getRoundResult() into Game class.
+- [x] - refactor getRoundResult() method. collect info about round to separate object. Calculate result of round based on data in the   object
+- [x] - check function showHitMsg
 
-- [ ] - refactor getRoundResult() method. collect info about round to separate object. Calculate result of round based on data in the   object
-
-- [ ] - rearrange css files
+- [x] - rearrange css files
 - [ ] - add loader on page loading
 
 
 
-- [ ] - check function showHitMsg
+
 
 
 <!-- may be -->
@@ -69,6 +69,9 @@
 - [ ] - dynamically build pages
 - [ ] - add div with position fixed for hide page loading
 - [ ] - immitate choosing random fighters by computer
+- [ ] - add sounds
+- [ ] - add animations of fight
+- [ ] - add background music
 
 
 
