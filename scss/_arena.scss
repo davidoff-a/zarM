@@ -181,7 +181,7 @@
   font-size: 36px;
   transform: translate(-50%, 0%);
   text-transform: uppercase;
-  z-index: 1000;
+  z-index: 100;
   color: white;
   font-family: $ff;
   text-shadow: 2px 2px 2px $bg-btn-addition;
@@ -214,7 +214,7 @@ form:invalid button[class="button"]:active::after {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .inputWrap {
