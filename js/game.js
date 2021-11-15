@@ -62,7 +62,7 @@ class Game {
       .querySelector(".arenas")
       .appendChild(this.createPlayer(player2));
     // add reload button
-    await document.querySelector(".arenas").appendChild(createReloadButton());
+    await document.querySelector(".arenas").appendChild(this.createReloadButton());
     generateLogs(
       { name: player1.name },
       { dealType: "start", name: player2.name }
@@ -71,7 +71,10 @@ class Game {
 
   startRound = async () => {
     const PLAYER = playerAttack();
-    const attackData = await data.postAttackData(QUERY_URLS.getDamageInfo, PLAYER);
+    const attackData = await data.postAttackData(
+      QUERY_URLS.getDamageInfo,
+      PLAYER
+    );
 
     attackData.player1.defence = PLAYER.defense;
     attackData.player1.name = player1.name;
@@ -137,6 +140,8 @@ class Game {
       { name: player2.name, dealType: MATCH_RESULT.dealType }
     );
     const $restartBtn = document.querySelector(".reloadWrap .button");
+    const $btnFight = document.querySelector("#Fight");
+
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
   }
@@ -223,7 +228,7 @@ class Game {
       el.addEventListener("click", (event) => {
         this.chooseCharacterForPlayer(event, item);
         this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionToArena();
+        this.transitionScenes(".content", $ARENA_HTML);
       });
     });
   }
@@ -269,30 +274,43 @@ class Game {
     localStorage.setItem("player2", JSON.stringify(ENEMY));
   }
 
-  transitionToArena() {
-    setTimeout(() => {
-      GAME.operateDoors();
-      setTimeout(() => {
-        const $CONTENT = document.querySelector(".content");
-        $CONTENT.innerHTML = $ARENA_HTML;
-        const $ARENA = document.querySelector(".arenas");
-        $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-        setTimeout(() => {
-          GAME.operateDoors();
-          setTimeout(() => {
-            const $FORM_CONTROL = document.querySelector(".control");
-            $FORM_CONTROL.addEventListener("submit", (event) => {
-              event.preventDefault();
-              GAME.startRound();
-            });
-            GAME.start();
+  transitionScenes(selector, HTMLcode) {
+    
+    setTimeout(
+      () => {
+        GAME.operateDoors();
+        setTimeout(
+          () => {
+            this.insertHTMLcode(selector, HTMLcode);
+            const $ARENA = document.querySelector(".arenas");
+            if ($ARENA) {
+              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+            }
             setTimeout(() => {
-              $FORM_CONTROL.style.display = "flex";
-            }, 1500);
-          }, 1000);
-        }, 3000);
-      }, 5000);
-    }, 3000);
+              GAME.operateDoors();
+              setTimeout(() => {
+                const $FORM_CONTROL = document.querySelector(".control");
+                if ($FORM_CONTROL) {
+                  $FORM_CONTROL.addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    GAME.startRound();
+                    setTimeout(() => {
+                      $FORM_CONTROL.style.display = "flex";
+                    }, 1500);
+                  });
+                }
+                GAME.start();
+                
+              }, 1000);
+            }, 3000);
+          },
+          5000,
+          selector,
+          HTMLcode
+        );
+      },
+      3000
+    );
   }
 
   removeClasses(selector, className) {
@@ -303,6 +321,21 @@ class Game {
       }
     });
   }
+
+  createReloadButton() {
+  const $wrap = createElement("div", ["reloadWrap"]);
+  const $wrapBtn = createElement("button", ["button"]);
+  $wrapBtn.style.display = "none";
+  $wrapBtn.innerText = "RESTART";
+  $wrap.appendChild($wrapBtn);
+    $wrapBtn.addEventListener("click", () => {
+    this.transitionScenes(".content", $PLAYER_CHOICE);
+    // window.location.reload();
+    // GAME.operateDoors();
+    // GAME.addRoster();
+  });
+  return $wrap;
+}
 }
 
 // const $frmControl = document.querySelector(".control");
@@ -313,23 +346,10 @@ const HIT = {
   foot: 20,
 };
 
-const $btnFight = document.querySelector("#Fight");
 
 const GAME = new Game();
 
-function createReloadButton() {
-  const $wrap = createElement("div", ["reloadWrap"]);
-  const $wrapBtn = createElement("button", ["button"]);
-  $wrapBtn.style.display = "none";
-  $wrapBtn.innerText = "RESTART";
-  $wrap.appendChild($wrapBtn);
-  $wrapBtn.addEventListener("click", () => {
-    // window.location.reload();
-    GAME.operateDoors();
-    addRoster();
-  });
-  return $wrap;
-}
+
 
 function playerAttack() {
   const MY_ATTACK = {};
