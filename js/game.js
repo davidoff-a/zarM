@@ -3,7 +3,11 @@ import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
-import { playSound } from "./audio.js";
+
+const QUERY_URLS = {
+  getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
+  getDamageInfo: "https://reactmarathon-api.herokuapp.com/api/mk/player/fight",
+};
 
 const ATTACK = ["head", "body", "foot"];
 let player1;
@@ -67,20 +71,15 @@ class Game {
 
   startRound = async () => {
     const PLAYER = playerAttack();
-    const attackData = await data.postAttackData(PLAYER);
+    const attackData = await data.postAttackData(QUERY_URLS.getDamageInfo, PLAYER);
 
     attackData.player1.defence = PLAYER.defense;
     attackData.player1.name = player1.name;
     attackData.player2.name = player2.name;
     attackData.player1.player = player1.player;
     attackData.player2.player = player2.player;
-    
-    console.table(attackData);
     this.getRoundResult(attackData);
 
-    //
-    // roundResult = player2.getRoundResult(ENEMY, PLAYER, player1);
-    // generateLogs(roundResult.dealType, player2, player1, roundResult.value);
     if (this.determineWinner()) {
       this.declareMatchResult(this.determineWinner());
     }
@@ -93,12 +92,9 @@ class Game {
       const VICTIM = ABUSER.player === 1 ? player2 : player1;
       const ATTACKER = fightInfoObj[`player${ABUSER.player}`];
       const DEFENDER = fightInfoObj[`player${VICTIM.player}`];
-      console.log(`abuser - ${ABUSER.name}`);
-      console.log(`defender - ${DEFENDER.name}`);
       if (ATTACKER.hit === DEFENDER.defence) {
         DEFENDER.dealType = "defense";
         VICTIM.showHitMsg(DEFENDER);
-        console.table(ATTACKER);
         generateLogs(ATTACKER, DEFENDER);
       } else {
         DEFENDER.dealType = "hit";
@@ -202,7 +198,7 @@ class Game {
     localStorage.removeItem("player2");
     this.insertHTMLcode(".content", $PLAYER_CHOICE);
 
-    const PLAYERS = await data.getPlayers();
+    const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
 
     let imgSrc = null;
     this.createEmptyPlayerBlock();

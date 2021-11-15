@@ -102,7 +102,6 @@ function generateLogs(
   const LOG_RECORD = createElement("p");
   let stringNum = 0;
   let logString = "";
-  console.log("Искомое значение " + typeStr);
   stringNum = getRandomNumber(LOGS[typeStr].text.length - 1);
   typeStr === "hit"
     ? (logString = `${LOGS[typeStr].text[stringNum]} - ${hits} - [${defenderHP}/100]`)

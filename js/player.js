@@ -39,7 +39,6 @@ class Player {
   };
 
   showHitMsg({ hit, dealType }) {
-    console.log(dealType);
     const PIC_INDEX = getRandomNumber(MESSAGES[dealType].length - 1);
     const IMG_PATH = `./assets/messages/${dealType}/${MESSAGES[dealType][PIC_INDEX]}`;
     const $PUNCH_IMG = document.querySelector(`.bang.fighter${this.player}`);

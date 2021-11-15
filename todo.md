@@ -55,8 +55,11 @@
 - [x] - check function showHitMsg
 
 - [x] - rearrange css files
-- [ ] - add loader on page loading
 
+
+
+- [ ] - add loader on page loading
+- [ ] - fix some bugs with images
 
 
 
