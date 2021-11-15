@@ -59,7 +59,10 @@ class Game {
       .appendChild(this.createPlayer(player2));
     // add reload button
     await document.querySelector(".arenas").appendChild(createReloadButton());
-    generateLogs({name: player1.name }, { dealType: "start", name: player2.name });
+    generateLogs(
+      { name: player1.name },
+      { dealType: "start", name: player2.name }
+    );
   };
 
   startRound = async () => {
@@ -71,8 +74,7 @@ class Game {
     attackData.player2.name = player2.name;
     attackData.player1.player = player1.player;
     attackData.player2.player = player2.player;
-    attackData.player1.hp = player1.hp;
-    attackData.player2.hp = player2.hp;
+    
     console.table(attackData);
     this.getRoundResult(attackData);
 
@@ -96,39 +98,17 @@ class Game {
       if (ATTACKER.hit === DEFENDER.defence) {
         DEFENDER.dealType = "defense";
         VICTIM.showHitMsg(DEFENDER);
+        console.table(ATTACKER);
         generateLogs(ATTACKER, DEFENDER);
       } else {
         DEFENDER.dealType = "hit";
         VICTIM.changeHP(ATTACKER);
         VICTIM.renderHP(VICTIM.elHP());
         VICTIM.showHitMsg(DEFENDER);
+        DEFENDER.hp = VICTIM.hp;
         generateLogs(ATTACKER, DEFENDER);
       }
-      
     });
-    // ARR_PLAYERS.forEach((player) => {
-    //   const ABUSER = player.player === 1 ? player2 : player1;
-    //   const VICTIM = ABUSER.player === 1 ? player2 : player1;
-    //   const ATTACKER = fightInfoObj[`player${ABUSER.player}`];
-    //   const DEFENDER = fightInfoObj[`player${VICTIM.player}`];
-    //   console.log(ATTACKER);
-    //   VICTIM.showHitMsg(DEFENDER);
-    //   generateLogs(VICTIM, ABUSER, DEFENDER);
-    // });
-
-    // console.table(fightInfoObj);
-
-    // player1.changeHP(fightInfoObj.player1);
-    // player2.changeHP(fightInfoObj.player2);
-
-    // player1.renderHP(player1.elHP());
-    // player2.renderHP(player2.elHP());
-
-    // player1.showHitMsg(fightInfoObj.player1);
-    // player2.showHitMsg(fightInfoObj.player2);
-
-    // generateLogs(player1, player2, fightInfoObj.player1);
-    // generateLogs(player2, player1, fightInfoObj.player2);
   }
 
   determineWinner() {
@@ -156,7 +136,10 @@ class Game {
     } else {
       MATCH_RESULT.dealType = "draw";
     }
-    generateLogs({name:player1.name}, {name:player2.name, dealType:MATCH_RESULT});
+    generateLogs(
+      { name: player1.name },
+      { name: player2.name, dealType: MATCH_RESULT.dealType }
+    );
     const $restartBtn = document.querySelector(".reloadWrap .button");
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;

@@ -26,6 +26,7 @@ class Player {
 
   changeHP = ({value: HP}) => {
     this.hp < HP ? (this.hp = 0) : (this.hp -= HP);
+    
   };
 
   elHP = () => {
