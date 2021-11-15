@@ -53,23 +53,18 @@
 - [x] - refactor class player. move getRoundResult() into Game class.
 - [x] - refactor getRoundResult() method. collect info about round to separate object. Calculate result of round based on data in the   object
 - [x] - check function showHitMsg
-
 - [x] - rearrange css files
+- [x] - fix some bugs with images
+- [x] - dynamically build pages
 
 
 
+- [ ] - !rearrange page changes!
 - [ ] - add loader on page loading
-- [ ] - fix some bugs with images
-
-
-
-
-
-<!-- may be -->
+- [ ] - add loader on page loading
 - [ ] - add final countdown before round starts
 - [ ] - add message Fight before round starts
 - [ ] - change page loading. Show pages after full page loading 
-- [ ] - dynamically build pages
 - [ ] - add div with position fixed for hide page loading
 - [ ] - immitate choosing random fighters by computer
 - [ ] - add sounds
