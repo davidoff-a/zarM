@@ -56,10 +56,10 @@
 - [x] - rearrange css files
 - [x] - fix some bugs with images
 - [x] - dynamically build pages
+- [x] - !rearrange page changes! page changing works wrong. fix it
 
 
-
-- [ ] - !rearrange page changes! page changing works wrong. fix it
+- [ ] - transitionScenes have problems with timeouts... this method may be used in different places and timeouts needs to be different too.
 - [ ] - add loader on page loading
 - [ ] - add loader on page loading
 - [ ] - add final countdown before round starts
