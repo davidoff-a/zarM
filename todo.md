@@ -59,7 +59,7 @@
 
 
 
-- [ ] - !rearrange page changes!
+- [ ] - !rearrange page changes! page changing works wrong. fix it
 - [ ] - add loader on page loading
 - [ ] - add loader on page loading
 - [ ] - add final countdown before round starts

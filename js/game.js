@@ -20,7 +20,7 @@ class Game {
 
   init() {
     window.addEventListener("DOMContentLoaded", () => {
-      const ROSTER = new Promise((resolve, reject) => {
+      const ROSTER = new Promise((resolve) => {
         this.addRoster();
         resolve();
       }).then(() => {
@@ -62,7 +62,9 @@ class Game {
       .querySelector(".arenas")
       .appendChild(this.createPlayer(player2));
     // add reload button
-    await document.querySelector(".arenas").appendChild(this.createReloadButton());
+    await document
+      .querySelector(".arenas")
+      .appendChild(this.createReloadButton());
     generateLogs(
       { name: player1.name },
       { dealType: "start", name: player2.name }
@@ -192,10 +194,13 @@ class Game {
   };
 
   operateDoors = () => {
+    // setTimeout(() => {
     const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
     const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
     $SLIDE_DOOR_LEFT.classList.toggle("open");
     $SLIDE_DOOR_RIGHT.classList.toggle("open");
+    // }
+    // , timeOut);
   };
 
   async addRoster() {
@@ -275,42 +280,28 @@ class Game {
   }
 
   transitionScenes(selector, HTMLcode) {
-    
-    setTimeout(
-      () => {
-        GAME.operateDoors();
-        setTimeout(
-          () => {
-            this.insertHTMLcode(selector, HTMLcode);
-            const $ARENA = document.querySelector(".arenas");
-            if ($ARENA) {
-              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-            }
-            setTimeout(() => {
-              GAME.operateDoors();
-              setTimeout(() => {
-                const $FORM_CONTROL = document.querySelector(".control");
-                if ($FORM_CONTROL) {
-                  $FORM_CONTROL.addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    GAME.startRound();
-                    setTimeout(() => {
-                      $FORM_CONTROL.style.display = "flex";
-                    }, 1500);
-                  });
-                }
-                GAME.start();
-                
-              }, 1000);
-            }, 3000);
-          },
-          5000,
-          selector,
-          HTMLcode
-        );
-      },
-      3000
-    );
+    setTimeout(() => {
+      this.operateDoors();
+      setTimeout(() => {
+        this.insertHTMLcode(selector, HTMLcode);
+        const $ARENA = document.querySelector(".arenas");
+        const $FORM_CONTROL = document.querySelector(".control");
+        if ($ARENA) {
+          $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+          $FORM_CONTROL.style.display = "flex";
+          $FORM_CONTROL.addEventListener("submit", (event) => {
+            event.preventDefault();
+            this.startRound();
+          });
+          GAME.start();
+        } else {
+          this.addRoster();
+        }
+      }, 5000);
+      setTimeout(() => {
+        this.operateDoors();
+      }, 7000);
+    }, 3000);
   }
 
   removeClasses(selector, className) {
@@ -323,19 +314,19 @@ class Game {
   }
 
   createReloadButton() {
-  const $wrap = createElement("div", ["reloadWrap"]);
-  const $wrapBtn = createElement("button", ["button"]);
-  $wrapBtn.style.display = "none";
-  $wrapBtn.innerText = "RESTART";
-  $wrap.appendChild($wrapBtn);
+    const $wrap = createElement("div", ["reloadWrap"]);
+    const $wrapBtn = createElement("button", ["button"]);
+    $wrapBtn.style.display = "none";
+    $wrapBtn.innerText = "RESTART";
+    $wrap.appendChild($wrapBtn);
     $wrapBtn.addEventListener("click", () => {
-    this.transitionScenes(".content", $PLAYER_CHOICE);
-    // window.location.reload();
-    // GAME.operateDoors();
-    // GAME.addRoster();
-  });
-  return $wrap;
-}
+      this.transitionScenes(".content", $PLAYER_CHOICE);
+      // window.location.reload();
+      // GAME.operateDoors();
+      // GAME.addRoster();
+    });
+    return $wrap;
+  }
 }
 
 // const $frmControl = document.querySelector(".control");
@@ -346,10 +337,7 @@ const HIT = {
   foot: 20,
 };
 
-
 const GAME = new Game();
-
-
 
 function playerAttack() {
   const MY_ATTACK = {};
@@ -370,11 +358,3 @@ function playerAttack() {
 }
 
 export { GAME, ATTACK, playerAttack };
-
-// setTimeout(() => {
-//   $FORM.style.display = "flex";
-//   setTimeout(() => {
-//     const FIGHT_SOUND = new Audio("./assets/sound/fight/mk3-09020.mp3");
-//     FIGHT_SOUND.play();
-//   }, 3500);
-// }, 5000);
