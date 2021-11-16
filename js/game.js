@@ -20,20 +20,7 @@ class Game {
 
   init() {
     window.addEventListener("DOMContentLoaded", () => {
-      const ROSTER = new Promise((resolve) => {
-        this.addRoster();
-        resolve();
-      }).then(() => {
-        setTimeout(() => {
-          this.operateDoors();
-        }, 1500);
-        setTimeout(() => {
-          $LOGO.classList.add("off");
-          setTimeout(() => {
-            $LOGO.style.zIndex = "-1";
-          }, 3000);
-        }, 3000);
-      });
+      this.transitionScenes(".content", $PLAYER_CHOICE);
     });
 
     const $LOGO = document.querySelector(".logo");
@@ -279,29 +266,50 @@ class Game {
     localStorage.setItem("player2", JSON.stringify(ENEMY));
   }
 
-  transitionScenes(selector, HTMLcode) {
-    setTimeout(() => {
-      this.operateDoors();
-      setTimeout(() => {
-        this.insertHTMLcode(selector, HTMLcode);
-        const $ARENA = document.querySelector(".arenas");
-        const $FORM_CONTROL = document.querySelector(".control");
-        if ($ARENA) {
-          $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-          $FORM_CONTROL.style.display = "flex";
-          $FORM_CONTROL.addEventListener("submit", (event) => {
-            event.preventDefault();
-            this.startRound();
-          });
-          GAME.start();
-        } else {
-          this.addRoster();
-        }
-      }, 5000);
-      setTimeout(() => {
-        this.operateDoors();
-      }, 7000);
-    }, 3000);
+  transitionScenes(selector = ".content", HTMLcode = $PLAYER_CHOICE) {
+    const CHANGE = new Promise((resolve) => {
+      const $LOGO = document.querySelector(".logo");
+      if ($LOGO.classList.contains("off")) {
+        setTimeout(() => {
+          this.operateDoors();
+        }, 1500);
+      } else {
+          setTimeout(() => {
+            $LOGO.classList.add("off");
+            setTimeout(() => {
+              $LOGO.style.zIndex = "-1";
+            }, 3000);
+          }, 3000);
+      }
+
+      resolve();
+    })
+      .then(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            this.insertHTMLcode(selector, HTMLcode);
+            const $ARENA = document.querySelector(".arenas");
+            const $FORM_CONTROL = document.querySelector(".control");
+            if ($ARENA) {
+              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+              $FORM_CONTROL.style.display = "flex";
+              $FORM_CONTROL.addEventListener("submit", (event) => {
+                event.preventDefault();
+                this.startRound();
+              });
+              GAME.start();
+            } else {
+              this.addRoster();
+            }
+            resolve();
+          }, 3000);
+        });
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.operateDoors();
+        }, 1500);
+      });
   }
 
   removeClasses(selector, className) {
