@@ -60,23 +60,20 @@
 
 
 - [x] - transitionScenes have problems with timeouts... this method may be used in different places and timeouts needs to be different too.
-- [ ] - create new class to operate html pieces and page transitions.
-- [ ] - add loader on page loading
-- [ ] - add loader on page loading
-- [ ] - add final countdown before round starts
-- [ ] - add message Fight before round starts
-- [ ] - change page loading. Show pages after full page loading 
-- [ ] - add div with position fixed for hide page loading
-- [ ] - immitate choosing random fighters by computer
+- [x] - create new class to operate html pieces and page transitions? answer: Game this is the class responsible for working with HTML
+- [x] - change page loading. Show pages after full page loading
+
 - [ ] - add sounds
 - [ ] - add animations of fight
 - [ ] - add background music
+- [ ] - add message Fight before round starts
+- [ ] - immitate choosing random fighters by computer
+
+
+- [ ] - ??? add loader on page loading
+- [ ] - ??? add loader on page loading
+- [ ] - ??? add final countdown before round starts
+- [ ] - ??? add div with position fixed for hide page loading
 
 
 
-
-загружается страница index.html
-запускаем скрипт 
-получаем данные с сервера обо всех персонажах
-подгружается страница ростера добавляются обработчики событий. Необходимо вынести в отдельные методы или функции
-выбираем игрока

@@ -26,6 +26,147 @@ class Game {
     const $LOGO = document.querySelector(".logo");
   }
 
+  startPage() {
+    const HIDE_LOGO = new Promise((resolve) => {
+      setTimeout(() => {
+        const $LOGO = document.querySelector(".logo");
+        $LOGO.classList.add("off");
+        resolve($LOGO);
+      }, 1500);
+    })
+      .then(async (item) => {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            item.style.zIndex = "-1";
+          }, 3000);
+          resolve();
+        });
+      })
+      .then(
+        setTimeout(() => {
+          this.addRoster();
+        }, 1000)
+      )
+      .then(
+        setTimeout(() => {
+          this.operateDoors();
+        }, 3000)
+      );
+  }
+
+  async addRoster() {
+    localStorage.removeItem("player1");
+    localStorage.removeItem("player2");
+    this.insertHTMLcode(".content", $PLAYER_CHOICE);
+
+    const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
+
+    let imgSrc = null;
+    this.createEmptyPlayerBlock();
+
+    PLAYERS.forEach((item) => {
+      const el = createElement("div", ["fighter-ava", `div${item.id}`]);
+      const img = createElement("img");
+      img.src = item.avatar;
+      img.alt = item.name;
+
+      el.appendChild(img);
+      document.querySelector(".parent").appendChild(el);
+
+      el.addEventListener("mousemove", () => {
+        this.showHideChoosenCharacter(imgSrc, item);
+      });
+
+      el.addEventListener("mouseout", () => {
+        this.showHideChoosenCharacter(imgSrc, item);
+      });
+
+      el.addEventListener("click", (event) => {
+        this.chooseCharacterForPlayer(event, item);
+        this.chooseCharacterForOpponent(PLAYERS);
+        this.transitionScenes(".content", $ARENA_HTML);
+      });
+    });
+  }
+
+  insertHTMLcode(selector, HTMLcode) {
+    const $TAG = document.querySelector(selector);
+    $TAG.innerHTML = HTMLcode;
+  }
+
+  createEmptyPlayerBlock() {
+    const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
+    const img = createElement("img");
+    img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
+    el.appendChild(img);
+    document.querySelector(".parent").appendChild(el);
+  }
+
+  showHideChoosenCharacter(imageSrc, playerObj) {
+    if (imageSrc === null) {
+      imageSrc = playerObj.img;
+      const $img = createElement("img");
+      $img.src = imageSrc;
+      document.querySelector(".warrior").innerHTML = "";
+      document.querySelector(".warrior").appendChild($img);
+    } else {
+      imageSrc = null;
+      document.querySelector(".warrior").innerHTML = "";
+    }
+  }
+
+  chooseCharacterForPlayer(event, playerObj) {
+    this.removeClasses(".fighter-ava", "active");
+    event.target.classList.toggle("active");
+    localStorage.setItem("player1", JSON.stringify(playerObj));
+  }
+
+  chooseCharacterForOpponent(arrCharacters) {
+    const ENEMY = arrCharacters[getRandomNumber(22)];
+    const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
+    this.removeClasses(".fighter-ava", "active-p2");
+
+    $ENEMY_AVATAR.classList.toggle("active-p2");
+    localStorage.setItem("player2", JSON.stringify(ENEMY));
+  }
+
+  transitionScenes(
+    selector = ".content",
+    HTMLcode = $PLAYER_CHOICE,
+    timeout = 3000
+  ) {
+    const CHANGE = new Promise(async (resolve) => {
+      setTimeout(() => {
+        this.operateDoors();
+      }, timeout);
+
+      resolve();
+    })
+      .then(() => {
+        setTimeout(() => {
+          this.insertHTMLcode(selector, HTMLcode);
+          const $ARENA = document.querySelector(".arenas");
+          const $FORM_CONTROL = document.querySelector(".control");
+          if ($ARENA) {
+            $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+            $FORM_CONTROL.addEventListener("submit", (event) => {
+              event.preventDefault();
+              this.startRound();
+            });
+            this.start();
+          } else {
+            this.addRoster();
+          }
+          resolve();
+        }, 8000);
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.operateDoors();
+        }, 9000);
+      });
+  }
+
   start = async () => {
     //add players to arena
 
@@ -56,6 +197,16 @@ class Game {
       { name: player1.name },
       { dealType: "start", name: player2.name }
     );
+  };
+
+  operateDoors = () => {
+    // setTimeout(() => {
+    const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
+    const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
+    $SLIDE_DOOR_LEFT.classList.toggle("open");
+    $SLIDE_DOOR_RIGHT.classList.toggle("open");
+    // }
+    // , timeOut);
   };
 
   startRound = async () => {
@@ -180,154 +331,6 @@ class Game {
     };
   };
 
-  operateDoors = () => {
-    // setTimeout(() => {
-    const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
-    const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
-    $SLIDE_DOOR_LEFT.classList.toggle("open");
-    $SLIDE_DOOR_RIGHT.classList.toggle("open");
-    // }
-    // , timeOut);
-  };
-
-  async addRoster() {
-    localStorage.removeItem("player1");
-    localStorage.removeItem("player2");
-    this.insertHTMLcode(".content", $PLAYER_CHOICE);
-
-    const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
-
-    let imgSrc = null;
-    this.createEmptyPlayerBlock();
-
-    PLAYERS.forEach((item) => {
-      const el = createElement("div", ["fighter-ava", `div${item.id}`]);
-      const img = createElement("img");
-      img.src = item.avatar;
-      img.alt = item.name;
-
-      el.appendChild(img);
-      document.querySelector(".parent").appendChild(el);
-
-      el.addEventListener("mousemove", () => {
-        this.showHideChoosenCharacter(imgSrc, item);
-      });
-
-      el.addEventListener("mouseout", () => {
-        this.showHideChoosenCharacter(imgSrc, item);
-      });
-
-      el.addEventListener("click", (event) => {
-        this.chooseCharacterForPlayer(event, item);
-        this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionScenes(".content", $ARENA_HTML);
-      });
-    });
-  }
-
-  insertHTMLcode(selector, HTMLcode) {
-    const $TAG = document.querySelector(selector);
-    $TAG.innerHTML = HTMLcode;
-  }
-
-  createEmptyPlayerBlock() {
-    const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
-    const img = createElement("img");
-    img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
-    el.appendChild(img);
-    document.querySelector(".parent").appendChild(el);
-  }
-
-  showHideChoosenCharacter(imageSrc, playerObj) {
-    if (imageSrc === null) {
-      imageSrc = playerObj.img;
-      const $img = createElement("img");
-      $img.src = imageSrc;
-      document.querySelector(".warrior").innerHTML = "";
-      document.querySelector(".warrior").appendChild($img);
-    } else {
-      imageSrc = null;
-      document.querySelector(".warrior").innerHTML = "";
-    }
-  }
-
-  chooseCharacterForPlayer(event, playerObj) {
-    this.removeClasses(".fighter-ava", "active");
-    event.target.classList.toggle("active");
-    localStorage.setItem("player1", JSON.stringify(playerObj));
-  }
-
-  chooseCharacterForOpponent(arrCharacters) {
-    const ENEMY = arrCharacters[getRandomNumber(22)];
-    const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
-    this.removeClasses(".fighter-ava", "active-p2");
-
-    $ENEMY_AVATAR.classList.toggle("active-p2");
-    localStorage.setItem("player2", JSON.stringify(ENEMY));
-  }
-
-  transitionScenes(selector = ".content", HTMLcode = $PLAYER_CHOICE, timeout=3000) {
-    const CHANGE = new Promise(async (resolve) => {
-      setTimeout(() => {
-        this.operateDoors();
-      }, timeout);
-
-      resolve();
-    })
-      .then(() => {
-        setTimeout(() => {
-          this.insertHTMLcode(selector, HTMLcode);
-          const $ARENA = document.querySelector(".arenas");
-          const $FORM_CONTROL = document.querySelector(".control");
-          if ($ARENA) {
-            $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-            $FORM_CONTROL.addEventListener("submit", (event) => {
-              event.preventDefault();
-              this.startRound();
-            });
-            GAME.start();
-          } else {
-            this.addRoster();
-          }
-          resolve();
-        }, 8000);
-      }
-    )
-      .then(() => {
-      setTimeout(() => {
-        this.operateDoors();
-      }, 9000);
-    })
-  }
-
-  startPage() {
-    const HIDE_LOGO = new Promise((resolve) => {
-      setTimeout(() => {
-        const $LOGO = document.querySelector(".logo");
-        $LOGO.classList.add("off");
-        resolve($LOGO);
-      }, 1500);
-    })
-      .then(async (item) => {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            item.style.zIndex = "-1";
-          }, 3000);
-          resolve();
-        });
-      })
-      .then(
-        setTimeout(() => {
-          this.addRoster();
-        }, 1000)
-      )
-      .then(
-        setTimeout(() => {
-          this.operateDoors();
-        }, 3000)
-      );
-  }
-
   removeClasses(selector, className) {
     const arrOfElements = document.querySelectorAll(`${selector}`);
     arrOfElements.forEach((el) => {
@@ -348,24 +351,24 @@ class Game {
     });
     return $wrap;
   }
-  
+
   playerAttack() {
-  const MY_ATTACK = {};
-  const $frmControl = document.querySelector(".control");
-  for (let item of $frmControl) {
-    if (item.checked && item.name === "hit") {
-      MY_ATTACK.value = getRandomNumber(HIT[item.value]);
-      MY_ATTACK.hit = item.value;
+    const MY_ATTACK = {};
+    const $frmControl = document.querySelector(".control");
+    for (let item of $frmControl) {
+      if (item.checked && item.name === "hit") {
+        MY_ATTACK.value = getRandomNumber(HIT[item.value]);
+        MY_ATTACK.hit = item.value;
+      }
+
+      if (item.checked && item.name === "defense") {
+        MY_ATTACK.defense = item.value;
+      }
+      item.checked = false;
     }
 
-    if (item.checked && item.name === "defense") {
-      MY_ATTACK.defense = item.value;
-    }
-    item.checked = false;
+    return MY_ATTACK;
   }
-
-  return MY_ATTACK;
-}
 }
 
 const HIT = {
