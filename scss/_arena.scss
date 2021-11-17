@@ -210,7 +210,7 @@ form:invalid button[class="button"]:active::after {
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: none;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;

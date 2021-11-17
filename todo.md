@@ -59,7 +59,8 @@
 - [x] - !rearrange page changes! page changing works wrong. fix it
 
 
-- [ ] - transitionScenes have problems with timeouts... this method may be used in different places and timeouts needs to be different too.
+- [x] - transitionScenes have problems with timeouts... this method may be used in different places and timeouts needs to be different too.
+- [ ] - create new class to operate html pieces and page transitions.
 - [ ] - add loader on page loading
 - [ ] - add loader on page loading
 - [ ] - add final countdown before round starts

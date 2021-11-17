@@ -20,7 +20,7 @@ class Game {
 
   init() {
     window.addEventListener("DOMContentLoaded", () => {
-      this.transitionScenes(".content", $PLAYER_CHOICE);
+      this.startPage();
     });
 
     const $LOGO = document.querySelector(".logo");
@@ -266,50 +266,66 @@ class Game {
     localStorage.setItem("player2", JSON.stringify(ENEMY));
   }
 
-  transitionScenes(selector = ".content", HTMLcode = $PLAYER_CHOICE) {
-    const CHANGE = new Promise((resolve) => {
-      const $LOGO = document.querySelector(".logo");
-      if ($LOGO.classList.contains("off")) {
-        setTimeout(() => {
-          this.operateDoors();
-        }, 1500);
-      } else {
-          setTimeout(() => {
-            $LOGO.classList.add("off");
-            setTimeout(() => {
-              $LOGO.style.zIndex = "-1";
-            }, 3000);
-          }, 3000);
-      }
+  transitionScenes(selector = ".content", HTMLcode = $PLAYER_CHOICE, timeout=3000) {
+    const CHANGE = new Promise(async (resolve) => {
+      setTimeout(() => {
+        this.operateDoors();
+      }, timeout);
 
       resolve();
     })
       .then(() => {
-        return new Promise((resolve) => {
+        setTimeout(() => {
+          this.insertHTMLcode(selector, HTMLcode);
+          const $ARENA = document.querySelector(".arenas");
+          const $FORM_CONTROL = document.querySelector(".control");
+          if ($ARENA) {
+            $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+            $FORM_CONTROL.addEventListener("submit", (event) => {
+              event.preventDefault();
+              this.startRound();
+            });
+            GAME.start();
+          } else {
+            this.addRoster();
+          }
+          resolve();
+        }, 8000);
+      }
+    )
+      .then(() => {
+      setTimeout(() => {
+        this.operateDoors();
+      }, 9000);
+    })
+  }
+
+  startPage() {
+    const HIDE_LOGO = new Promise((resolve) => {
+      setTimeout(() => {
+        const $LOGO = document.querySelector(".logo");
+        $LOGO.classList.add("off");
+        resolve($LOGO);
+      }, 1500);
+    })
+      .then(async (item) => {
+        await new Promise((resolve) => {
           setTimeout(() => {
-            this.insertHTMLcode(selector, HTMLcode);
-            const $ARENA = document.querySelector(".arenas");
-            const $FORM_CONTROL = document.querySelector(".control");
-            if ($ARENA) {
-              $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-              $FORM_CONTROL.style.display = "flex";
-              $FORM_CONTROL.addEventListener("submit", (event) => {
-                event.preventDefault();
-                this.startRound();
-              });
-              GAME.start();
-            } else {
-              this.addRoster();
-            }
-            resolve();
+            item.style.zIndex = "-1";
           }, 3000);
+          resolve();
         });
       })
-      .then(() => {
+      .then(
+        setTimeout(() => {
+          this.addRoster();
+        }, 1000)
+      )
+      .then(
         setTimeout(() => {
           this.operateDoors();
-        }, 1500);
-      });
+        }, 3000)
+      );
   }
 
   removeClasses(selector, className) {
@@ -328,26 +344,12 @@ class Game {
     $wrapBtn.innerText = "RESTART";
     $wrap.appendChild($wrapBtn);
     $wrapBtn.addEventListener("click", () => {
-      this.transitionScenes(".content", $PLAYER_CHOICE);
-      // window.location.reload();
-      // GAME.operateDoors();
-      // GAME.addRoster();
+      this.transitionScenes(".content", $PLAYER_CHOICE, 1000);
     });
     return $wrap;
   }
-}
-
-// const $frmControl = document.querySelector(".control");
-
-const HIT = {
-  head: 30,
-  body: 25,
-  foot: 20,
-};
-
-const GAME = new Game();
-
-function playerAttack() {
+  
+  playerAttack() {
   const MY_ATTACK = {};
   const $frmControl = document.querySelector(".control");
   for (let item of $frmControl) {
@@ -364,5 +366,16 @@ function playerAttack() {
 
   return MY_ATTACK;
 }
+}
 
-export { GAME, ATTACK, playerAttack };
+const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+};
+
+const GAME = new Game();
+
+
+
+export { GAME, ATTACK };
