@@ -3,6 +3,7 @@ import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
+import { playSound } from "./audio.js";
 
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
@@ -16,7 +17,7 @@ let player2;
 class Game {
   constructor() {
     this.$CONTENT = document.querySelector(".content");
-  }
+  };
 
   init() {
     window.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +25,7 @@ class Game {
     });
 
     const $LOGO = document.querySelector(".logo");
-  }
+  };
 
   startPage() {
     const HIDE_LOGO = new Promise((resolve) => {
@@ -52,7 +53,7 @@ class Game {
           this.operateDoors();
         }, 3000)
       );
-  }
+  };
 
   async addRoster() {
     localStorage.removeItem("player1");
@@ -87,12 +88,12 @@ class Game {
         this.transitionScenes(".content", $ARENA_HTML);
       });
     });
-  }
+  };
 
   insertHTMLcode(selector, HTMLcode) {
     const $TAG = document.querySelector(selector);
     $TAG.innerHTML = HTMLcode;
-  }
+  };
 
   createEmptyPlayerBlock() {
     const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
@@ -100,7 +101,7 @@ class Game {
     img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
     el.appendChild(img);
     document.querySelector(".parent").appendChild(el);
-  }
+  };
 
   showHideChoosenCharacter(imageSrc, playerObj) {
     if (imageSrc === null) {
@@ -113,13 +114,13 @@ class Game {
       imageSrc = null;
       document.querySelector(".warrior").innerHTML = "";
     }
-  }
+  };
 
   chooseCharacterForPlayer(event, playerObj) {
     this.removeClasses(".fighter-ava", "active");
     event.target.classList.toggle("active");
     localStorage.setItem("player1", JSON.stringify(playerObj));
-  }
+  };
 
   chooseCharacterForOpponent(arrCharacters) {
     const ENEMY = arrCharacters[getRandomNumber(22)];
@@ -128,7 +129,7 @@ class Game {
 
     $ENEMY_AVATAR.classList.toggle("active-p2");
     localStorage.setItem("player2", JSON.stringify(ENEMY));
-  }
+  };
 
   transitionScenes(
     selector = ".content",
@@ -157,7 +158,6 @@ class Game {
           } else {
             this.addRoster();
           }
-          resolve();
         }, 8000);
       })
       .then(() => {
@@ -165,7 +165,7 @@ class Game {
           this.operateDoors();
         }, 9000);
       });
-  }
+  };
 
   start = async () => {
     //add players to arena
@@ -210,7 +210,7 @@ class Game {
   };
 
   startRound = async () => {
-    const PLAYER = playerAttack();
+    const PLAYER = this.playerAttack();
     const attackData = await data.postAttackData(
       QUERY_URLS.getDamageInfo,
       PLAYER
@@ -238,6 +238,7 @@ class Game {
       if (ATTACKER.hit === DEFENDER.defence) {
         DEFENDER.dealType = "defense";
         VICTIM.showHitMsg(DEFENDER);
+        playSound(DEFENDER.dealType);
         generateLogs(ATTACKER, DEFENDER);
       } else {
         DEFENDER.dealType = "hit";
@@ -245,10 +246,11 @@ class Game {
         VICTIM.renderHP(VICTIM.elHP());
         VICTIM.showHitMsg(DEFENDER);
         DEFENDER.hp = VICTIM.hp;
+        playSound(DEFENDER.dealType);
         generateLogs(ATTACKER, DEFENDER);
       }
     });
-  }
+  };
 
   determineWinner() {
     let winner;
@@ -262,9 +264,11 @@ class Game {
       winner = player1;
     }
     return winner;
-  }
+  };
 
-  declareMatchResult({ name }) {
+  declareMatchResult(winnerObj) {
+    const { name } = winnerObj;
+    const LOSER = winnerObj.player === 1 ? player2 : player1;
     document.querySelector(".arenas").appendChild(this.showPlayerWins(name));
     const MATCH_RESULT = {
       dealType: "",
@@ -276,15 +280,15 @@ class Game {
       MATCH_RESULT.dealType = "draw";
     }
     generateLogs(
-      { name: player1.name },
-      { name: player2.name, dealType: MATCH_RESULT.dealType }
+      { name },
+      { name: LOSER.name, dealType: MATCH_RESULT.dealType }
     );
     const $restartBtn = document.querySelector(".reloadWrap .button");
     const $btnFight = document.querySelector("#Fight");
 
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
-  }
+  };
 
   showPlayerWins(name) {
     const $winsTitle = createElement("div", ["winsTitle"]);
@@ -292,7 +296,7 @@ class Game {
       ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
-  }
+  };
 
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
@@ -317,7 +321,7 @@ class Game {
     $player.appendChild($character);
 
     return $player;
-  }
+  };
 
   enemyAttack = async () => {
     const hit = ATTACK[getRandomNumber(3) - 1];
@@ -338,7 +342,7 @@ class Game {
         el.classList.remove(className);
       }
     });
-  }
+  };
 
   createReloadButton() {
     const $wrap = createElement("div", ["reloadWrap"]);
@@ -350,7 +354,7 @@ class Game {
       this.transitionScenes(".content", $PLAYER_CHOICE, 1000);
     });
     return $wrap;
-  }
+  };
 
   playerAttack() {
     const MY_ATTACK = {};
@@ -368,8 +372,8 @@ class Game {
     }
 
     return MY_ATTACK;
-  }
-}
+  };
+}; 
 
 const HIT = {
   head: 30,

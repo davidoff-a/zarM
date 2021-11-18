@@ -107,10 +107,10 @@ function generateLogs(
     ? (logString = `${LOGS[typeStr].text[stringNum]} - ${hits} - [${defenderHP}/100]`)
     : (logString = LOGS[typeStr].text[stringNum]);
   LOG_RECORD.innerHTML = ` ${LOGS[typeStr]["recordSettings"][1]} ${insertData(
-    logString,
-    attackerName,
-    defenderName
-  )}`;
+                                                                              logString,
+                                                                              attackerName,
+                                                                              defenderName
+                                                                            )}`;
   LOG_RECORD.style.background = LOGS[typeStr]["recordSettings"][0];
   $CHAT.insertAdjacentElement("afterbegin", LOG_RECORD);
 }
