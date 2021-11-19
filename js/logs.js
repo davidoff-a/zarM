@@ -20,7 +20,7 @@ const LOGS = {
     ],
     recordSettings: ["rgba(9, 172, 9, 0.2)", "💀"],
     audio: {
-      firstPart: "./assets/sound/wins/",
+      firstPart: "./assets/sound/sound_wins/",
       lastPart: function () {
         return "victory.mp3";
       },

@@ -1,9 +1,9 @@
 import { getRandomNumber, createElement } from "./utils.js";
-import { generateLogs } from "./logs.js";
+import { generateLogs, LOGS } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
-import { playSound } from "./audio.js";
+import { playSound, definePathToAudio } from "./audio.js";
 
 const WIN_SOUND = {
   KABAL: "09225.mp3",
@@ -166,7 +166,8 @@ class Game {
     this.performSequentialAction(timeout)
       .then(() => {
         this.operateDoors();
-        return this.performSequentialAction(5000);
+        timeout = 5000;
+        return this.performSequentialAction(timeout);
       })
       .then(() => {
         this.insertHTMLcode(selector, HTMLcode);
@@ -177,7 +178,8 @@ class Game {
           this.startRound();
         });
         this.start();
-        return this.performSequentialAction(1000);
+        timeout = 1000;
+        return this.performSequentialAction(timeout);
       })
       .catch(() => {
         this.addRoster();
@@ -271,7 +273,7 @@ class Game {
       if (ATTACKER.hit === DEFENDER.defence) {
         DEFENDER.dealType = "defense";
         VICTIM.showHitMsg(DEFENDER);
-        playSound(DEFENDER.dealType);
+        playSound(definePathToAudio(DEFENDER.dealType));
         generateLogs(ATTACKER, DEFENDER);
       } else {
         DEFENDER.dealType = "hit";
@@ -279,7 +281,7 @@ class Game {
         VICTIM.renderHP(VICTIM.elHP());
         VICTIM.showHitMsg(DEFENDER);
         DEFENDER.hp = VICTIM.hp;
-        playSound(DEFENDER.dealType);
+        playSound(definePathToAudio(DEFENDER.dealType));
         generateLogs(ATTACKER, DEFENDER);
       }
     });

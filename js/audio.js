@@ -1,12 +1,15 @@
 import { LOGS } from "./logs.js";
 
-function playSound(kind) {
-  const PATH = `${LOGS[kind]["audio"]["firstPart"]}${LOGS[kind]["audio"][
-    "lastPart"
-  ]()}`;
-  
-  const SOUND = new Audio(PATH);
+function playSound(path) {
+  const SOUND = new Audio(path);
   SOUND.play();
 }
 
-export { playSound };
+function definePathToAudio(kind) {
+  const PATH = `${LOGS[kind]["audio"]["firstPart"]}${LOGS[kind]["audio"][
+    "lastPart"
+  ]()}`;
+  return PATH;
+}
+
+export { playSound, definePathToAudio };

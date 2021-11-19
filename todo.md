@@ -64,7 +64,8 @@
 - [x] - change page loading. Show pages after full page loading
 
 - [ ] - add sounds
-    - [ ] - add info about winSound to PLAYERS array.
+
+    - [-] - ~~add info about winSound to PLAYERS array.~~
 
 - [ ] - add animations of fight
 - [ ] - add background music
