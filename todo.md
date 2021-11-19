@@ -64,14 +64,17 @@
 - [x] - change page loading. Show pages after full page loading
 
 - [ ] - add sounds
+    - [x] - add hit sounds
+    - [x] - add winner's name sounds
+    - [ ] - add fight sound
+    - [ ] - add background music
 
-    - [-] - ~~add info about winSound to PLAYERS array.~~
+    
 
 - [ ] - add animations of fight
-- [ ] - add background music
-- [ ] - add message Fight before round starts
-- [ ] - immitate choosing random fighters by computer
-
+    - [ ] - add message Fight before round start
+    - [ ] - add animation of every player during fighting.
+    - [ ] - immitate choosing random fighters by computer
 
 - [ ] - ??? add loader on page loading
 - [ ] - ??? add loader on page loading
@@ -79,4 +82,4 @@
 - [ ] - ??? add div with position fixed for hide page loading
 
 
-
+- [-] - ~~add info about winSound to PLAYERS array.~~
