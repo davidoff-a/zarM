@@ -5,6 +5,34 @@ import { data } from "./query.js";
 import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
 import { playSound } from "./audio.js";
 
+const WIN_SOUND = {
+  KABAL: "09225.mp3",
+  JAX: "09230.mp3",
+  KANO: "09235.mp3",
+  RAIN: "09145.mp3",
+  "LIU KANG": "09245.mp3",
+  "NOOB SAIBOT": "09145.mp3",
+  "SHANG TSUNG": "09255.mp3",
+  "SUB-ZERO": "09280.mp3",
+  SMOKE: "09265.mp3",
+  SONYA: "09270.mp3",
+  SRTYKER: "09275.mp3",
+  "SUB-ZERO": "09280.mp3",
+  "KUNG LAO": "09285.mp3",
+  SYRAX: "09290.mp3",
+  "NIGHT WOLF": "09295.mp3",
+  SECTOR: "09300.mp3",
+  SINDEL: "09305.mp3",
+  ERMAC: "21010.mp3",
+  KITANA: "21025.mp3",
+  MILEENA: "21055.mp3",
+  JADE: "21075.mp3",
+  REPTILE: "21090.mp3",
+  SCORPION: "21125.mp3",
+};
+
+const WIN_SOUND_PATH = "./assets/sound/sound_wins/mk3-";
+
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
   getDamageInfo: "https://reactmarathon-api.herokuapp.com/api/mk/player/fight",
@@ -17,7 +45,7 @@ let player2;
 class Game {
   constructor() {
     this.$CONTENT = document.querySelector(".content");
-  };
+  }
 
   init() {
     window.addEventListener("DOMContentLoaded", () => {
@@ -25,7 +53,7 @@ class Game {
     });
 
     const $LOGO = document.querySelector(".logo");
-  };
+  }
 
   startPage() {
     const HIDE_LOGO = new Promise((resolve) => {
@@ -53,7 +81,7 @@ class Game {
           this.operateDoors();
         }, 3000)
       );
-  };
+  }
 
   async addRoster() {
     localStorage.removeItem("player1");
@@ -61,7 +89,6 @@ class Game {
     this.insertHTMLcode(".content", $PLAYER_CHOICE);
 
     const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
-
     let imgSrc = null;
     this.createEmptyPlayerBlock();
 
@@ -88,12 +115,12 @@ class Game {
         this.transitionScenes(".content", $ARENA_HTML);
       });
     });
-  };
+  }
 
   insertHTMLcode(selector, HTMLcode) {
     const $TAG = document.querySelector(selector);
     $TAG.innerHTML = HTMLcode;
-  };
+  }
 
   createEmptyPlayerBlock() {
     const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
@@ -101,7 +128,7 @@ class Game {
     img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
     el.appendChild(img);
     document.querySelector(".parent").appendChild(el);
-  };
+  }
 
   showHideChoosenCharacter(imageSrc, playerObj) {
     if (imageSrc === null) {
@@ -114,13 +141,13 @@ class Game {
       imageSrc = null;
       document.querySelector(".warrior").innerHTML = "";
     }
-  };
+  }
 
   chooseCharacterForPlayer(event, playerObj) {
     this.removeClasses(".fighter-ava", "active");
     event.target.classList.toggle("active");
     localStorage.setItem("player1", JSON.stringify(playerObj));
-  };
+  }
 
   chooseCharacterForOpponent(arrCharacters) {
     const ENEMY = arrCharacters[getRandomNumber(22)];
@@ -129,43 +156,49 @@ class Game {
 
     $ENEMY_AVATAR.classList.toggle("active-p2");
     localStorage.setItem("player2", JSON.stringify(ENEMY));
-  };
+  }
 
   transitionScenes(
     selector = ".content",
     HTMLcode = $PLAYER_CHOICE,
     timeout = 3000
   ) {
-    const CHANGE = new Promise(async (resolve) => {
-      setTimeout(() => {
-        this.operateDoors();
-      }, timeout);
-
-      resolve();
-    })
+    this.performSequentialAction(timeout)
       .then(() => {
-        setTimeout(() => {
-          this.insertHTMLcode(selector, HTMLcode);
-          const $ARENA = document.querySelector(".arenas");
-          const $FORM_CONTROL = document.querySelector(".control");
-          if ($ARENA) {
-            $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-            $FORM_CONTROL.addEventListener("submit", (event) => {
-              event.preventDefault();
-              this.startRound();
-            });
-            this.start();
-          } else {
-            this.addRoster();
-          }
-        }, 8000);
+        this.operateDoors();
+        return this.performSequentialAction(5000);
       })
       .then(() => {
-        setTimeout(() => {
-          this.operateDoors();
-        }, 9000);
+        this.insertHTMLcode(selector, HTMLcode);
+        const $FORM_CONTROL = document.querySelector(".control");
+        this.getArenaBackground();
+        $FORM_CONTROL.addEventListener("submit", (event) => {
+          event.preventDefault();
+          this.startRound();
+        });
+        this.start();
+        return this.performSequentialAction(1000);
+      })
+      .catch(() => {
+        this.addRoster();
+      })
+      .finally(() => {
+        this.operateDoors();
       });
-  };
+  }
+
+  getArenaBackground() {
+    const $ARENA = document.querySelector(".arenas");
+    $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
+  }
+
+  performSequentialAction(timeOut) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, timeOut);
+    });
+  }
 
   start = async () => {
     //add players to arena
@@ -250,7 +283,7 @@ class Game {
         generateLogs(ATTACKER, DEFENDER);
       }
     });
-  };
+  }
 
   determineWinner() {
     let winner;
@@ -264,7 +297,7 @@ class Game {
       winner = player1;
     }
     return winner;
-  };
+  }
 
   declareMatchResult(winnerObj) {
     const { name } = winnerObj;
@@ -283,12 +316,15 @@ class Game {
       { name },
       { name: LOSER.name, dealType: MATCH_RESULT.dealType }
     );
+    setTimeout(() => {
+      playSound(`${WIN_SOUND_PATH}${WIN_SOUND[winnerObj.name]}`);
+    }, 2000);
     const $restartBtn = document.querySelector(".reloadWrap .button");
     const $btnFight = document.querySelector("#Fight");
 
     $restartBtn.style.display = "block";
     $btnFight.disabled = true;
-  };
+  }
 
   showPlayerWins(name) {
     const $winsTitle = createElement("div", ["winsTitle"]);
@@ -296,7 +332,7 @@ class Game {
       ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
     return $winsTitle;
-  };
+  }
 
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
@@ -321,7 +357,7 @@ class Game {
     $player.appendChild($character);
 
     return $player;
-  };
+  }
 
   enemyAttack = async () => {
     const hit = ATTACK[getRandomNumber(3) - 1];
@@ -342,7 +378,7 @@ class Game {
         el.classList.remove(className);
       }
     });
-  };
+  }
 
   createReloadButton() {
     const $wrap = createElement("div", ["reloadWrap"]);
@@ -354,7 +390,7 @@ class Game {
       this.transitionScenes(".content", $PLAYER_CHOICE, 1000);
     });
     return $wrap;
-  };
+  }
 
   playerAttack() {
     const MY_ATTACK = {};
@@ -372,8 +408,8 @@ class Game {
     }
 
     return MY_ATTACK;
-  };
-}; 
+  }
+}
 
 const HIT = {
   head: 30,
@@ -382,7 +418,5 @@ const HIT = {
 };
 
 const GAME = new Game();
-
-
 
 export { GAME, ATTACK };
