@@ -55,33 +55,53 @@ class Game {
     const $LOGO = document.querySelector(".logo");
   }
 
-  startPage() {
-    const HIDE_LOGO = new Promise((resolve) => {
-      setTimeout(() => {
+  startPage(timeout = 1500) {
+    this.performSequentialAction(timeout)
+      .then(() => {
         const $LOGO = document.querySelector(".logo");
         $LOGO.classList.add("off");
-        resolve($LOGO);
-      }, 1500);
-    })
-      .then(async (item) => {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            item.style.zIndex = "-1";
-          }, 3000);
-          resolve();
-        });
+        setTimeout(() => {
+          $LOGO.style.zIndex = "-1";
+        }, 3000);
+        return this.performSequentialAction(1000);
       })
-      .then(
-        setTimeout(() => {
-          this.addRoster();
-        }, 1000)
-      )
-      .then(
-        setTimeout(() => {
-          this.operateDoors();
-        }, 3000)
-      );
+      .then(() => {
+        this.addRoster();
+        return this.performSequentialAction(3000);
+      })
+      .then(() => {
+        this.operateDoors();
+      });
   }
+
+  //   const HIDE_LOGO = new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       const $LOGO = document.querySelector(".logo");
+  //       if ($LOGO) {
+  //         $LOGO.classList.add("off");
+  //         resolve($LOGO);
+  //       }
+  //     }, 1500);
+  //   })
+  //     .then(async (item) => {
+  //       await new Promise((resolve) => {
+  //         setTimeout(() => {
+  //           item.style.zIndex = "-1";
+  //         }, 3000);
+  //         resolve();
+  //       });
+  //     })
+  //     .then(
+  //       setTimeout(() => {
+  //         this.addRoster();
+  //       }, 1000)
+  //     )
+  //     .then(
+  //       setTimeout(() => {
+  //         this.operateDoors();
+  //       }, 3000)
+  //     );
+  // }
 
   async addRoster() {
     localStorage.removeItem("player1");
