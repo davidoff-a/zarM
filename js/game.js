@@ -74,35 +74,6 @@ class Game {
       });
   }
 
-  //   const HIDE_LOGO = new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       const $LOGO = document.querySelector(".logo");
-  //       if ($LOGO) {
-  //         $LOGO.classList.add("off");
-  //         resolve($LOGO);
-  //       }
-  //     }, 1500);
-  //   })
-  //     .then(async (item) => {
-  //       await new Promise((resolve) => {
-  //         setTimeout(() => {
-  //           item.style.zIndex = "-1";
-  //         }, 3000);
-  //         resolve();
-  //       });
-  //     })
-  //     .then(
-  //       setTimeout(() => {
-  //         this.addRoster();
-  //       }, 1000)
-  //     )
-  //     .then(
-  //       setTimeout(() => {
-  //         this.operateDoors();
-  //       }, 3000)
-  //     );
-  // }
-
   async addRoster() {
     localStorage.removeItem("player1");
     localStorage.removeItem("player2");
@@ -206,6 +177,12 @@ class Game {
       })
       .finally(() => {
         this.operateDoors();
+        setTimeout(() => {
+          generateLogs(
+            { name: player1.name },
+            { dealType: "start", name: player2.name }
+          );
+        }, 4000)
       });
   }
 
@@ -248,10 +225,10 @@ class Game {
     await document
       .querySelector(".arenas")
       .appendChild(this.createReloadButton());
-    generateLogs(
-      { name: player1.name },
-      { dealType: "start", name: player2.name }
-    );
+    // generateLogs(
+    //   { name: player1.name },
+    //   { dealType: "start", name: player2.name }
+    // );
   };
 
   operateDoors = () => {
