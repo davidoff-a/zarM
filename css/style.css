@@ -788,6 +788,15 @@ form:invalid button[class="button"]:active::after {
       -ms-flex-direction: column;
           flex-direction: column;
   z-index: 100;
+  opacity: 0;
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
+}
+
+.show {
+  opacity: 1;
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
 }
 
 .inputWrap {

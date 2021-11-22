@@ -183,6 +183,10 @@ class Game {
             { dealType: "start", name: player2.name }
           );
         }, 4000)
+        setTimeout(() => {
+          const $FORM_CONTROL = document.querySelector(".control");
+          $FORM_CONTROL.classList.add("show");
+        }, 2000)
       });
   }
 
@@ -225,10 +229,6 @@ class Game {
     await document
       .querySelector(".arenas")
       .appendChild(this.createReloadButton());
-    // generateLogs(
-    //   { name: player1.name },
-    //   { dealType: "start", name: player2.name }
-    // );
   };
 
   operateDoors = () => {
