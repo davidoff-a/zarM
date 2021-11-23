@@ -66,17 +66,19 @@
 - [ ] - add sounds
     - [x] - add hit sounds
     - [x] - add winner's name sounds
-    - [ ] - add fight sound and picture
+      -[ ] - add end match sound on double KILL
+    - [x] - add fight sound and picture
       - [x] - hide fight form
-      - [ ] - show fight picture
-      - [ ] - play sound fight
-      - [ ] - show fight form
-    - [ ] - add background music
-
+      - [x] - show fight picture
+      - [x] - play sound fight
+      - [x] - show fight form
+    - [ ] - add background music and sound effects on choosing player character, operate doors etc.
+- [ ] - add responsive design to app
+- [ ] - add settings to the game (turn on/off sound, music, change volume)
     
 
 - [ ] - add animations of fight
-    - [ ] - add message Fight before round start
+    - [x] - add message Fight before round start
     - [ ] - add animation of every player during fighting.
     - [ ] - immitate choosing random fighters by computer
 
