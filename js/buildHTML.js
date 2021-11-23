@@ -1,6 +1,8 @@
 const $ARENA_HTML = `
     <div class = "arena__wrapper">
-    <div class="arenas"><form class="control"><div class="inputWrap"><h2>HIT</h2><div class="ul"><input type="radio" name="hit" value="head" id="headHit" required/> <label for="headHit"><span>HEAD</span></label><input type="radio" name="hit" value="body" id="bodyHit"  required /><label for="bodyHit"><span>BODY</span></label><input type="radio" name="hit" value="foot" id="footHit" required /> <label for="footHit"> <span>FOOT</span> </label> </div> </div> <div class="inputWrap">
+    <div class="arenas">
+    <img class="fight__img" src="../assets/fight.gif" alt="fight logo">
+    <form class="control"><div class="inputWrap"><h2>HIT</h2><div class="ul"><input type="radio" name="hit" value="head" id="headHit" required/> <label for="headHit"><span>HEAD</span></label><input type="radio" name="hit" value="body" id="bodyHit"  required /><label for="bodyHit"><span>BODY</span></label><input type="radio" name="hit" value="foot" id="footHit" required /> <label for="footHit"> <span>FOOT</span> </label> </div> </div> <div class="inputWrap">
             <h2>defense</h2>
             <div class="ul">
               <input

@@ -68,7 +68,7 @@
     - [x] - add winner's name sounds
     - [ ] - add fight sound and picture
       - [x] - hide fight form
-      - [ ] - show figth picture
+      - [ ] - show fight picture
       - [ ] - play sound fight
       - [ ] - show fight form
     - [ ] - add background music

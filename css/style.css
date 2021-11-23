@@ -873,3 +873,25 @@ form:invalid button[class="button"]:active::after {
   right: 10px;
   top: 10px;
 }
+
+.fight__img {
+  width: 200px;
+  height: auto;
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
+}
+
+.fight__img.show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 1;
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
+}

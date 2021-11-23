@@ -172,21 +172,44 @@ class Game {
         timeout = 1000;
         return this.performSequentialAction(timeout);
       })
-      .catch(() => {
-        this.addRoster();
-      })
-      .finally(() => {
+      .then(() => {
         this.operateDoors();
-        setTimeout(() => {
+        timeout = 4000;
+        return this.performSequentialAction(timeout);
+      })
+      .then(() => {
+        // setTimeout(() => {
           generateLogs(
             { name: player1.name },
             { dealType: "start", name: player2.name }
           );
-        }, 4000)
+        // }, timeout);
+        const PATH_FIGHT = "../assets/sound/fight/mk3-09020.mp3";
+        const IMG_FIGHT = document.querySelector(".fight__img");
+        playSound(PATH_FIGHT);
         setTimeout(() => {
+          IMG_FIGHT.classList.add("show");
+        }, 1500);
+        setTimeout(() => {
+          IMG_FIGHT.classList.remove("show");
+        }, 2500);
+        timeout = 2000;
+        return this.performSequentialAction(timeout);
+      })
+      // .then(() => {
+        
+      //   timeout = 2000;
+      //   return this.performSequentialAction(timeout);
+      // })
+      .then(() => {
+        // setTimeout(() => {
           const $FORM_CONTROL = document.querySelector(".control");
           $FORM_CONTROL.classList.add("show");
-        }, 2000)
+        // }, 2000);
+      })
+      .catch(async () => {
+        await this.addRoster();
+        this.operateDoors();
       });
   }
 

@@ -219,7 +219,7 @@ form:invalid button[class="button"]:active::after {
   transition: opacity 2s ease;
 }
 
-.show{
+.show {
   opacity: 1;
   transition: opacity 2s ease;
 }
@@ -285,4 +285,20 @@ form:invalid button[class="button"]:active::after {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.fight__img {
+  width: 200px;
+  height: auto;
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 2s ease;
+  &.show {
+    display: flex;
+    opacity: 1;
+    transition: opacity 2s ease;
+  }
 }
