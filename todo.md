@@ -83,9 +83,9 @@
     - [ ] - immitate choosing random fighters by computer
 
 - [ ] - ??? add loader on page loading
-- [ ] - ??? add loader on page loading
-- [ ] - ??? add final countdown before round starts
+- [ ] - ~~??? add final countdown before round starts~~
 - [ ] - ??? add div with position fixed for hide page loading
+- [ ] - ??? add additional block to roster to show choosen characters
 
 
 - [-] - ~~add info about winSound to PLAYERS array.~~
