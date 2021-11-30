@@ -79,8 +79,16 @@
 
 - [ ] - add animations of fight
     - [x] - add message Fight before round start
-    - [ ] - add animation of every player during fighting.
+    - [ ] - add win and lose state
+    - [ ] - ???? add animation of every player during fighting. I haven't enough GIFs to realize it. So, I need to show who win and who lose.
     - [ ] - immitate choosing random fighters by computer
+
+
+    - [ ] - in a case of a draw, button restart doesn't show
+    - [ ] - edit picture filenames for correct appearance
+    - [ ] - replace css-animation with requestAnimationFrame
+    
+
 
 - [ ] - ??? add loader on page loading
 - [ ] - ~~??? add final countdown before round starts~~

@@ -149,7 +149,7 @@
   right: 60px;
 }
 
-.player2 .character img:not([class]) {
+.player2 .character .char2/* img:not([class]) */ {
   transform: scaleX(-1) translate(50%, 0);
 }
 

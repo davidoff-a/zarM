@@ -6,29 +6,121 @@ import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
 import { playSound, definePathToAudio } from "./audio.js";
 
 const WIN_SOUND = {
-  KABAL: "09225.mp3",
-  JAX: "09230.mp3",
-  KANO: "09235.mp3",
-  RAIN: "09145.mp3",
-  "LIU KANG": "09245.mp3",
-  "NOOB SAIBOT": "09145.mp3",
-  "SHANG TSUNG": "09255.mp3",
-  "SUB-ZERO": "09280.mp3",
-  SMOKE: "09265.mp3",
-  SONYA: "09270.mp3",
-  SRTYKER: "09275.mp3",
-  "SUB-ZERO": "09280.mp3",
-  "KUNG LAO": "09285.mp3",
-  SYRAX: "09290.mp3",
-  "NIGHT WOLF": "09295.mp3",
-  SECTOR: "09300.mp3",
-  SINDEL: "09305.mp3",
-  ERMAC: "21010.mp3",
-  KITANA: "21025.mp3",
-  MILEENA: "21055.mp3",
-  JADE: "21075.mp3",
-  REPTILE: "21090.mp3",
-  SCORPION: "21125.mp3",
+  KABAL: {
+    winsound: "09225.mp3",
+    winState: "../assets/chars/win/kabal_wins.png",
+    loseState: "../assets/chars/lose/KABAL.gif",
+  },
+  JAX: {
+    winsound: "09230.mp3",
+    winState: "../assets/chars/win/JAX_wins.gif",
+    loseState: "../assets/chars/lose/JAX.gif",
+  },
+  KANO: {
+    winsound: "09235.mp3",
+    winState: "../assets/chars/win/KANO_wins.png",
+    loseState: "../assets/chars/lose/KANO.gif",
+  },
+  RAIN: {
+    winsound: "09145.mp3",
+    winState: "../assets/chars/win/RAIN_wins.png",
+    loseState: "../assets/chars/lose/RAIN.gif",
+  },
+  "LIU KANG": {
+    winsound: "09245.mp3",
+    winState: "../assets/chars/win/LIU-KANG_wins.png",
+    loseState: "../assets/chars/lose/LIU-KANG.gif",
+  },
+  "NOOB SAIBOT": {
+    winsound: "09145.mp3",
+    winState: "../assets/chars/win/NOOB-SAIBOT_wins.png",
+    loseState: "../assets/chars/lose/NOOB-SAIBOT.gif",
+  },
+  "SHANG TSUNG": {
+    winsound: "09255.mp3",
+    winState: "../assets/chars/win/SHANG-TSUNG_wins.png",
+    loseState: "../assets/chars/lose/SHANG-TSUNG.gif",
+  },
+  "SUB-ZERO": {
+    winsound: "09280.mp3",
+    winState: "../assets/chars/win/SUB-ZERO_wins.png",
+    loseState: "../assets/chars/lose/SUB-ZERO.gif",
+  },
+  SMOKE: {
+    winsound: "09265.mp3",
+    winState: "../assets/chars/win/SMOKE_wins.png",
+    loseState: "../assets/chars/lose/SMOKE.gif",
+  },
+  SONYA: {
+    winsound: "09270.mp3",
+    winState: "../assets/chars/win/SONYA_wins.png",
+    loseState: "../assets/chars/lose/SONYA.gif",
+  },
+  STRYKER: {
+    winsound: "09275.mp3",
+    winState: "../assets/chars/win/SRTYKER_wins.png",
+    loseState: "../assets/chars/lose/SRTYKER.gif",
+  },
+  "SUB-ZERO": {
+    winsound: "09280.mp3",
+    winState: "../assets/chars/win/SUB-ZERO_wins.png",
+    loseState: "../assets/chars/lose/SUB-ZERO.gif",
+  },
+  "KUNG LAO": {
+    winsound: "09285.mp3",
+    winState: "../assets/chars/win/KUNG-LAO_wins.gif",
+    loseState: "../assets/chars/lose/KUNG-LAO.gif",
+  },
+  CYRAX: {
+    winsound: "09290.mp3",
+    winState: "../assets/chars/win/CYRAX_wins.png",
+    loseState: "../assets/chars/lose/CYRAX.gif",
+  },
+  "NIGHT WOLF": {
+    winsound: "09295.mp3",
+    winState: "../assets/chars/win/NIGHT-WOLF_wins.png",
+    loseState: "../assets/chars/lose/NIGHT-WOLF.gif",
+  },
+  SEKTOR: {
+    winsound: "09300.mp3",
+    winState: "../assets/chars/win/SECTOR_wins.gif",
+    loseState: "../assets/chars/lose/SECTOR.gif",
+  },
+  SINDEL: {
+    winsound: "09305.mp3",
+    winState: "../assets/chars/win/SINDEL_wins.png",
+    loseState: "../assets/chars/lose/SINDEL.gif",
+  },
+  ERMAC: {
+    winsound: "21010.mp3",
+    winState: "../assets/chars/win/ERMAC_wins.png",
+    loseState: "../assets/chars/lose/ERMAC.gif",
+  },
+  KITANA: {
+    winsound: "21025.mp3",
+    winState: "../assets/chars/win/KITANA_wins.png",
+    loseState: "../assets/chars/lose/KITANA.gif",
+  },
+  MILEENA: {
+    winsound: "21055.mp3",
+    winState: "../assets/chars/win/MILEENA_wins.png",
+    loseState: "../assets/chars/lose/MILEENA.gif",
+  },
+  JADE: {
+    winsound: "21075.mp3",
+    winState: "../assets/chars/win/JADE_wins.png",
+    loseState: "../assets/chars/lose/JADE.gif",
+  },
+  REPTILE: {
+    winsound: "21090.mp3",
+    winState: "../assets/chars/win/REPTILE_wins.gif",
+    loseState: "../assets/chars/lose/REPTILE.gif",
+  },
+  SCORPION: {
+    winsound: "21125.mp3",
+    winState: "../assets/chars/win/SCORPION_wins.png",
+    loseState: "../assets/chars/lose/SCORPION.gif",
+  },
 };
 
 const WIN_SOUND_PATH = "./assets/sound/sound_wins/mk3-";
@@ -179,10 +271,10 @@ class Game {
       })
       .then(() => {
         // setTimeout(() => {
-          generateLogs(
-            { name: player1.name },
-            { dealType: "start", name: player2.name }
-          );
+        generateLogs(
+          { name: player1.name },
+          { dealType: "start", name: player2.name }
+        );
         // }, timeout);
         const PATH_FIGHT = "../assets/sound/fight/mk3-09020.mp3";
         const IMG_FIGHT = document.querySelector(".fight__img");
@@ -197,14 +289,14 @@ class Game {
         return this.performSequentialAction(timeout);
       })
       // .then(() => {
-        
+
       //   timeout = 2000;
       //   return this.performSequentialAction(timeout);
       // })
       .then(() => {
         // setTimeout(() => {
-          const $FORM_CONTROL = document.querySelector(".control");
-          $FORM_CONTROL.classList.add("show");
+        const $FORM_CONTROL = document.querySelector(".control");
+        $FORM_CONTROL.classList.add("show");
         // }, 2000);
       })
       .catch(async () => {
@@ -322,9 +414,12 @@ class Game {
   }
 
   declareMatchResult(winnerObj) {
-    const { name } = winnerObj;
-    const LOSER = winnerObj.player === 1 ? player2 : player1;
+    const { name, player } = winnerObj;
+    const LOSER = player === 1 ? player2 : player1;
     document.querySelector(".arenas").appendChild(this.showPlayerWins(name));
+    document.querySelector(`.char${player}`).src = WIN_SOUND[name].winState;
+    document.querySelector(`.char${LOSER.player}`).src = WIN_SOUND[name].loseState;
+    console.log(document.querySelector(`.char${LOSER}`));
     const MATCH_RESULT = {
       dealType: "",
       hits: 0,
@@ -339,7 +434,7 @@ class Game {
       { name: LOSER.name, dealType: MATCH_RESULT.dealType }
     );
     setTimeout(() => {
-      playSound(`${WIN_SOUND_PATH}${WIN_SOUND[winnerObj.name]}`);
+      playSound(`${WIN_SOUND_PATH}${WIN_SOUND[name]}`);
     }, 2000);
     const $restartBtn = document.querySelector(".reloadWrap .button");
     const $btnFight = document.querySelector("#Fight");
@@ -358,27 +453,28 @@ class Game {
 
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
-    const $player = createElement("div", [`player${playerNumber}`]);
-    const $progressbar = createElement("div", ["progressbar"]);
-    const $life = createElement("div", ["life"]);
-    const $name = createElement("div", ["name"]);
-    const $character = createElement("div", ["character"]);
-    const $charImg = createElement("img");
-    const $bangImg = createElement("img");
+    const $PLAYER = createElement("div", [`player${playerNumber}`]);
+    const $PROGRESSBAR = createElement("div", ["progressbar"]);
+    const $LIFE = createElement("div", ["life"]);
+    const $NAME = createElement("div", ["name"]);
+    const $CHARACTER = createElement("div", ["character"]);
+    const $CHAR_IMG = createElement("img");
+    $CHAR_IMG.classList.add(`char${playerNumber}`);
+    const $BANG_IMG = createElement("img");
 
-    $life.style.width = `${hp}%`;
-    $name.innerText = `${name}`;
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
+    $LIFE.style.width = `${hp}%`;
+    $NAME.innerText = `${name}`;
+    $PROGRESSBAR.appendChild($LIFE);
+    $PROGRESSBAR.appendChild($NAME);
 
-    $charImg.src = img;
-    $character.appendChild($charImg);
-    $character.appendChild($bangImg);
-    $bangImg.classList.add(`bang`, `fighter${playerNumber}`);
-    $player.appendChild($progressbar);
-    $player.appendChild($character);
+    $CHAR_IMG.src = img;
+    $CHARACTER.appendChild($CHAR_IMG);
+    $CHARACTER.appendChild($BANG_IMG);
+    $BANG_IMG.classList.add(`bang`, `fighter${playerNumber}`);
+    $PLAYER.appendChild($PROGRESSBAR);
+    $PLAYER.appendChild($CHARACTER);
 
-    return $player;
+    return $PLAYER;
   }
 
   enemyAttack = async () => {

@@ -1,6 +1,6 @@
 import { createElement, getRandomNumber } from "./utils.js";
 import { ATTACK } from "./game.js";
-import { playSound } from "./audio.js";
+// import { playSound } from "./audio.js";
 const MESSAGES = {
   hit: [
     "1.png",
@@ -20,7 +20,7 @@ class Player {
   constructor({ player, name, img }) {
     this.player = player;
     this.name = name;
-    this.hp = 100;
+    this.hp = 15;
     this.img = img;
   }
 
