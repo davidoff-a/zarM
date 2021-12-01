@@ -1,0 +1,30 @@
+{
+  "name": "my_mortal_kombat_challenge",
+  "version": "1.0.0",
+  "description": "It is my new pet project which was started on Zar JS Marathon. After the end of the marathon I continue to work on this project. ",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidoff-a/zarM.git"
+  },
+  "keywords": [
+    "Trainig",
+    "petproject",
+    "mortal",
+    "kombat"
+  ],
+  "author": "Davidau Aliaksei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidoff-a/zarM/issues"
+  },
+  "homepage": "https://github.com/davidoff-a/zarM#readme",
+  "devDependencies": {
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  }
+}

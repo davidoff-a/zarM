@@ -86,9 +86,9 @@
 
     - [ ] - in a case of a draw, button restart doesn't show
     - [ ] - edit picture filenames for correct appearance
-    - [ ] - replace css-animation with requestAnimationFrame
+    - [ ] - replace css-animation with requestAnimationFrame, cherk if can I use transitionend event in my app.
+    - [ ] - add webpack to project
     
-
 
 - [ ] - ??? add loader on page loading
 - [ ] - ~~??? add final countdown before round starts~~
