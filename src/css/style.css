@@ -1,0 +1,866 @@
+@font-face {
+  font-family: "Mortal Kombat 3";
+  src: url("../assets/fonts/MortalKombat3-Regular.eot");
+  src: url("../assets/fonts/MortalKombat3-Regular.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/MortalKombat3-Regular.woff2") format("woff2"), url("../assets/fonts/MortalKombat3-Regular.woff") format("woff"), url("../assets/fonts/MortalKombat3-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.button {
+  display: block;
+  position: relative;
+  padding: 0 16px;
+  height: 36px;
+  color: white;
+  font-size: 18px;
+  text-transform: uppercase;
+  background-color: #f5d100;
+  border: none;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  font-family: "Mortal Kombat 3";
+  outline: none;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 4px;
+  left: 0;
+  background-color: #cd0e03;
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.button:hover {
+  background-color: #f5d100;
+}
+
+.button:active {
+  top: 2px;
+}
+
+.button:active::after {
+  top: 1px;
+}
+
+.button:disabled {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+.button:disabled:after {
+  opacity: 0.1;
+}
+
+.button:disabled:active {
+  top: 0px;
+}
+
+.button:disabled:active::after {
+  top: 4px;
+}
+
+.reloadWrap {
+  position: absolute;
+  top: 54px;
+  z-index: 100;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
+}
+
+.reloadWrap .button {
+  margin-top: 0;
+}
+
+.buttonWrap {
+  margin-top: 12px;
+}
+
+input {
+  display: none;
+}
+
+input[type="radio"]:checked + label > span {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="radio"]:checked + label > span::before {
+  background: #f5d100;
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+input[type="radio"]:checked + label > span:hover {
+  background: none;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #424466;
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  background: #424466;
+  overflow: hidden;
+}
+
+.content {
+  margin: 0 auto;
+  padding: 0;
+  height: 100vh;
+}
+
+.title__choice {
+  position: absolute;
+  font-family: "Mortal Kombat 3";
+  font-size: 48px;
+  color: #fff;
+  top: 40px;
+  left: 50%;
+  color: #efefef;
+  text-shadow: 4px 2px 1px #000;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  white-space: nowrap;
+}
+
+.warrior {
+  position: absolute;
+  width: 150px;
+  height: 240px;
+  z-index: 100;
+  bottom: 44px;
+  left: 54%;
+  margin-left: -105px;
+  -webkit-transform: translate(-205%, 0px);
+          transform: translate(-205%, 0px);
+}
+
+.warrior img {
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+}
+
+.parent {
+  margin-top: 25%;
+  max-width: 500px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+  -ms-grid-rows: (1fr)[4];
+      grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.div1 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.div2 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.div3 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.div4 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.div5 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 5 / 2 / 6;
+}
+
+.div6 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 6;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 6 / 2 / 7;
+}
+
+.div7 {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 7;
+  -ms-grid-column-span: 1;
+  grid-area: 1 / 7 / 2 / 8;
+}
+
+.div8 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.div9 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.div10 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.div11 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 4 / 3 / 5;
+}
+
+.div12 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 5 / 3 / 6;
+}
+
+.div13 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 6;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 6 / 3 / 7;
+}
+
+.div14 {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 7;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 7 / 3 / 8;
+}
+
+.div15 {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 2 / 4 / 3;
+}
+
+.div16 {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 3 / 4 / 4;
+}
+
+.div17 {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 4 / 4 / 5;
+}
+
+.div18 {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 5 / 4 / 6;
+}
+
+.div19 {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 6;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 6 / 4 / 7;
+}
+
+.div20 {
+  -ms-grid-row: 4;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 4 / 2 / 5 / 3;
+}
+
+.div21 {
+  -ms-grid-row: 4;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 4 / 3 / 5 / 4;
+}
+
+.div22 {
+  -ms-grid-row: 4;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 1;
+  grid-area: 4 / 4 / 5 / 5;
+}
+
+.div23 {
+  -ms-grid-row: 4;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 1;
+  grid-area: 4 / 5 / 5 / 6;
+}
+
+.div24 {
+  -ms-grid-row: 4;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 6;
+  -ms-grid-column-span: 1;
+  grid-area: 4 / 6 / 5 / 7;
+}
+
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+
+.row:hover {
+  z-index: 2;
+}
+
+.fighter-ava {
+  max-width: 137px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.fighter-ava:hover, .fighter-ava.active {
+  z-index: 2;
+}
+
+.fighter-ava:hover:before, .fighter-ava.active:before {
+  content: "P1";
+  display: block;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  top: -4px;
+  left: -4px;
+  position: absolute;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000;
+  font-family: "Mortal Kombat 3";
+  border: 9px solid #21aa21;
+}
+
+.fighter-ava.active-p2 {
+  z-index: 2;
+}
+
+.fighter-ava.active-p2:after {
+  content: "P2";
+  text-align: right;
+  display: block;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  top: -3px;
+  left: -3px;
+  position: absolute;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000;
+  font-family: "Mortal Kombat 3";
+  border: 9px solid #cd0e03;
+}
+
+.fighter-ava.disabled {
+  cursor: default;
+}
+
+.fighter-ava.disabled:hover:before {
+  display: none;
+}
+
+.fighter-ava img {
+  width: 100%;
+}
+
+.wall {
+  position: absolute;
+  width: 450px;
+  height: 100%;
+  background-color: #424466;
+  min-height: 100vh;
+  top: 0;
+  z-index: 100;
+}
+
+.wall_left {
+  left: calc(50% - 467px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
+  transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
+}
+
+.wall_left.open {
+  -webkit-transform: translate(-380px, 0px);
+          transform: translate(-380px, 0px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
+  transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
+}
+
+.wall_left img {
+  width: 87px;
+  height: 100%;
+  position: absolute;
+  right: -30px;
+}
+
+.wall_right {
+  right: calc(50% - 467px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
+  transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
+}
+
+.wall_right.open {
+  -webkit-transform: translate(380px, 0px);
+          transform: translate(380px, 0px);
+  -webkit-transition: -webkit-transform 5s ease-in-out;
+  transition: -webkit-transform 5s ease-in-out;
+  transition: transform 5s ease-in-out;
+  transition: transform 5s ease-in-out, -webkit-transform 5s ease-in-out;
+}
+
+.wall_right img {
+  width: 87px;
+  height: 100%;
+  position: absolute;
+  left: -30px;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 200;
+  opacity: 1;
+  -webkit-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+}
+
+.logo.off {
+  opacity: 0;
+  -webkit-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+}
+
+.arena__wrapper {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+
+.arenas {
+  width: 786px;
+  background-size: contain;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+
+.arenas.arena1 {
+  background-image: url(../assets/scorpions-lair-arenas.png);
+}
+
+.arenas.arena2 {
+  background-image: url(../assets/the-cave.png);
+}
+
+.arenas.arena3 {
+  background-image: url(../assets/jade-s-desert.png);
+}
+
+.arenas.arena4 {
+  background-image: url(../assets/scislac-busorez.png);
+}
+
+.arenas.arena5 {
+  background-image: url(../assets/waterfront.png);
+}
+
+.player1,
+.player2 {
+  width: 50%;
+  position: relative;
+}
+
+.progressbar {
+  width: 295px;
+  border: 4px solid #f5d100;
+  position: absolute;
+  top: 59px;
+  height: 28px;
+  background-color: #cd0336;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.player1 .progressbar {
+  left: 38px;
+}
+
+.player2 .progressbar {
+  right: 38px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.extralife {
+  width: 90px;
+  border: 2px solid #f5d100;
+  position: absolute;
+  top: 85px;
+  height: 12px;
+  background-color: #cd0e03;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.player1 .extralife {
+  left: 38px;
+}
+
+.player2 .extralife {
+  right: 38px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.extralife .life {
+  background: #00d600;
+}
+
+.life {
+  background-color: #0431f9;
+  height: 100%;
+  width: 90%;
+}
+
+.name {
+  position: absolute;
+  font-family: "Mortal Kombat 3";
+  font-size: 26px;
+  line-height: 20px;
+  letter-spacing: 2px;
+  color: #efefef;
+  top: 0;
+  text-transform: uppercase;
+}
+
+.player1 .name {
+  left: 5px;
+}
+
+.player2 .name {
+  right: 5px;
+}
+
+.chat {
+  width: 786px;
+  height: 30vh;
+  background-image: url(../assets/versus.png);
+  background-size: cover;
+  background-position: center;
+  border-top: 4px solid #f5d100;
+  padding: 6px 40px;
+  overflow: auto;
+  color: white;
+  font-family: Arial;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 200px;
+          flex: 0 1 200px;
+}
+
+.chat::-webkit-scrollbar {
+  width: 0;
+}
+
+.chat span {
+  font-family: "Mortal Kombat 3";
+  color: #f58300;
+}
+
+.character {
+  position: absolute;
+  bottom: 20px;
+  width: 150px;
+  height: 268px;
+}
+
+.player1 .character {
+  left: 60px;
+}
+
+.player2 .character {
+  right: 60px;
+}
+
+.player2 .character img:not([class]) {
+  -webkit-transform: scaleX(-1) translate(50%, 0);
+          transform: scaleX(-1) translate(50%, 0);
+}
+
+.character img {
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+
+.fight {
+  position: absolute;
+  z-index: 100;
+  top: 30%;
+  width: 300px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
+}
+
+.fight img {
+  width: 100%;
+}
+
+.winsTitle {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  font-size: 36px;
+  -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
+  text-transform: uppercase;
+  z-index: 100;
+  color: white;
+  font-family: "Mortal Kombat 3";
+  text-shadow: 2px 2px 2px #cd0e03;
+}
+
+form:invalid button[class="button"] {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+form:invalid button[class="button"]:after {
+  opacity: 0.1;
+}
+
+form:invalid button[class="button"]:active {
+  top: 0px;
+}
+
+form:invalid button[class="button"]:active::after {
+  top: 4px;
+}
+
+.control {
+  position: absolute;
+  width: 200px;
+  top: 60%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  z-index: 100;
+}
+
+.inputWrap {
+  position: relative;
+  width: 280px;
+  margin-bottom: 24px;
+}
+
+.inputWrap h2 {
+  text-align: center;
+  margin: 0 auto 20px;
+  font-weight: 700;
+  font-family: "Mortal Kombat 3";
+  color: #efefef;
+  text-transform: uppercase;
+}
+
+.ul {
+  border: solid 3px #cd0e03;
+  height: 50px;
+  padding: 0 12px;
+  font-family: "Mortal Kombat 3";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #efefef;
+}
+
+.ul label {
+  cursor: pointer;
+}
+
+.ul label:nth-of-type(2) {
+  margin: 0 -4.5px;
+}
+
+.ul label span {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 50px;
+  line-height: 50px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  text-align: center;
+  margin-top: -3px;
+}
+
+.ul label span::before {
+  position: relative;
+  display: block;
+  width: 80px;
+  height: 50px;
+  content: "";
+  -webkit-transform: scaleY(1.2);
+          transform: scaleY(1.2);
+  z-index: -1;
+  margin-bottom: -50px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.ul label span:hover {
+  background-color: rgba(107, 185, 240, 0.2);
+}
+
+.bang {
+  max-width: 50px;
+  max-height: 50px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
