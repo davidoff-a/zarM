@@ -138,4 +138,4 @@ const $ARENA_HTML = `
 const $PLAYER_CHOICE = `
 <div class="title title__choice">SELECT YOUR FIGHTERS</div><div class="warrior"></div><div class="parent"></div>
 `;
-export { arenaHTML, $PLAYER_CHOICE };
+export { arenaHTML, $PLAYER_CHOICE, createEl };
