@@ -1,13 +1,17 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== "production";
+console.log("#### NODE_ENV =>",process.env.NODE_ENV);
 
 module.exports = {
-    mode:"development",
+    mode:"production",
     entry: "./src/index.js",
     output: {
         path:path.resolve(__dirname, "dist"),
-        filename: "[hash]-bundle.js",
+        filename: "[contenthash]-bundle.js",
         clean: true,
+        assetModuleFilename: 'images/[hash][ext][query]'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -16,8 +20,13 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "postcss-loader",
+                    "sass-loader",
+                ],
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -25,7 +34,7 @@ module.exports = {
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource',
+                type: 'asset/inline',
             },
         ],
     },
@@ -34,9 +43,15 @@ module.exports = {
             title: 'Mortal Kombat',
             template: "./src/index.html"
         }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].css",
+            chunkFilename: "[id].[contenthash].css",
+        }),
     ],
     optimization: {
-        runtimeChunk: 'single',
+        splitChunks: {
+            chunks: 'all',
+        },
     },
 
 }
