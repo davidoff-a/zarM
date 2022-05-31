@@ -2,7 +2,7 @@ import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
-import { $ARENA_HTML, $PLAYER_CHOICE } from "./buildHTML.js";
+import { arenaHTML, $PLAYER_CHOICE } from "./buildHTML.js";
 
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
@@ -84,7 +84,7 @@ class Game {
       el.addEventListener("click", (event) => {
         this.chooseCharacterForPlayer(event, item);
         this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionScenes(".content", $ARENA_HTML);
+        this.transitionScenes(".content", arenaHTML());
       });
     });
   }
@@ -378,7 +378,5 @@ const HIT = {
 };
 
 const GAME = new Game();
-
-
 
 export { GAME, ATTACK };

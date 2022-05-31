@@ -11,7 +11,7 @@ module.exports = {
         path:path.resolve(__dirname, "dist"),
         filename: "[contenthash]-bundle.js",
         clean: true,
-        assetModuleFilename: 'images/[hash][ext][query]'
+        assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     devtool: 'inline-source-map',
     devServer: {
