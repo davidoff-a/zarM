@@ -5,7 +5,7 @@ const devMode = process.env.NODE_ENV !== "production";
 console.log("#### NODE_ENV =>", process.env.NODE_ENV);
 
 module.exports = {
-  mode: "production",
+  mode: process.env.NODE_ENV,
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
