@@ -9,12 +9,12 @@ const appInit = () => {
   const divLogo = createEl({ tag: "div", classes: ["logo"] });
   const imgLogo = createEl({
     tag: "img",
-    attribs: { src: "assets/wall-left.png", alt: "wall" },
+    attribs: { src: "./assets/logo.png", alt: "logo" },
   });
   const leftWall = createEl({ tag: "div", classes: ["wall", "wall_left"] });
   const leftWallImg = createEl({
     tag: "img",
-    attribs: { src: "./assets/logo.png", alt: "logo" },
+    attribs: { src: "./assets/wall-left.png", alt: "wall" },
   });
   const rightWall = createEl({ tag: "div", classes: ["wall", "wall_right"] });
   const rightWallImg = createEl({
