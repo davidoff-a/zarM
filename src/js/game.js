@@ -2,7 +2,7 @@ import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
-import { arenaHTML, $PLAYER_CHOICE } from "./buildHTML.js";
+import { arenaHTML, playerChoice } from "./buildHTML.js";
 
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
@@ -57,7 +57,7 @@ class Game {
   async addRoster() {
     localStorage.removeItem("player1");
     localStorage.removeItem("player2");
-    this.insertHTMLcode(".content", $PLAYER_CHOICE);
+    this.insertHTMLcode(".content", playerChoice());
 
     const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
 
@@ -91,7 +91,7 @@ class Game {
 
   insertHTMLcode(selector, HTMLcode) {
     const $TAG = document.querySelector(selector);
-    $TAG.innerHTML = HTMLcode;
+    $TAG.append(HTMLcode);
   }
 
   createEmptyPlayerBlock() {
