@@ -9,6 +9,12 @@ const QUERY_URLS = {
   getDamageInfo: "https://reactmarathon-api.herokuapp.com/api/mk/player/fight",
 };
 
+const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+};
+
 const ATTACK = ["head", "body", "foot"];
 let player1;
 let player2;
@@ -23,7 +29,7 @@ class Game {
       this.startPage();
     });
 
-    const $LOGO = document.querySelector(".logo");
+    // const $LOGO = document.querySelector(".logo");
   }
 
   startPage() {
@@ -91,6 +97,7 @@ class Game {
 
   insertHTMLcode(selector, HTMLcode) {
     const $TAG = document.querySelector(selector);
+    $TAG.innerHTML = "";
     $TAG.append(HTMLcode);
   }
 
@@ -207,7 +214,7 @@ class Game {
   };
 
   startRound = async () => {
-    const PLAYER = playerAttack();
+    const PLAYER = this.playerAttack();
     const attackData = await data.postAttackData(
       QUERY_URLS.getDamageInfo,
       PLAYER
@@ -367,12 +374,6 @@ class Game {
     return MY_ATTACK;
   }
 }
-
-const HIT = {
-  head: 30,
-  body: 25,
-  foot: 20,
-};
 
 const GAME = new Game();
 
