@@ -63,6 +63,9 @@
 - [x] create new class to operate html pieces and page transitions? answer: Game this is the class responsible for working with HTML
 - [x] change page loading. Show pages after full page loading
 
+## 06/01/22
+- [x] copy files, make pics visible
+- [ ] replace transitions with css animations
 - [ ] add sounds
 - [ ] add animations of fight
 - [ ] add background music
@@ -70,7 +73,6 @@
 - [ ] immitate choosing random fighters by computer
 
 
-- [ ] ??? add loader on page loading
 - [ ] ??? add loader on page loading
 - [ ] ??? add final countdown before round starts
 - [ ] ??? add div with position fixed for hide page loading

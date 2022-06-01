@@ -58,4 +58,3 @@ module.exports = {
 //TODO: make several bundles for different scripts. First screen, Roaster, Fight
 //TODO: add babel
 //TODO: add TS
-//TODO: make files to be copied to dist folder
