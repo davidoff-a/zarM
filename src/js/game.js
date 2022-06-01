@@ -160,7 +160,7 @@ class Game {
           } else {
             this.addRoster();
           }
-          //TODO: to make the app work
+
           // resolve();
         }, 8000);
       })
