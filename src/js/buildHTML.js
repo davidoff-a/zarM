@@ -6,6 +6,28 @@ const createEl = ({ tag, classes = [], attribs = {} }) => {
   }
   return el;
 };
+const target = (name, value) => {
+  const radioId = `${value}${name[0].toUpperCase()}${name
+    .slice(1)
+    .toLowerCase()}`;
+  const fragment = document.createDocumentFragment();
+  const inputR = createEl({
+    tag: "input",
+    attribs: {
+      type: "radio",
+      name: name,
+      value: value,
+      id: radioId,
+      required: true,
+    },
+  });
+  const labelR = createEl({ tag: "label", attribs: { for: radioId } });
+  const spanR = createEl({ tag: "span" });
+  spanR.innerText = value.toUpperCase();
+  labelR.append(spanR);
+  fragment.append(inputR, labelR);
+  return fragment;
+};
 const arenaHTML = () => {
   const arenaWrapper = createEl({ tag: "div", classes: ["arena__wrapper"] });
   const arenas = createEl({ tag: "div", classes: ["arenas"] });
@@ -22,29 +44,6 @@ const arenaHTML = () => {
   btn.innerText = "fight";
   btnWrap.append(btn);
 
-  const target = (name, value) => {
-    const radioId = `${value}${name[0].toUpperCase()}${name
-      .slice(1)
-      .toLowerCase()}`;
-    const fragment = document.createDocumentFragment();
-    const inputR = createEl({
-      tag: "input",
-      attribs: {
-        type: "radio",
-        name: name,
-        value: value,
-        id: radioId,
-        required: true,
-      },
-    });
-    const labelR = createEl({ tag: "label", attribs: { for: radioId } });
-    const spanR = createEl({ tag: "span" });
-    spanR.innerText = value.toUpperCase();
-    labelR.append(spanR);
-    fragment.append(inputR, labelR);
-    return fragment;
-  };
-
   actions.forEach((act) => {
     const inputWrap = createEl({ tag: "div", classes: ["inputWrap"] });
     const actionTitle = createEl({ tag: "h2" });
@@ -59,22 +58,20 @@ const arenaHTML = () => {
   formArenas.append(btnWrap);
   arenas.append(formArenas);
   arenaWrapper.append(arenas, chat);
+  return arenaWrapper;
 };
+
 const playerChoice = () => {
   const fragment = document.createDocumentFragment();
   const divTitle = createEl({
     tag: "div",
     classes: ["title", "title__choice"],
   });
+  divTitle.innerText = "SELECT YOUR FIGHTERS";
   const divWarrior = createEl({ tag: "div", classes: ["warrior"] });
   const divParent = createEl({ tag: "div", classes: ["parent"] });
   fragment.append(divTitle, divWarrior, divParent);
   return fragment;
 };
 
-const $PLAYER_CHOICE = `
-<div class="title title__choice">SELECT YOUR FIGHTERS</div>
-<div class="warrior"></div>
-<div class="parent"></div>
-`;
 export { arenaHTML, playerChoice, createEl };

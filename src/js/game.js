@@ -84,7 +84,7 @@ class Game {
       el.addEventListener("click", (event) => {
         this.chooseCharacterForPlayer(event, item);
         this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionScenes(".content", arenaHTML());
+        this.transitionScenes(arenaHTML(), ".content");
       });
     });
   }
@@ -130,11 +130,7 @@ class Game {
     localStorage.setItem("player2", JSON.stringify(ENEMY));
   }
 
-  transitionScenes(
-    selector = ".content",
-    HTMLcode = $PLAYER_CHOICE,
-    timeout = 3000
-  ) {
+  transitionScenes(HTMLcode, selector = ".content", timeout = 3000) {
     const CHANGE = new Promise(async (resolve) => {
       setTimeout(() => {
         this.operateDoors();
@@ -157,7 +153,8 @@ class Game {
           } else {
             this.addRoster();
           }
-          resolve();
+          //TODO: to make the app work
+          // resolve();
         }, 8000);
       })
       .then(() => {
@@ -347,7 +344,7 @@ class Game {
     $wrapBtn.innerText = "RESTART";
     $wrap.appendChild($wrapBtn);
     $wrapBtn.addEventListener("click", () => {
-      this.transitionScenes(".content", $PLAYER_CHOICE, 1000);
+      this.transitionScenes(playerChoice(), ".content", 1000);
     });
     return $wrap;
   }
