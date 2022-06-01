@@ -54,3 +54,5 @@ module.exports = {
   //     },
   // },
 };
+
+//TODO: make several bundles for different scripts. First screen, Roaster, Fight
