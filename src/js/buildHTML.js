@@ -34,7 +34,10 @@ const arenaHTML = () => {
   // const defense = createEl({ tag: "defense" });
 
   const target = (name, value) => {
-    const radioId = `${value}${name.capitalizeFirstLetter()}`;
+    console.log(name);
+    const radioId = `${value}${name[0].toUpperCase()}${name
+      .slice(1)
+      .toLowerCase()}`;
     const fragment = document.createDocumentFragment();
     const inputR = createEl({
       tag: "input",
@@ -60,7 +63,7 @@ const arenaHTML = () => {
     actionTitle.innerText = act;
     const divUl = createEl({ tag: "div", classes: ["ul"] });
     parts.forEach((part) => {
-      divUl.append(target(divUl, act, part));
+      divUl.append(target(act, part));
     });
     inputWrap.append(actionTitle, divUl);
     formArenas.append(inputWrap);
