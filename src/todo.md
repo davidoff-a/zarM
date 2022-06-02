@@ -65,7 +65,12 @@
 
 ## 06/01/22
 - [x] copy files, make pics visible
-- [ ] replace transitions with css animations
+
+## 06/02/22
+- [x] replace transitions with css animations
+
+- [ ] replace setTimeouts with another async things
+- [ ] function createElement and createEl duplicate functionality from each other
 - [ ] add sounds
 - [ ] add animations of fight
 - [ ] add background music
