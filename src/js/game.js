@@ -28,8 +28,6 @@ class Game {
     window.addEventListener("DOMContentLoaded", () => {
       this.startPage();
     });
-
-    // const $LOGO = document.querySelector(".logo");
   }
 
   startPage() {
