@@ -13,7 +13,6 @@
   &_left {
     left: calc(50% - 467px);
     animation-name: gate-operate-left;
-    //transition: transform 5s ease-in-out;
     &.open {
       transform: translate(-380px, 0px);
       transition: transform 5s ease-in-out;
@@ -28,7 +27,6 @@
   &_right {
     right: calc(50% - 467px);
     animation-name: gate-operate-right;
-    //transition: transform 5s ease-in-out;
     &.open {
       transform: translate(380px, 0px);
       transition: transform 5s ease-in-out;
@@ -40,7 +38,6 @@
         left: -30px;
       }
   }
-
 }
 
 .logo {
@@ -50,12 +47,19 @@
   transform: translate(-50%, -50%);
   z-index: 200;
   opacity: 1;
-  transition: opacity 3s ease-in-out;
+  animation-name: logo;
+  animation-direction: normal;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
 }
 
 .logo.off {
   opacity: 0;
-  transition: opacity 3s ease-in-out;
+  animation-name: logo;
+  animation-direction: reverse;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
 }
-@keyframes gate-operate-left { from {left:-380px} to { left:0 }  }
-@keyframes gate-operate-right { from {left:380px} to { left:0 }  }
+@keyframes gate-operate-left { from {left:-380px} to { left:0 }  };
+@keyframes gate-operate-right { from {left:380px} to { left:0 }  };
+@keyframes logo { from{opacity: 1} to {opacity: 0}};
