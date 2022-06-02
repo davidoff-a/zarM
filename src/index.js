@@ -6,6 +6,6 @@ import "./css/style.css";
 const leftWall = require("./assets/wall-left.png");
 const rightWall = require("./assets/wall-right.png");
 const logoImg = require("./assets/logo.png");
-buildWelcomePage();
+buildWelcomePage(".root");
 
 GAME.init();

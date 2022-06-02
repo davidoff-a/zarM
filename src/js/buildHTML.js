@@ -80,8 +80,8 @@ const buildPlayerChoice = () => {
   return fragment;
 };
 
-const buildWelcomePage = () => {
-  const rootEl = document.querySelector(".root");
+const buildWelcomePage = (rootSelector) => {
+  const rootEl = document.querySelector(rootSelector);
   const divContent = createEl({ tag: "div", classes: ["content"] });
   const divLogo = createEl({ tag: "div", classes: ["logo"] });
   const imgLogo = createEl({
