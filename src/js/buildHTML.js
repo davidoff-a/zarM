@@ -1,3 +1,7 @@
+import logoImg from "../assets/logo.png";
+import leftWall from "../assets/wall-left.png";
+import rightWall from "../assets/wall-right.png";
+
 const createEl = ({ tag, classes = [], attribs = {} }) => {
   const el = document.createElement(tag);
   classes.forEach((className) => el.classList.add(className));
@@ -6,7 +10,8 @@ const createEl = ({ tag, classes = [], attribs = {} }) => {
   }
   return el;
 };
-const target = (name, value) => {
+
+const targetBodyPart = (name, value) => {
   const radioId = `${value}${name[0].toUpperCase()}${name
     .slice(1)
     .toLowerCase()}`;
@@ -28,7 +33,8 @@ const target = (name, value) => {
   fragment.append(inputR, labelR);
   return fragment;
 };
-const arenaHTML = () => {
+
+const buildArenaHTML = () => {
   const arenaWrapper = createEl({ tag: "div", classes: ["arena__wrapper"] });
   const arenas = createEl({ tag: "div", classes: ["arenas"] });
   const formArenas = createEl({ tag: "form", classes: ["control"] });
@@ -50,7 +56,7 @@ const arenaHTML = () => {
     actionTitle.innerText = act;
     const divUl = createEl({ tag: "div", classes: ["ul"] });
     parts.forEach((part) => {
-      divUl.append(target(act, part));
+      divUl.append(targetBodyPart(act, part));
     });
     inputWrap.append(actionTitle, divUl);
     formArenas.append(inputWrap);
@@ -61,7 +67,7 @@ const arenaHTML = () => {
   return arenaWrapper;
 };
 
-const playerChoice = () => {
+const buildPlayerChoice = () => {
   const fragment = document.createDocumentFragment();
   const divTitle = createEl({
     tag: "div",
@@ -74,4 +80,29 @@ const playerChoice = () => {
   return fragment;
 };
 
-export { arenaHTML, playerChoice, createEl };
+const buildWelcomePage = () => {
+  const rootEl = document.querySelector(".root");
+  const divContent = createEl({ tag: "div", classes: ["content"] });
+  const divLogo = createEl({ tag: "div", classes: ["logo"] });
+  const imgLogo = createEl({
+    tag: "img",
+    attribs: { src: logoImg, alt: "logo" },
+  });
+  const sides = ["left", "right"];
+  sides.forEach((side) => {
+    const wall = createEl({ tag: "div", classes: ["wall", `wall_${side}`] });
+    const wallImg = createEl({
+      tag: "img",
+      attribs: {
+        src: side === "left" ? leftWall : rightWall,
+        alt: `wall ${side}`,
+      },
+    });
+    wall.append(wallImg);
+    rootEl.append(wall);
+  });
+  divLogo.append(imgLogo);
+  rootEl.prepend(divLogo, divContent);
+  return rootEl;
+};
+export { buildArenaHTML, buildPlayerChoice, createEl, buildWelcomePage };

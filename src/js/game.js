@@ -2,7 +2,7 @@ import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
-import { arenaHTML, playerChoice } from "./buildHTML.js";
+import { buildArenaHTML, buildPlayerChoice } from "./buildHTML.js";
 
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
@@ -63,7 +63,7 @@ class Game {
   async addRoster() {
     localStorage.removeItem("player1");
     localStorage.removeItem("player2");
-    this.insertHTMLcode(".content", playerChoice());
+    this.insertHTMLcode(".content", buildPlayerChoice());
 
     const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
 
@@ -90,7 +90,7 @@ class Game {
       el.addEventListener("click", (event) => {
         this.chooseCharacterForPlayer(event, item);
         this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionScenes(arenaHTML(), ".content");
+        this.transitionScenes(buildArenaHTML(), ".content");
       });
     });
   }
@@ -351,7 +351,7 @@ class Game {
     $wrapBtn.innerText = "RESTART";
     $wrap.appendChild($wrapBtn);
     $wrapBtn.addEventListener("click", () => {
-      this.transitionScenes(playerChoice(), ".content", 1000);
+      this.transitionScenes(buildPlayerChoice(), ".content", 1000);
     });
     return $wrap;
   }
