@@ -2,7 +2,7 @@ import { getRandomNumber, createElement } from "./utils.js";
 import { generateLogs } from "./logs.js";
 import { Player } from "./player.js";
 import { data } from "./query.js";
-import { buildArenaHTML, buildPlayerChoice } from "./buildHTML.js";
+import { buildArenaHTML, buildPlayerChoice, createEl } from "./buildHTML.js";
 
 const QUERY_URLS = {
   getPlayers: "https://reactmarathon-api.herokuapp.com/api/mk/players",
@@ -54,14 +54,21 @@ class Game {
     let imgSrc = null;
     this.createEmptyPlayerBlock();
     //TODO: add eventListener to container instead of each element
+    const charsParent = document.querySelector(".parent");
+
     PLAYERS.forEach((item) => {
-      const el = createElement("div", ["fighter-ava", `div${item.id}`]);
-      const img = createElement("img");
+      const el = createEl({
+        tag: "div",
+        classes: ["fighter-ava", `div${item.id}`],
+        attribs: { "data-charId": item.id },
+      });
+      const img = createEl({ tag: "img" });
       img.src = item.avatar;
       img.alt = item.name;
 
       el.appendChild(img);
-      document.querySelector(".parent").appendChild(el);
+      // document.querySelector(".parent").appendChild(el);
+      charsParent.append(el);
 
       el.addEventListener("mousemove", () => {
         this.showHideChoosenCharacter(imgSrc, item);
@@ -86,9 +93,11 @@ class Game {
   }
 
   createEmptyPlayerBlock() {
-    //TODO: replace createElement function with createEl
-    const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
-    const img = createElement("img");
+    const el = createEl({
+      tag: "div",
+      classes: ["fighter-ava", "div11", "disabled"],
+    });
+    const img = createEl({ tag: "img" });
     img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
     el.appendChild(img);
     document.querySelector(".parent").appendChild(el);
@@ -97,7 +106,7 @@ class Game {
   showHideChoosenCharacter(imageSrc, playerObj) {
     if (imageSrc === null) {
       imageSrc = playerObj.img;
-      const $img = createElement("img");
+      const $img = createEl({ tag: "img" });
       $img.src = imageSrc;
       document.querySelector(".warrior").innerHTML = "";
       document.querySelector(".warrior").appendChild($img);
@@ -190,13 +199,10 @@ class Game {
   };
 
   operateDoors = () => {
-    // setTimeout(() => {
     const $SLIDE_DOOR_LEFT = document.querySelector(".wall_left");
     const $SLIDE_DOOR_RIGHT = document.querySelector(".wall_right");
     $SLIDE_DOOR_LEFT.classList.toggle("open");
     $SLIDE_DOOR_RIGHT.classList.toggle("open");
-    // }
-    // , timeOut);
   };
 
   startRound = async () => {
@@ -278,7 +284,7 @@ class Game {
   }
 
   showPlayerWins(name) {
-    const $winsTitle = createElement("div", ["winsTitle"]);
+    const $winsTitle = createEl({ tag: "div", classes: ["winsTitle"] });
     name === "draw"
       ? ($winsTitle.innerText = "Double KILL!")
       : ($winsTitle.innerText = `${name} WINS!`);
@@ -287,13 +293,16 @@ class Game {
 
   createPlayer(playerObj) {
     const { player: playerNumber, hp, name, img } = playerObj;
-    const $player = createElement("div", [`player${playerNumber}`]);
-    const $progressbar = createElement("div", ["progressbar"]);
-    const $life = createElement("div", ["life"]);
-    const $name = createElement("div", ["name"]);
-    const $character = createElement("div", ["character"]);
-    const $charImg = createElement("img");
-    const $bangImg = createElement("img");
+    const $player = createEl({
+      tag: "div",
+      classes: [`player${playerNumber}`],
+    });
+    const $progressbar = createEl({ tag: "div", classes: ["progressbar"] });
+    const $life = createEl({ tag: "div", classes: ["life"] });
+    const $name = createEl({ tag: "div", classes: ["name"] });
+    const $character = createEl({ tag: "div", classes: ["character"] });
+    const $charImg = createEl({ tag: "img" });
+    const $bangImg = createEl({ tag: "img" });
 
     $life.style.width = `${hp}%`;
     $name.innerText = `${name}`;
@@ -332,9 +341,9 @@ class Game {
   }
 
   createReloadButton() {
-    //TODO: replace createElement with createEl
-    const $wrap = createElement("div", ["reloadWrap"]);
-    const $wrapBtn = createElement("button", ["button"]);
+    //TODO: replace createEl with createEl
+    const $wrap = createEl({ tag: "div", classes: ["reloadWrap"] });
+    const $wrapBtn = createEl({ tag: "button", classes: ["button"] });
     $wrapBtn.style.display = "none";
     $wrapBtn.innerText = "RESTART";
     $wrap.appendChild($wrapBtn);

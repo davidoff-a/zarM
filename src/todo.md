@@ -71,13 +71,12 @@
 
 ## 06/03/22
 - [x] replace setTimeouts with another async things. In progress.
-
+- [x] function createElement and createEl duplicate functionality from each other
 
 - [ ] replace setTimeouts with another async things. In progress.
 
-- [ ] add eventListener to container instead of each element in roaster
 - [ ] split class Game to some separate classes
-- [ ] function createElement and createEl duplicate functionality from each other
+
 - [ ] add sounds
 - [ ] add animations of fight
 - [ ] add background music
@@ -90,5 +89,6 @@
 - [ ] ??? add div with position fixed for hide page loading
 - [ ] ??? add page with settings (audio, animation etc)
 
+- [ ] ??? add eventListener to container instead of each element in roaster
 
 

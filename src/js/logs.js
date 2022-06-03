@@ -1,5 +1,6 @@
 // import { player1, player2 } from "./player.js";
-import { createElement, getRandomNumber } from "./utils.js";
+import { getRandomNumber } from "./utils.js";
+import { createEl } from "./buildHTML";
 
 const LOGS = {
   start: {
@@ -99,7 +100,7 @@ function generateLogs(
   { name: defenderName, hp: defenderHP, dealType: typeStr }
 ) {
   const $CHAT = document.querySelector(".chat");
-  const LOG_RECORD = createElement("p");
+  const LOG_RECORD = createEl({ tag: "p" });
   let stringNum = 0;
   let logString = "";
   stringNum = getRandomNumber(LOGS[typeStr].text.length - 1);
