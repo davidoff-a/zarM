@@ -38,24 +38,9 @@ class Game {
         resolve($LOGO);
       }, 1500);
     })
-      .then(async (item) => {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            item.style.zIndex = "-1";
-          }, 3000);
-          resolve();
-        });
-      })
-      .then(
-        setTimeout(() => {
-          this.addRoster();
-        }, 1000)
-      )
-      .then(
-        setTimeout(() => {
-          this.operateDoors();
-        }, 3000)
-      );
+      .then((item) => setTimeout(() => (item.style.zIndex = "-1"), 3000))
+      .then(() => this.addRoster())
+      .then(this.operateDoors);
   }
 
   async addRoster() {
