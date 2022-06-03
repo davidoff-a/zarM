@@ -69,7 +69,14 @@
 ## 06/02/22
 - [x] replace transitions with css animations
 
-- [ ] replace setTimeouts with another async things
+## 06/03/22
+- [x] replace setTimeouts with another async things. In progress.
+
+
+- [ ] replace setTimeouts with another async things. In progress.
+
+- [ ] add eventListener to container instead of each element in roaster
+- [ ] split class Game to some separate classes
 - [ ] function createElement and createEl duplicate functionality from each other
 - [ ] add sounds
 - [ ] add animations of fight

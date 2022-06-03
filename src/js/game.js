@@ -46,13 +46,14 @@ class Game {
   async addRoster() {
     localStorage.removeItem("player1");
     localStorage.removeItem("player2");
+    //TODO: its like a SPA. I think it needs to use a router
     this.insertHTMLcode(".content", buildPlayerChoice());
 
     const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
 
     let imgSrc = null;
     this.createEmptyPlayerBlock();
-
+    //TODO: add eventListener to container instead of each element
     PLAYERS.forEach((item) => {
       const el = createElement("div", ["fighter-ava", `div${item.id}`]);
       const img = createElement("img");
@@ -85,6 +86,7 @@ class Game {
   }
 
   createEmptyPlayerBlock() {
+    //TODO: replace createElement function with createEl
     const el = createElement("div", ["fighter-ava", "div11", "disabled"]);
     const img = createElement("img");
     img.src = "http://reactmarathon-api.herokuapp.com/assets/mk/avatar/11.png";
@@ -108,6 +110,7 @@ class Game {
   chooseCharacterForPlayer(event, playerObj) {
     this.removeClasses(".fighter-ava", "active");
     event.target.classList.toggle("active");
+    // TODO: why do I have to use localstorage
     localStorage.setItem("player1", JSON.stringify(playerObj));
   }
 
@@ -239,6 +242,7 @@ class Game {
 
   determineWinner() {
     let winner;
+    //TODO: add return to each if
     if (player1.hp === 0 && player2.hp === 0) {
       winner = { name: "draw" };
     }
@@ -328,6 +332,7 @@ class Game {
   }
 
   createReloadButton() {
+    //TODO: replace createElement with createEl
     const $wrap = createElement("div", ["reloadWrap"]);
     const $wrapBtn = createElement("button", ["button"]);
     $wrapBtn.style.display = "none";
