@@ -40,20 +40,25 @@ class Game {
     })
       .then((item) => setTimeout(() => (item.style.zIndex = "-1"), 3000))
       .then(() => this.addRoster())
-      .then(this.operateDoors);
+      .then(() => this.operateDoors());
   }
 
   async addRoster() {
+    // clean localstorage
     localStorage.removeItem("player1");
     localStorage.removeItem("player2");
     //TODO: its like a SPA. I think it needs to use a router
+
+    // insert players choice page
     this.insertHTMLcode(".content", buildPlayerChoice());
 
+    // get characters
     const PLAYERS = await data.getPlayers(QUERY_URLS.getPlayers);
-
+    // create empty block
     let imgSrc = null;
     this.createEmptyPlayerBlock();
-    //TODO: add eventListener to container instead of each element
+
+    //add characters images
     const charsParent = document.querySelector(".parent");
 
     PLAYERS.forEach((item) => {
@@ -81,7 +86,7 @@ class Game {
       el.addEventListener("click", (event) => {
         this.chooseCharacterForPlayer(event, item);
         this.chooseCharacterForOpponent(PLAYERS);
-        this.transitionScenes(buildArenaHTML(), ".content");
+        this.transitionScenes(buildArenaHTML, ".content");
       });
     });
   }
@@ -127,7 +132,6 @@ class Game {
     const ENEMY = arrCharacters[getRandomNumber(22)];
     const $ENEMY_AVATAR = document.querySelector(`.div${ENEMY.id}`);
     this.removeClasses(".fighter-ava", "active-p2");
-
     $ENEMY_AVATAR.classList.toggle("active-p2");
     localStorage.setItem("player2", JSON.stringify(ENEMY));
   }
@@ -142,21 +146,15 @@ class Game {
     })
       .then(() => {
         setTimeout(() => {
-          this.insertHTMLcode(selector, HTMLcode);
+          const content = document.querySelector(selector);
+          content.innerHTML = "";
+          content.append(HTMLcode());
           const $ARENA = document.querySelector(".arenas");
-          const $FORM_CONTROL = document.querySelector(".control");
           if ($ARENA) {
-            $ARENA.classList.add(`arena${getRandomNumber(5, 1)}`);
-            $FORM_CONTROL.addEventListener("submit", (event) => {
-              event.preventDefault();
-              this.startRound();
-            });
             this.start();
           } else {
             this.addRoster();
           }
-
-          // resolve();
         }, 8000);
       })
       .then(() => {
@@ -348,7 +346,7 @@ class Game {
     $wrapBtn.innerText = "RESTART";
     $wrap.appendChild($wrapBtn);
     $wrapBtn.addEventListener("click", () => {
-      this.transitionScenes(buildPlayerChoice(), ".content", 1000);
+      this.transitionScenes(buildPlayerChoice, ".content", 1000);
     });
     return $wrap;
   }

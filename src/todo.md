@@ -73,6 +73,7 @@
 - [x] replace setTimeouts with another async things. In progress.
 - [x] function createElement and createEl duplicate functionality from each other
 
+## 06/04/22
 - [ ] replace setTimeouts with another async things. In progress.
 
 - [ ] split class Game to some separate classes

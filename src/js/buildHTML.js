@@ -1,10 +1,13 @@
 import logoImg from "../assets/logo.png";
 import leftWall from "../assets/wall-left.png";
 import rightWall from "../assets/wall-right.png";
+import { getRandomNumber } from "./utils";
+import { GAME } from "./game";
 
 const createEl = ({ tag, classes = [], attribs = {} }) => {
   const el = document.createElement(tag);
   classes.forEach((className) => el.classList.add(className));
+  // el.classList.add(...classes);
   for (let key in attribs) {
     el.setAttribute(key, attribs[key]);
   }
@@ -37,6 +40,7 @@ const targetBodyPart = (name, value) => {
 const buildArenaHTML = () => {
   const arenaWrapper = createEl({ tag: "div", classes: ["arena__wrapper"] });
   const arenas = createEl({ tag: "div", classes: ["arenas"] });
+  arenas.classList.add(`arena${getRandomNumber(5, 1)}`);
   const formArenas = createEl({ tag: "form", classes: ["control"] });
   const parts = ["head", "body", "foot"];
   const actions = ["hit", "defense"];
@@ -62,8 +66,13 @@ const buildArenaHTML = () => {
     formArenas.append(inputWrap);
   });
   formArenas.append(btnWrap);
+  formArenas.addEventListener("submit", (event) => {
+    event.preventDefault();
+    GAME.startRound();
+  });
   arenas.append(formArenas);
   arenaWrapper.append(arenas, chat);
+
   return arenaWrapper;
 };
 
